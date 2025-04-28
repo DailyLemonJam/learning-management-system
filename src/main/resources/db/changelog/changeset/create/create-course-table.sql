@@ -4,7 +4,6 @@ CREATE TABLE course (
     description VARCHAR(255) NOT NULL,
     price NUMERIC NOT NULL,
     coins_paid NUMERIC NOT NULL,
-    publish_date DATE NOT NULL,
     course_settings_id UUID NOT NULL
 );
 
