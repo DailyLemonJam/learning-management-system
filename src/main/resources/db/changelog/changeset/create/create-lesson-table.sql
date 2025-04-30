@@ -7,4 +7,4 @@ CREATE TABLE lesson (
 
 ALTER TABLE lesson
 ADD CONSTRAINT fk_lesson_course
-FOREIGN KEY (course_id) REFERENCES course (id);
+FOREIGN KEY (course_id) REFERENCES course (id) ON DELETE CASCADE;
