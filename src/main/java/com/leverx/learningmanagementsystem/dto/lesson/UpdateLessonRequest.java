@@ -1,7 +1,9 @@
 package com.leverx.learningmanagementsystem.dto.lesson;
 
-import java.util.UUID;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
-public record UpdateLessonRequest(String newTitle,
-                                  Integer newDuration) {
+public record UpdateLessonRequest(@NotBlank @Size(min = 3, max = 255) String newTitle,
+                                  @Positive Integer newDuration) {
 }

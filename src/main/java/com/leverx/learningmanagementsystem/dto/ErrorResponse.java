@@ -1,4 +1,6 @@
 package com.leverx.learningmanagementsystem.dto;
 
-public record ErrorResponse(String message) {
+import jakarta.validation.constraints.NotBlank;
+
+public record ErrorResponse(@NotBlank String message) {
 }
