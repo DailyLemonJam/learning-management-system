@@ -29,3 +29,8 @@ info:
     name: Learning Management System
     description: Learning Management System application made with Spring Boot
     version: 0.0.1
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  show-actuator: true
