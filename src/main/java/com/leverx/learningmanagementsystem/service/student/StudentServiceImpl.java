@@ -8,9 +8,10 @@ import com.leverx.learningmanagementsystem.exception.EntityValidationException;
 import com.leverx.learningmanagementsystem.mapper.StudentMapper;
 import com.leverx.learningmanagementsystem.model.Student;
 import com.leverx.learningmanagementsystem.repository.StudentRepository;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.toDto(createdStudent);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public StudentDto get(UUID id) {
         var student = studentRepository.findById(id)
@@ -40,6 +42,7 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.toDto(student);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<StudentDto> get() {
         var students = studentRepository.findAll();

@@ -6,9 +6,9 @@ import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.mapper.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.model.CourseSettings;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -19,6 +19,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     private final CourseSettingsMapper courseSettingsMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public CourseSettingsDto get(UUID id) {
         var courseSettings = courseSettingsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find course settings with id: " + id));

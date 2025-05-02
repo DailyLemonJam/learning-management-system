@@ -9,9 +9,10 @@ import com.leverx.learningmanagementsystem.model.Course;
 import com.leverx.learningmanagementsystem.model.CourseSettings;
 import com.leverx.learningmanagementsystem.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDto(course);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CourseDto get(UUID id) {
         var course = courseRepository.findById(id)
@@ -40,6 +42,7 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDto(course);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CourseDto> get() {
         var courses = courseRepository.findAll();

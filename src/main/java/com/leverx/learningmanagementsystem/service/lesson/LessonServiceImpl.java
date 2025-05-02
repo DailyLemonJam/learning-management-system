@@ -9,9 +9,10 @@ import com.leverx.learningmanagementsystem.model.Course;
 import com.leverx.learningmanagementsystem.model.Lesson;
 import com.leverx.learningmanagementsystem.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.repository.LessonRepository;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +33,7 @@ public class LessonServiceImpl implements LessonService {
         return lessonMapper.toDto(createdLesson);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public LessonDto get(UUID lessonId) {
         var lesson = lessonRepository.findById(lessonId)
@@ -39,6 +41,7 @@ public class LessonServiceImpl implements LessonService {
         return lessonMapper.toDto(lesson);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<LessonDto> get() {
         var lessons = lessonRepository.findAll();
