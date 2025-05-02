@@ -3,7 +3,8 @@ package com.leverx.learningmanagementsystem.controller;
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentRequest;
 import com.leverx.learningmanagementsystem.dto.student.StudentDto;
 import com.leverx.learningmanagementsystem.dto.student.UpdateStudentRequest;
-import com.leverx.learningmanagementsystem.service.StudentService;
+import com.leverx.learningmanagementsystem.service.student.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,33 +20,33 @@ public class StudentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public StudentDto createStudent(@RequestBody CreateStudentRequest request) {
-        return studentService.createStudent(request);
+    public StudentDto createStudent(@Valid @RequestBody CreateStudentRequest request) {
+        return studentService.create(request);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StudentDto getStudent(@PathVariable UUID id) {
-        return studentService.getStudent(id);
+        return studentService.get(id);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<StudentDto> getStudents() {
-        return studentService.getStudents();
+        return studentService.get();
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public StudentDto updateStudent(@PathVariable UUID id,
-                                    @RequestBody UpdateStudentRequest request) {
-        return studentService.updateStudent(id, request);
+                                    @Valid @RequestBody UpdateStudentRequest request) {
+        return studentService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable UUID id) {
-        studentService.deleteStudent(id);
+        studentService.delete(id);
     }
 
 }

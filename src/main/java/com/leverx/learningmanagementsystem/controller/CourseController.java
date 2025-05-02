@@ -3,7 +3,8 @@ package com.leverx.learningmanagementsystem.controller;
 import com.leverx.learningmanagementsystem.dto.course.CourseDto;
 import com.leverx.learningmanagementsystem.dto.course.CreateCourseRequest;
 import com.leverx.learningmanagementsystem.dto.course.UpdateCourseRequest;
-import com.leverx.learningmanagementsystem.service.CourseService;
+import com.leverx.learningmanagementsystem.service.course.CourseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,33 +20,33 @@ public class CourseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CourseDto createCourse(@RequestBody CreateCourseRequest request) {
-        return courseService.createCourse(request);
+    public CourseDto createCourse(@Valid @RequestBody CreateCourseRequest request) {
+        return courseService.create(request);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CourseDto getCourse(@PathVariable UUID id) {
-        return courseService.getCourse(id);
+        return courseService.get(id);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CourseDto> getCourses() {
-        return courseService.getCourses();
+        return courseService.get();
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CourseDto updateCourse(@PathVariable UUID id,
-                                  @RequestBody UpdateCourseRequest request) {
-        return courseService.updateCourse(id, request);
+                                  @Valid @RequestBody UpdateCourseRequest request) {
+        return courseService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCourse(@PathVariable UUID id) {
-        courseService.deleteCourse(id);
+        courseService.delete(id);
     }
 
 }

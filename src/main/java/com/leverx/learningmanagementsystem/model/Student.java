@@ -1,21 +1,22 @@
 package com.leverx.learningmanagementsystem.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "student")
 public class Student {
 
     @Id

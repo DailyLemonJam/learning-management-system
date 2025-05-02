@@ -1,4 +1,4 @@
 package com.leverx.learningmanagementsystem.dto;
 
-public record ErrorDto(String message) {
+public record ErrorResponse(String message) {
 }

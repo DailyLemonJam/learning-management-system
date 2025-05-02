@@ -1,19 +1,20 @@
 package com.leverx.learningmanagementsystem.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "course_settings")
 public class CourseSettings {
 
     @Id
