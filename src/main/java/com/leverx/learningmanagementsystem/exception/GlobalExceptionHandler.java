@@ -30,4 +30,10 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(ex.getMessage());
     }
 
+    @ExceptionHandler(PurchaseDeniedException.class)
+    @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
+    public ErrorResponse purchaseDeniedExceptionHandler(PurchaseDeniedException ex){
+        return new ErrorResponse(ex.getMessage());
+    }
+
 }
