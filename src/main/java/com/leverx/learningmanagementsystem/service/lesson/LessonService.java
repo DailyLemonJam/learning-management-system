@@ -1,21 +1,19 @@
 package com.leverx.learningmanagementsystem.service.lesson;
 
-import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonRequest;
-import com.leverx.learningmanagementsystem.dto.lesson.LessonDto;
-import com.leverx.learningmanagementsystem.dto.lesson.UpdateLessonRequest;
+import com.leverx.learningmanagementsystem.model.Lesson;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface LessonService {
 
-    LessonDto create(CreateLessonRequest request);
+    Lesson create(Lesson lesson, UUID courseId);
 
-    LessonDto get(UUID lessonId);
+    Lesson get(UUID lessonId);
 
-    List<LessonDto> get();
+    List<Lesson> get();
 
-    LessonDto update(UUID lessonId, UpdateLessonRequest request);
+    Lesson update(UUID lessonId, Lesson lesson);
 
     void delete(UUID lessonId);
 

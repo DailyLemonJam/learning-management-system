@@ -1,7 +1,20 @@
 package com.leverx.learningmanagementsystem.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Column;
+
+import static jakarta.persistence.GenerationType.UUID;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,7 +31,7 @@ import java.util.UUID;
 public class CourseSettings {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = UUID)
     private UUID id;
 
     @Column(name = "start_date")

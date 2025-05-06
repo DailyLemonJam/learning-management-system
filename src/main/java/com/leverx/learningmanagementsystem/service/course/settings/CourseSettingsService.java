@@ -1,14 +1,13 @@
 package com.leverx.learningmanagementsystem.service.course.settings;
 
-import com.leverx.learningmanagementsystem.dto.course.settings.CourseSettingsDto;
-import com.leverx.learningmanagementsystem.dto.course.settings.UpdateCourseSettingsRequest;
+import com.leverx.learningmanagementsystem.model.CourseSettings;
 
 import java.util.UUID;
 
 public interface CourseSettingsService {
 
-    CourseSettingsDto get(UUID id);
+    CourseSettings get(UUID id);
 
-    CourseSettingsDto update(UUID id, UpdateCourseSettingsRequest request);
+    CourseSettings update(UUID id, CourseSettings courseSettings);
 
 }

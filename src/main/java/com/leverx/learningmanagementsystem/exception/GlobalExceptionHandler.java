@@ -1,39 +1,50 @@
 package com.leverx.learningmanagementsystem.exception;
 
-import com.leverx.learningmanagementsystem.dto.ErrorResponse;
+import com.leverx.learningmanagementsystem.dto.ErrorResponseDto;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.PAYMENT_REQUIRED;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse exceptionHandler(Exception ex) {
-        log.error(ex.getMessage());
-        return new ErrorResponse("Something went wrong :(");
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
+    public ErrorResponseDto handleException(Exception ex) {
+        log.error("Unexpected error occurred", ex);
+        return new ErrorResponseDto(ex.getMessage());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse entityNotFoundExceptionHandler(EntityNotFoundException ex) {
-        return new ErrorResponse(ex.getMessage());
+    @ResponseStatus(NOT_FOUND)
+    public ErrorResponseDto handleEntityNotFoundException(EntityNotFoundException ex) {
+        return new ErrorResponseDto(ex.getMessage());
     }
 
     @ExceptionHandler(EntityValidationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse entityValidationExceptionHandler(EntityValidationException ex){
-        return new ErrorResponse(ex.getMessage());
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorResponseDto handleEntityValidationException(EntityValidationException ex){
+        return new ErrorResponseDto(ex.getMessage());
     }
 
-    @ExceptionHandler(PurchaseDeniedException.class)
-    @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
-    public ErrorResponse purchaseDeniedExceptionHandler(PurchaseDeniedException ex){
-        return new ErrorResponse(ex.getMessage());
+    @ExceptionHandler(NotEnoughCoinsException.class)
+    @ResponseStatus(PAYMENT_REQUIRED)
+    public ErrorResponseDto handleNotEnoughCoinsException(NotEnoughCoinsException ex){
+        return new ErrorResponseDto(ex.getMessage());
+    }
+
+    @ExceptionHandler(StudentAlreadyEnrolledException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorResponseDto handleStudentAlreadyEnrolledException(StudentAlreadyEnrolledException ex){
+        return new ErrorResponseDto(ex.getMessage());
     }
 
 }

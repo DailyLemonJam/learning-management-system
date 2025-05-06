@@ -1,11 +1,8 @@
 package com.leverx.learningmanagementsystem.service.course.settings;
 
-import com.leverx.learningmanagementsystem.dto.course.settings.CourseSettingsDto;
-import com.leverx.learningmanagementsystem.dto.course.settings.UpdateCourseSettingsRequest;
-import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.mapper.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.model.CourseSettings;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,30 +13,27 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CourseSettingsServiceImpl implements CourseSettingsService {
     private final CourseSettingsRepository courseSettingsRepository;
-    private final CourseSettingsMapper courseSettingsMapper;
 
     @Override
     @Transactional(readOnly = true)
-    public CourseSettingsDto get(UUID id) {
-        var courseSettings = courseSettingsRepository.findById(id)
+    public CourseSettings get(UUID id) {
+        return courseSettingsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find course settings with id: " + id));
-        return courseSettingsMapper.toDto(courseSettings);
     }
 
     @Transactional
     @Override
-    public CourseSettingsDto update(UUID id, UpdateCourseSettingsRequest request) {
-        var courseSettings = courseSettingsRepository.findById(id)
+    public CourseSettings update(UUID id, CourseSettings courseSettings) {
+        var existingCourseSettings = courseSettingsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find course settings with id: " + id));
-        var updatedCourseSettings = updateCourseSettings(courseSettings, request);
-        return courseSettingsMapper.toDto(updatedCourseSettings);
+        return updateCourseSettings(existingCourseSettings, courseSettings);
     }
 
-    private CourseSettings updateCourseSettings(CourseSettings settings, UpdateCourseSettingsRequest request) {
-        settings.setStartDate(request.newStartDate());
-        settings.setEndDate(request.newEndDate());
-        settings.setIsPublic(request.newIsPublic());
-        return courseSettingsRepository.save(settings);
+    private CourseSettings updateCourseSettings(CourseSettings existingCourseSettings, CourseSettings courseSettings) {
+        existingCourseSettings.setStartDate(courseSettings.getStartDate());
+        existingCourseSettings.setEndDate(courseSettings.getEndDate());
+        existingCourseSettings.setIsPublic(courseSettings.getIsPublic());
+        return courseSettingsRepository.save(existingCourseSettings);
     }
     
 }

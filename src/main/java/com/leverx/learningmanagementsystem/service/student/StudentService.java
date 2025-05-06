@@ -1,21 +1,19 @@
 package com.leverx.learningmanagementsystem.service.student;
 
-import com.leverx.learningmanagementsystem.dto.student.CreateStudentRequest;
-import com.leverx.learningmanagementsystem.dto.student.StudentDto;
-import com.leverx.learningmanagementsystem.dto.student.UpdateStudentRequest;
+import com.leverx.learningmanagementsystem.model.Student;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface StudentService {
 
-    StudentDto create(CreateStudentRequest request);
+    Student create(Student student);
 
-    StudentDto get(UUID id);
+    Student get(UUID id);
 
-    List<StudentDto> get();
+    List<Student> get();
 
-    StudentDto update(UUID id, UpdateStudentRequest request);
+    Student update(UUID id, Student student);
 
     void delete(UUID id);
 
