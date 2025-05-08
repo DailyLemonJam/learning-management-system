@@ -1,6 +1,9 @@
 package com.leverx.learningmanagementsystem.exception;
 
-import com.leverx.learningmanagementsystem.dto.ErrorResponseDto;
+import com.leverx.learningmanagementsystem.course.exception.EntityValidationException;
+import com.leverx.learningmanagementsystem.exception.dto.ErrorResponseDto;
+import com.leverx.learningmanagementsystem.payments.exception.NotEnoughCoinsException;
+import com.leverx.learningmanagementsystem.payments.exception.StudentAlreadyEnrolledException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;

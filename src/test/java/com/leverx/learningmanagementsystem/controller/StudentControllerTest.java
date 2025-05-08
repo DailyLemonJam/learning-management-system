@@ -1,9 +1,8 @@
 package com.leverx.learningmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.dto.course.UpdateCourseRequestDto;
-import com.leverx.learningmanagementsystem.dto.student.CreateStudentRequestDto;
-import com.leverx.learningmanagementsystem.dto.student.UpdateStudentRequestDto;
+import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
+import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

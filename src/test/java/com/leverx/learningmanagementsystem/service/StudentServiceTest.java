@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.service;
 
-import com.leverx.learningmanagementsystem.model.Student;
-import com.leverx.learningmanagementsystem.service.student.StudentService;
+import com.leverx.learningmanagementsystem.student.model.Student;
+import com.leverx.learningmanagementsystem.student.service.StudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
