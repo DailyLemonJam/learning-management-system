@@ -20,6 +20,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     @Override
     public Course create(Course course) {
+        course.getCourseSettings().setCourse(course);
         return courseRepository.save(course);
     }
 

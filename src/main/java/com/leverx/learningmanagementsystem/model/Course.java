@@ -13,15 +13,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.ManyToMany;
-
 
 import static jakarta.persistence.GenerationType.UUID;
 import static jakarta.persistence.CascadeType.ALL;
-import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.CascadeType.MERGE;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -54,14 +53,13 @@ public class Course {
     @Column(name = "coins_paid")
     private BigDecimal coinsPaid;
 
-    @OneToOne(cascade = ALL)
-    @JoinColumn(name = "course_settings_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "course", cascade = ALL)
     private CourseSettings courseSettings;
 
-    @OneToMany(mappedBy = "course", fetch = EAGER, cascade = ALL)
+    @OneToMany(mappedBy = "course", cascade = ALL)
     private List<Lesson> lessons;
 
-    @ManyToMany(mappedBy = "courses", fetch = EAGER)
+    @ManyToMany(mappedBy = "courses", cascade = {PERSIST, MERGE})
     private List<Student> students;
 
 }

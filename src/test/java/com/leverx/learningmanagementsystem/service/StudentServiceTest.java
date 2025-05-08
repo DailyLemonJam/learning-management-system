@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +15,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class StudentServiceImplTest {
+class StudentServiceTest {
 
     @Autowired
     private StudentService studentService;

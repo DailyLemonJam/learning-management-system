@@ -18,7 +18,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
 
 import static jakarta.persistence.GenerationType.UUID;
-import static jakarta.persistence.FetchType.EAGER;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -55,7 +54,7 @@ public class Student {
     @Column(name = "coins")
     private BigDecimal coins;
 
-    @ManyToMany(fetch = EAGER)
+    @ManyToMany
     @JoinTable(name = "student_course",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))

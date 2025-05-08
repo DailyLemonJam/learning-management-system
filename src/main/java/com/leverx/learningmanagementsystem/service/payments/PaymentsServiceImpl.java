@@ -8,6 +8,7 @@ import com.leverx.learningmanagementsystem.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
 
+    @Transactional
     @Override
     public void purchaseCourse(UUID courseId, UUID studentId) {
         var course = courseRepository.findById(courseId)
@@ -61,6 +63,7 @@ public class PaymentsServiceImpl implements PaymentsService {
 
     private void completePurchase(Course course, Student student) {
         student.getCourses().add(course);
+        courseRepository.save(course);
         studentRepository.save(student);
     }
 }

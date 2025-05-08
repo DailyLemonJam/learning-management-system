@@ -13,11 +13,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
-
-import static jakarta.persistence.GenerationType.UUID;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.MapsId;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static jakarta.persistence.GenerationType.UUID;
 
 @Getter
 @Setter
@@ -42,5 +45,10 @@ public class CourseSettings {
 
     @Column(name = "is_public")
     private Boolean isPublic;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Course course;
 
 }
