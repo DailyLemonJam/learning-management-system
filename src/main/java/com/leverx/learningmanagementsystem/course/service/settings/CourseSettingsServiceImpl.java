@@ -15,7 +15,6 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     private final CourseSettingsRepository courseSettingsRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public CourseSettings get(UUID id) {
         return courseSettingsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find course settings with id: " + id));

@@ -11,7 +11,7 @@ public interface StudentService {
 
     Student get(UUID id);
 
-    List<Student> get();
+    List<Student> getAll();
 
     Student update(UUID id, Student student);
 

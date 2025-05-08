@@ -11,7 +11,7 @@ public interface CourseService {
 
     Course get(UUID id);
 
-    List<Course> get();
+    List<Course> getAll();
 
     Course update(UUID id, Course course);
 

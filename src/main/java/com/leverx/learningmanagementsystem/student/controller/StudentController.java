@@ -31,22 +31,24 @@ public class StudentController {
     @Operation(summary = "Create Student", description = "Creates new Student entity")
     public StudentResponseDto create(@Valid @RequestBody CreateStudentRequestDto request) {
         var student = studentMapper.toModel(request);
-        var result = studentService.create(student);
-        return studentMapper.toDto(result);
+        var createdStudent = studentService.create(student);
+        return studentMapper.toDto(createdStudent);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     @Operation(summary = "Get Student", description = "Returns Student information")
     public StudentResponseDto get(@PathVariable UUID id) {
-        return studentMapper.toDto(studentService.get(id));
+        var student = studentService.get(id);
+        return studentMapper.toDto(student);
     }
 
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Students", description = "Returns all Students")
     public List<StudentResponseDto> get() {
-        return studentMapper.toDtos(studentService.get());
+        var students = studentService.getAll();
+        return studentMapper.toDtos(students);
     }
 
     @PutMapping("/{id}")
@@ -55,8 +57,8 @@ public class StudentController {
     public StudentResponseDto update(@PathVariable UUID id,
                                      @Valid @RequestBody UpdateStudentRequestDto request) {
         var student = studentMapper.toModel(request);
-        var result = studentService.update(id, student);
-        return studentMapper.toDto(result);
+        var updatedStudent = studentService.update(id, student);
+        return studentMapper.toDto(updatedStudent);
     }
 
     @DeleteMapping("/{id}")

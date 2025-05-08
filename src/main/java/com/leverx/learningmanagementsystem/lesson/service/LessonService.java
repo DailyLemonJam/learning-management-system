@@ -11,7 +11,7 @@ public interface LessonService {
 
     Lesson get(UUID lessonId);
 
-    List<Lesson> get();
+    List<Lesson> getAll();
 
     Lesson update(UUID lessonId, Lesson lesson);
 

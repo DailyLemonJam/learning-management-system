@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.student.service;
 
-import com.leverx.learningmanagementsystem.course.exception.EntityValidationException;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
+import com.leverx.learningmanagementsystem.student.validator.StudentValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,27 +15,35 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
+    private final StudentValidator studentValidator;
 
     @Transactional
     @Override
     public Student create(Student student) {
-        if (studentRepository.existsByEmail(student.getEmail())) {
-            throw new EntityValidationException("Email already exists");
-        }
+        studentValidator.onCreate(student);
+
         return studentRepository.save(student);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Student get(UUID id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<Student> get() {
+    public List<Student> getAll() {
         return studentRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public Student update(UUID id, Student student) {
+        studentValidator.onUpdate(student);
+
+        var existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
+        return updateStudent(existingStudent, student);
     }
 
     @Transactional
@@ -44,17 +52,6 @@ public class StudentServiceImpl implements StudentService {
         var student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
         studentRepository.delete(student);
-    }
-
-    @Transactional
-    @Override
-    public Student update(UUID id, Student student) {
-        if (studentRepository.existsByEmail(student.getEmail())) {
-            throw new EntityValidationException("New email already exists");
-        }
-        var existingStudent = studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
-        return updateStudent(existingStudent, student);
     }
 
     private Student updateStudent(Student existingStudent, Student student) {

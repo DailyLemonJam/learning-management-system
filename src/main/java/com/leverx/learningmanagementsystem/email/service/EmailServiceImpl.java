@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public abstract class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl implements EmailService {
 
     @Override
-    public void sendEmail(String to, String subject, String text) {
+    public void send(String to, String subject, String text) {
         log.info("Sending email to {}", to);
         log.info("Subject: {}", subject);
         log.info("Text: {}", text);

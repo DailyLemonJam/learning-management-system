@@ -26,16 +26,14 @@ public class LessonServiceImpl implements LessonService {
         return lessonRepository.save(lesson);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Lesson get(UUID lessonId) {
         return lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find lesson with id: " + lessonId));
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<Lesson> get() {
+    public List<Lesson> getAll() {
         return lessonRepository.findAll();
     }
 

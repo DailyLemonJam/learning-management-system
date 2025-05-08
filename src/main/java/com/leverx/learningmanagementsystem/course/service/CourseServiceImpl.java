@@ -2,7 +2,6 @@ package com.leverx.learningmanagementsystem.course.service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.course.repository.CourseSettingsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,16 +22,14 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(course);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Course get(UUID id) {
         return courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find course with id: " + id));
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<Course> get() {
+    public List<Course> getAll() {
         return courseRepository.findAll();
     }
 

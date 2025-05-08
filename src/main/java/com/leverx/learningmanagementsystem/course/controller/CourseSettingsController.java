@@ -26,7 +26,8 @@ public class CourseSettingsController {
     @ResponseStatus(OK)
     @Operation(summary = "Get CourseSettings", description = "Returns CourseSettings information")
     public CourseSettingsResponseDto get(@PathVariable UUID id) {
-        return courseSettingsMapper.toDto(courseSettingsService.get(id));
+        var settings = courseSettingsService.get(id);
+        return courseSettingsMapper.toDto(settings);
     }
 
     @PutMapping("/{id}")
@@ -35,8 +36,8 @@ public class CourseSettingsController {
     public CourseSettingsResponseDto update(@PathVariable UUID id,
                                             @Valid @RequestBody UpdateCourseSettingsRequestDto request) {
         var settings = courseSettingsMapper.toModel(request);
-        var result = courseSettingsService.update(id, settings);
-        return courseSettingsMapper.toDto(result);
+        var updatedSettings = courseSettingsService.update(id, settings);
+        return courseSettingsMapper.toDto(updatedSettings);
     }
 
 }

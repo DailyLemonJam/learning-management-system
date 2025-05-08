@@ -2,6 +2,7 @@ package com.leverx.learningmanagementsystem.schedule.job;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
+import com.leverx.learningmanagementsystem.student.model.Student;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,12 +29,14 @@ public class DailyCourseReminderJob {
 
     public void sendEmailNotifications(Course course) {
         var students = course.getStudents();
-        students.forEach(student -> {
-            var email = student.getEmail();
-            tryToSendEmail(email,
-                    String.format(SUBJECT, course.getTitle()),
-                    String.format(BODY, student.getFirstName()));
-        });
+        students.forEach(student -> sendEmailToStudent(student, course));
+    }
+
+    private void sendEmailToStudent(Student student, Course course) {
+        var email = student.getEmail();
+        tryToSendEmail(email,
+                String.format(SUBJECT, course.getTitle()),
+                String.format(BODY, student.getFirstName()));
     }
 
     private void tryToSendEmail(String email, String subject, String body) {

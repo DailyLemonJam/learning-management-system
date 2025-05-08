@@ -31,22 +31,24 @@ public class LessonController {
     @Operation(summary = "Create Lesson", description = "Creates Lesson and connects it to specified Course")
     public LessonResponseDto create(@Valid @RequestBody CreateLessonRequestDto request) {
         var lesson = lessonMapper.toModel(request);
-        var result = lessonService.create(lesson, request.courseId());
-        return lessonMapper.toDto(result);
+        var createdLesson = lessonService.create(lesson, request.courseId());
+        return lessonMapper.toDto(createdLesson);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     @Operation(summary = "Get Lesson", description = "Returns Lesson information")
     public LessonResponseDto get(@PathVariable UUID id) {
-        return lessonMapper.toDto(lessonService.get(id));
+        var lesson = lessonService.get(id);
+        return lessonMapper.toDto(lesson);
     }
 
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Lessons", description = "Returns all Lessons")
     public List<LessonResponseDto> get() {
-        return lessonMapper.toDtos(lessonService.get());
+        var lessons = lessonService.getAll();
+        return lessonMapper.toDtos(lessons);
     }
 
     @PutMapping("/{id}")
@@ -55,8 +57,8 @@ public class LessonController {
     public LessonResponseDto update(@PathVariable UUID id,
                                     @Valid @RequestBody UpdateLessonRequestDto request) {
         var lesson = lessonMapper.toModel(request);
-        var result = lessonService.update(id, lesson);
-        return lessonMapper.toDto(result);
+        var updatedLesson = lessonService.update(id, lesson);
+        return lessonMapper.toDto(updatedLesson);
     }
 
     @DeleteMapping("/{id}")

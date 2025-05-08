@@ -32,22 +32,24 @@ public class CourseController {
     @Operation(summary = "Create Course", description = "Creates new Course entity with associated CourseSettings")
     public CourseResponseDto create(@Valid @RequestBody CreateCourseRequestDto request) {
         var course = courseMapper.toModel(request);
-        var result = courseService.create(course);
-        return courseMapper.toDto(result);
+        var createdCourse = courseService.create(course);
+        return courseMapper.toDto(createdCourse);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     @Operation(summary = "Get Course", description = "Returns Course information")
     public CourseResponseDto get(@PathVariable UUID id) {
-        return courseMapper.toDto(courseService.get(id));
+        var course = courseService.get(id);
+        return courseMapper.toDto(course);
     }
 
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Courses", description = "Returns all Courses")
     public List<CourseResponseDto> get() {
-        return courseMapper.toDtos(courseService.get());
+        var courses = courseService.getAll();
+        return courseMapper.toDtos(courses);
     }
 
     @PutMapping("/{id}")
@@ -56,8 +58,8 @@ public class CourseController {
     public CourseResponseDto update(@PathVariable UUID id,
                                     @Valid @RequestBody UpdateCourseRequestDto request) {
         var course = courseMapper.toModel(request);
-        var result = courseService.update(id, course);
-        return courseMapper.toDto(result);
+        var updatedCourse = courseService.update(id, course);
+        return courseMapper.toDto(updatedCourse);
     }
 
     @DeleteMapping("/{id}")

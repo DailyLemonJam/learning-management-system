@@ -31,58 +31,79 @@ class CourseControllerTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void createCourse_givenCreateCourseRequestDto_shouldCreateCourseAndReturn201() throws Exception {
+        // given
         var settings = new CreateCourseSettingsRequestDto(LocalDateTime.now(), LocalDateTime.now().plusDays(1), true);
         var request = new CreateCourseRequestDto("title", "description",
                 new BigDecimal(250), settings);
 
-        mockMvc.perform(post("/courses")
+        // when
+        var result = mockMvc.perform(post("/courses")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("title"))
-                .andExpect(jsonPath("$.description").value("description"))
-                .andExpect(jsonPath("$.price").value(new BigDecimal(250)));
+                        .content(objectMapper.writeValueAsString(request)));
+
+        // then
+        result.andExpect(status().isCreated());
+        result.andExpect(jsonPath("$.title").value("title"));
+        result.andExpect(jsonPath("$.description").value("description"));
+        result.andExpect(jsonPath("$.price").value(new BigDecimal(250)));
     }
 
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getCourse_givenId_shouldReturnCourseAndReturn200() throws Exception {
-        mockMvc.perform(get("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.price").value(new BigDecimal(50)))
-                .andExpect(jsonPath("$.title").value("Java Course"))
-                .andExpect(jsonPath("$.description").value("The mose useful description"));
+        // when
+        var result = mockMvc.perform(get("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d"));
+
+        // then
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.price").value(new BigDecimal(50)));
+        result.andExpect(jsonPath("$.title").value("Java Course"));
+        result.andExpect(jsonPath("$.description").value("The mose useful description"));
     }
 
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getAllCourses_shouldReturnAllCoursesAndReturn200() throws Exception {
-        mockMvc.perform(get("/courses"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+        // when
+        var result = mockMvc.perform(get("/courses"));
+
+        // then
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void updateCourse_givenUpdateCourseRequestDto_shouldUpdateCourseAndReturn200() throws Exception {
+        // given
         var request = new UpdateCourseRequestDto("New Title", "New Description", BigDecimal.valueOf(20));
 
-        mockMvc.perform(put("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d")
+        // when
+        var result = mockMvc.perform(put("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("New Title"))
-                .andExpect(jsonPath("$.description").value("New Description"))
-                .andExpect(jsonPath("$.price").value(new BigDecimal(20)));
+                        .content(objectMapper.writeValueAsString(request)));
+
+        // then
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.title").value("New Title"));
+        result.andExpect(jsonPath("$.description").value("New Description"));
+        result.andExpect(jsonPath("$.price").value(new BigDecimal(20)));
     }
 
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteCourse_givenId_shouldDeleteCourseAndReturn204AndReturn404() throws Exception {
-        mockMvc.perform(delete("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d"))
-                .andExpect(status().isNoContent());
-        mockMvc.perform(delete("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d"))
-                .andExpect(status().isNotFound());
+        // when
+        var result = mockMvc.perform(delete("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d"));
+
+        // then
+        result.andExpect(status().isNoContent());
+
+        // when
+        result = mockMvc.perform(delete("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d"));
+
+        // then
+        result.andExpect(status().isNotFound());
     }
 
 }
