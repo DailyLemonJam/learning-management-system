@@ -32,7 +32,7 @@ info:
   app:
     name: Learning Management System
     description: Learning Management System application made with Spring Boot
-    version: 0.0.1
+    version: @project.version@
 
 springdoc:
   api-docs:
