@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: ${vcap.services.lms-hana-schema.credentials.url}
+    username: ${vcap.services.lms-hana-schema.credentials.user}
+    password: ${vcap.services.lms-hana-schema.credentials.password}
+    driver-class-name: ${vcap.services.lms-hana-schema.credentials.driver}
+  jpa:
+    database-platform: org.hibernate.dialect.HANAColumnStoreDialect

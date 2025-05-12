@@ -6,10 +6,13 @@ applications:
     buildpacks:
       - sap_java_buildpack_jakarta
     env:
-      SPRING_PROFILES_ACTIVE: cloud
+      SPRING_PROFILES_ACTIVE: sap-cloud
       TARGET_RUNTIME: tomcat
       JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jdk.SAPMachineJDK']"
       JBP_CONFIG_SAP_MACHINE_JDK: "{ version: 21.+ }"
 
 services:
-#  TODO
+  - lms-destination-service
+  - lms-feature-flag-service
+  - lms-logging-service
+  - lms-hana-schema
