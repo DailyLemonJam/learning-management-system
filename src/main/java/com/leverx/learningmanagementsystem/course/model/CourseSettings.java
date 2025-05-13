@@ -16,6 +16,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.MapsId;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -34,7 +36,9 @@ import static jakarta.persistence.GenerationType.UUID;
 public class CourseSettings {
 
     @Id
-    @GeneratedValue(strategy = UUID)
+    @GeneratedValue
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "start_date")

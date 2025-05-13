@@ -16,3 +16,4 @@ services:
   - lms-feature-flag-service
   - lms-logging-service
   - lms-hana-schema
+  - lms-user-provided-service

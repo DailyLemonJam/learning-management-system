@@ -16,6 +16,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import static jakarta.persistence.GenerationType.UUID;
 
@@ -33,7 +35,9 @@ import java.util.UUID;
 public class Lesson {
 
     @Id
-    @GeneratedValue(strategy = UUID)
+    @GeneratedValue
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "title")

@@ -17,6 +17,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import static jakarta.persistence.GenerationType.UUID;
 
@@ -37,7 +39,9 @@ import java.util.UUID;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = UUID)
+    @GeneratedValue
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "first_name")

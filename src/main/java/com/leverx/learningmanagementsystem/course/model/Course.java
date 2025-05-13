@@ -18,6 +18,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.ManyToMany;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import static jakarta.persistence.GenerationType.UUID;
 import static jakarta.persistence.CascadeType.ALL;
@@ -40,7 +42,9 @@ import java.util.UUID;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = UUID)
+    @GeneratedValue
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "title")

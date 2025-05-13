@@ -1,6 +1,7 @@
 package com.leverx.learningmanagementsystem.exception;
 
 import com.leverx.learningmanagementsystem.course.exception.EntityValidationException;
+import com.leverx.learningmanagementsystem.email.smtpselector.exception.FeatureFlagServiceBadResponseException;
 import com.leverx.learningmanagementsystem.exception.dto.ErrorResponseDto;
 import com.leverx.learningmanagementsystem.payments.exception.NotEnoughCoinsException;
 import com.leverx.learningmanagementsystem.payments.exception.StudentAlreadyEnrolledException;
@@ -10,10 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.PAYMENT_REQUIRED;
+import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
 @Slf4j
@@ -47,6 +45,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(StudentAlreadyEnrolledException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponseDto handleStudentAlreadyEnrolledException(StudentAlreadyEnrolledException ex){
+        return new ErrorResponseDto(ex.getMessage());
+    }
+
+    @ExceptionHandler(FeatureFlagServiceBadResponseException.class)
+    @ResponseStatus(SERVICE_UNAVAILABLE)
+    public ErrorResponseDto handleFeatureFlagServiceBadResponseException(FeatureFlagServiceBadResponseException ex){
         return new ErrorResponseDto(ex.getMessage());
     }
 
