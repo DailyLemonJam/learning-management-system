@@ -10,6 +10,7 @@ applications:
       TARGET_RUNTIME: tomcat
       JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jdk.SAPMachineJDK']"
       JBP_CONFIG_SAP_MACHINE_JDK: "{ version: 21.+ }"
+      JJBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-Xms1300M -XX:NewSize=950M -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n']"
 
 services:
   - lms-destination-service
