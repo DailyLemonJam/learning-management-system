@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: ${vcap.services.lms-hana-schema.credentials.url}
+    username: ${vcap.services.lms-hana-schema.credentials.user}
+    password: ${vcap.services.lms-hana-schema.credentials.password}
+    driver-class-name: ${vcap.services.lms-hana-schema.credentials.driver}
+
+feature-flag-service:
+  uri: ${vcap.services.lms-feature-flag.credentials.uri}
+  username: ${vcap.services.lms-feature-flag.credentials.username}
+  password: ${vcap.services.lms-feature-flag.credentials.password}
+
+destination-service:
+  url: ${vcap.services.lms-destination-service.credentials.url}
+  uri: ${vcap.services.lms-destination-service.credentials.uri}
+  client_id: ${vcap.services.lms-destination-service.credentials.client_id}
+  client_secret: ${vcap.services.lms-destination-service.credentials.client_secret}
+
+user-service-mail:
+  user: ${vcap.services.lms-user-provided-service.credentials.user}
+  password: ${vcap.services.lms-user-provided-service.credentials.password}
+  from: ${vcap.services.lms-user-provided-service.credentials.from}
+  host: ${vcap.services.lms-user-provided-service.credentials.host}
+  port: ${vcap.services.lms-user-provided-service.credentials.port}
+  protocol: ${vcap.services.lms-user-provided-service.credentials.protocol}

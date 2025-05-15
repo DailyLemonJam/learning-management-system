@@ -1,4 +1,5 @@
-package com.leverx.learningmanagementsystem.email.smtpselector.service;
+package com.leverx.learningmanagementsystem.btp.userprovided.service;
+
 
 import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
 import org.springframework.context.annotation.Profile;
@@ -6,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("local")
-public class SmtpServerSelectorServiceLocal implements SmtpServerSelectorService {
+public class UserProvidedServiceLocal implements UserProvidedService {
     @Override
     public SmtpServerProperties getSmtpServerProperties() {
-        return new SmtpServerProperties();
+        return null;
     }
 }

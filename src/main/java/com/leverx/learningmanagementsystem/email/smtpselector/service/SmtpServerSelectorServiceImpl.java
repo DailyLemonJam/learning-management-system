@@ -1,19 +1,18 @@
 package com.leverx.learningmanagementsystem.email.smtpselector.service;
 
+import com.leverx.learningmanagementsystem.btp.destination.service.DestinationService;
+import com.leverx.learningmanagementsystem.btp.featureflag.dto.FeatureFlagResponseDto;
+import com.leverx.learningmanagementsystem.btp.featureflag.service.FeatureFlagService;
+import com.leverx.learningmanagementsystem.btp.userprovided.service.UserProvidedService;
 import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
 import com.leverx.learningmanagementsystem.email.smtpselector.exception.FeatureFlagServiceBadResponseException;
-import com.leverx.learningmanagementsystem.sap.destination.service.DestinationService;
-import com.leverx.learningmanagementsystem.sap.featureflag.dto.FeatureFlagResponseDto;
-import com.leverx.learningmanagementsystem.sap.featureflag.service.FeatureFlagService;
-import com.leverx.learningmanagementsystem.sap.featureflag.service.FeatureFlagServiceImpl;
-import com.leverx.learningmanagementsystem.sap.userprovided.service.UserProvidedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("sap-cloud")
+@Profile("cloud")
 @RequiredArgsConstructor
 public class SmtpServerSelectorServiceImpl implements SmtpServerSelectorService {
     private final FeatureFlagService featureFlagService;
@@ -21,13 +20,18 @@ public class SmtpServerSelectorServiceImpl implements SmtpServerSelectorService 
     private final UserProvidedService userProvidedService;
 
     private static final String DESTINATION_SERVICE_ENABLED = "destination-service-enabled";
+    private static final String SMTP_SERVER_DESTINATION_NAME = "SmtpDestination";
 
     @Override
     public SmtpServerProperties getSmtpServerProperties() {
         var featureFlagResponseDto = featureFlagService.getFeatureFlag(DESTINATION_SERVICE_ENABLED);
         boolean isEnabled = convertToBooleanResponse(featureFlagResponseDto);
-        return isEnabled ? destinationService.getSmtpServerProperties()
-                : userProvidedService.getSmtpServerProperties();
+        if (!isEnabled) {
+            return userProvidedService.getSmtpServerProperties();
+        }
+        var destination = destinationService.getByName(SMTP_SERVER_DESTINATION_NAME);
+        return new SmtpServerProperties(destination.user(), destination.password(), destination.from(),
+                destination.host(), destination.port(), destination.protocol());
     }
 
     private Boolean convertToBooleanResponse(FeatureFlagResponseDto response) {
