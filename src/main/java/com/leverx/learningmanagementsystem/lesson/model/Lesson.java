@@ -37,7 +37,7 @@ public class Lesson {
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(length = 36, nullable = false, updatable = false)
+    @Column
     private UUID id;
 
     @Column(name = "title")

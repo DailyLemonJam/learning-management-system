@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Base64;
 
@@ -14,29 +15,31 @@ import java.util.Base64;
 @Profile("cloud")
 @RequiredArgsConstructor
 public class FeatureFlagServiceImpl implements FeatureFlagService {
-    private static final String API = "/api/v2/evaluate/";
+    private static final String EVALUATE_ENDPOINT = "/api/v2/evaluate/";
     private static final String AUTHORIZATION = "AUTHORIZATION";
     private static final String BASIC = "Basic ";
 
+    private final RestClient restClient;
     private final FeatureFlagProperties featureFlagProperties;
 
     @Override
     @Retryable
-    public FeatureFlagResponseDto getFeatureFlag(String featureFlagName) {
-        var path = createUrl(featureFlagProperties) + featureFlagName;
+    public FeatureFlagResponseDto getFeatureFlag(String name) {
+        var uri = createFeatureFlagUri(name);
         var authHeader = createAuthHeader(featureFlagProperties);
-        return RestClient.create().get()
-                .uri(path)
+        return restClient.get()
+                .uri(uri)
                 .header(AUTHORIZATION, authHeader)
                 .retrieve()
                 .body(FeatureFlagResponseDto.class);
     }
 
-    private String createUrl(FeatureFlagProperties featureFlagProperties) {
-        var builder = new StringBuilder();
-        builder.append(featureFlagProperties.getUri());
-        builder.append(API);
-        return builder.toString();
+    private String createFeatureFlagUri(String name) {
+        var uriComponents = UriComponentsBuilder.newInstance()
+                .host(featureFlagProperties.getUri())
+                .pathSegment(EVALUATE_ENDPOINT, name)
+                .build();
+        return uriComponents.toUriString();
     }
 
     private String createAuthHeader(FeatureFlagProperties featureFlagProperties) {

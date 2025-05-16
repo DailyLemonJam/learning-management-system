@@ -38,7 +38,7 @@ public class CourseSettings {
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(length = 36, nullable = false, updatable = false)
+    @Column
     private UUID id;
 
     @Column(name = "start_date")

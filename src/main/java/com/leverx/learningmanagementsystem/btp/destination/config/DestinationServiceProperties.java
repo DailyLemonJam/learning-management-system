@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DestinationServiceProperties {
-    private String uri;
     private String url;
+    private String uri;
     private String clientId;
     private String clientSecret;
 }

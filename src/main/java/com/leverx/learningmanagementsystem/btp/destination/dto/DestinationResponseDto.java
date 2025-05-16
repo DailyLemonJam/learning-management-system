@@ -1,13 +1,15 @@
 package com.leverx.learningmanagementsystem.btp.destination.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * @see <a href="https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/find-destination-response-structure">Destination Response Structure</a>
+ * */
 public record DestinationResponseDto(
-    @JsonProperty("destinationConfiguration.mail.user") String user,
-    @JsonProperty("destinationConfiguration.mail.password") String password,
-    @JsonProperty("destinationConfiguration.mail.smtp.from") String from,
-    @JsonProperty("destinationConfiguration.mail.smtp.host") String host,
-    @JsonProperty("destinationConfiguration.mail.smtp.port") String port,
-    @JsonProperty("destinationConfiguration.mail.smtp.protocol") String protocol
+        Map<String, String> owner,
+        Map<String, String> destinationConfiguration,
+        List<Map<String, Object>> authTokens,
+        List<Map<String, Object>> certificates
 ) {
 }

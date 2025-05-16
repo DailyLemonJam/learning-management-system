@@ -6,6 +6,7 @@ import com.leverx.learningmanagementsystem.btp.featureflag.service.FeatureFlagSe
 import com.leverx.learningmanagementsystem.btp.userprovided.service.UserProvidedService;
 import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
 import com.leverx.learningmanagementsystem.email.smtpselector.exception.FeatureFlagServiceBadResponseException;
+import com.leverx.learningmanagementsystem.email.smtpselector.mapper.DestinationToSmtpServerPropertiesMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -15,12 +16,13 @@ import org.springframework.stereotype.Service;
 @Profile("cloud")
 @RequiredArgsConstructor
 public class SmtpServerSelectorServiceImpl implements SmtpServerSelectorService {
+    private static final String DESTINATION_SERVICE_ENABLED = "destination-service-enabled";
+    private static final String SMTP_SERVER_DESTINATION_NAME = "SmtpDestination";
+
     private final FeatureFlagService featureFlagService;
     private final DestinationService destinationService;
     private final UserProvidedService userProvidedService;
-
-    private static final String DESTINATION_SERVICE_ENABLED = "destination-service-enabled";
-    private static final String SMTP_SERVER_DESTINATION_NAME = "SmtpDestination";
+    private final DestinationToSmtpServerPropertiesMapper destinationToSmtpServerPropertiesMapper;
 
     @Override
     public SmtpServerProperties getSmtpServerProperties() {
@@ -30,8 +32,7 @@ public class SmtpServerSelectorServiceImpl implements SmtpServerSelectorService 
             return userProvidedService.getSmtpServerProperties();
         }
         var destination = destinationService.getByName(SMTP_SERVER_DESTINATION_NAME);
-        return new SmtpServerProperties(destination.user(), destination.password(), destination.from(),
-                destination.host(), destination.port(), destination.protocol());
+        return destinationToSmtpServerPropertiesMapper.map(destination);
     }
 
     private Boolean convertToBooleanResponse(FeatureFlagResponseDto response) {
