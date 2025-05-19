@@ -18,3 +18,4 @@ services:
   - lms-logging-service
   - lms-hana-schema
   - lms-user-provided-service
+  - lms-xsuaa
