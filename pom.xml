@@ -55,7 +55,7 @@
         <!-- XSUAA -->
         <dependency>
             <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>spring-xsuaa</artifactId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
             <version>${com.sap.cloud.security.xsuaa.version}</version>
         </dependency>
 

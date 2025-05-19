@@ -24,7 +24,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     @Transactional
     @Override
     public void purchaseCourse(UUID courseId, UUID studentId) {
-        var course = courseRepository.findById(courseId)
+        var course = courseRepository.findByIdForEnrollment(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
         var student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
