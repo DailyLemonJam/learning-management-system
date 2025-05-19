@@ -47,7 +47,7 @@ public class CourseController {
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Courses", description = "Returns all Courses")
-    public List<CourseResponseDto> get() {
+    public List<CourseResponseDto> getAll() {
         var courses = courseService.getAll();
         return courseMapper.toDtos(courses);
     }

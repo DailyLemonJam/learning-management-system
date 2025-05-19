@@ -1,7 +1,7 @@
-package com.leverx.learningmanagementsystem.auth.client;
+package com.leverx.learningmanagementsystem.oauth2.client;
 
-import com.leverx.learningmanagementsystem.auth.exception.OAuth2TokenClientBadResponseException;
-import com.leverx.learningmanagementsystem.auth.dto.AccessTokenResponseDto;
+import com.leverx.learningmanagementsystem.oauth2.exception.OAuth2TokenClientBadResponseException;
+import com.leverx.learningmanagementsystem.oauth2.dto.AccessTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

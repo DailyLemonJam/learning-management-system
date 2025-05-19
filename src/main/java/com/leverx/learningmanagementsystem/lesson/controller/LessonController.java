@@ -46,7 +46,7 @@ public class LessonController {
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Lessons", description = "Returns all Lessons")
-    public List<LessonResponseDto> get() {
+    public List<LessonResponseDto> getAll() {
         var lessons = lessonService.getAll();
         return lessonMapper.toDtos(lessons);
     }

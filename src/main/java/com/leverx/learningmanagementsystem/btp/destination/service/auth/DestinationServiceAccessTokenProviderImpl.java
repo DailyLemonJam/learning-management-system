@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.destination.service.auth;
 
-import com.leverx.learningmanagementsystem.auth.client.OAuth2TokenClient;
+import com.leverx.learningmanagementsystem.oauth2.client.OAuth2TokenClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
