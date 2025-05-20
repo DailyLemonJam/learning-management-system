@@ -1,7 +1,7 @@
 applications:
   - name: learning-management-system
     random-route: true
-    path: ./target/learning-management-system-1.1.0.jar
+    path: ./target/learning-management-system-1.2.0.jar
     memory: 1024M
     buildpacks:
       - sap_java_buildpack_jakarta

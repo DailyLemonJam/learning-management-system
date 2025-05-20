@@ -12,7 +12,7 @@
 
     <groupId>com.leverx</groupId>
     <artifactId>learning-management-system</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <name>learning-management-system</name>
     <description>learning-management-system</description>
 
@@ -61,9 +61,8 @@
 
         <!-- DB -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sap.cloud.db.jdbc</groupId>

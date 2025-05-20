@@ -53,9 +53,6 @@ public class SecurityConfig {
                             auth.requestMatchers("/actuator/**").hasRole("MANAGER");
                             auth.anyRequest().authenticated();
                         })
-                // TODO: remove "headers..." when move from H2 to Postgres?
-                .headers(headers ->
-                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults());
