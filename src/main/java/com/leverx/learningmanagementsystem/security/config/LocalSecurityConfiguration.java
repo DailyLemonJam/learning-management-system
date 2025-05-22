@@ -63,14 +63,15 @@ public class LocalSecurityConfiguration {
     @Bean
     @Order(1)
     public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http.securityMatcher("/actuator/**")
+        return http
+                .securityMatcher("/actuator/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/actuator/health").permitAll();
                     auth.anyRequest().hasRole(Role.MANAGER.getValue());
-                        })
+                })
                 .httpBasic(withDefaults())
                 .build();
     }
@@ -78,7 +79,8 @@ public class LocalSecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http.securityMatcher("/**")
+        return http
+                .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

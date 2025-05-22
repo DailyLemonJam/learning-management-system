@@ -68,7 +68,8 @@ public class CloudSecurityConfiguration {
     @Bean
     @Order(1)
     public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http.securityMatcher("/actuator/**")
+        return http
+                .securityMatcher("/actuator/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -84,7 +85,10 @@ public class CloudSecurityConfiguration {
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(configurer ->
+                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 ->
