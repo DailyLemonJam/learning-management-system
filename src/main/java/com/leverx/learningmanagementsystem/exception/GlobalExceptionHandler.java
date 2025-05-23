@@ -8,6 +8,7 @@ import com.leverx.learningmanagementsystem.payments.exception.NotEnoughCoinsExce
 import com.leverx.learningmanagementsystem.payments.exception.StudentAlreadyEnrolledException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -63,6 +64,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponseDto handleOAuth2TokenClientBadResponseException(OAuth2TokenClientBadResponseException ex){
         log.error("Unexpected error occurred", ex);
+        return new ErrorResponseDto(ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorResponseDto handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
         return new ErrorResponseDto(ex.getMessage());
     }
 

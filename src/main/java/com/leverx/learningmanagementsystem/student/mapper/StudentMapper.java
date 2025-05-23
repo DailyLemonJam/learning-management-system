@@ -23,6 +23,7 @@ public class StudentMapper {
                 student.getEmail(),
                 student.getDateOfBirth(),
                 student.getCoins(),
+                student.getLanguage(),
                 student.getCourses().stream()
                         .map(Course::getId)
                         .collect(Collectors.toList())
@@ -41,6 +42,7 @@ public class StudentMapper {
                 .lastName(request.lastName())
                 .email(request.email())
                 .dateOfBirth(request.dateOfBirth())
+                .language(request.language())
                 .courses(new ArrayList<>())
                 .coins(new BigDecimal(0))
                 .build();
@@ -52,6 +54,7 @@ public class StudentMapper {
                 .lastName(request.lastName())
                 .email(request.email())
                 .dateOfBirth(request.dateOfBirth())
+                .language(request.language())
                 .build();
     }
 

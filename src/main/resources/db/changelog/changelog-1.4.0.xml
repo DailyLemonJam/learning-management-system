@@ -14,4 +14,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="changeset-1.4.0_002" author="author">
+        <addColumn tableName="student">
+            <column name="language" type="varchar(30)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

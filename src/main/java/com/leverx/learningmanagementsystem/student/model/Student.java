@@ -17,6 +17,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -56,6 +59,10 @@ public class Student {
 
     @Column(name = "coins")
     private BigDecimal coins;
+
+    @Column(name = "language")
+    @Enumerated(EnumType.STRING)
+    private Language language;
 
     @ManyToMany
     @JoinTable(name = "student_course",
