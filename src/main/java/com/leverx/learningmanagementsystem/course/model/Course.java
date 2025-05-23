@@ -21,7 +21,6 @@ import jakarta.persistence.ManyToMany;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import static jakarta.persistence.GenerationType.UUID;
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.CascadeType.MERGE;
@@ -44,7 +43,7 @@ public class Course {
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "title")

@@ -20,8 +20,6 @@ import jakarta.persistence.JoinTable;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import static jakarta.persistence.GenerationType.UUID;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +39,7 @@ public class Student {
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "first_name")

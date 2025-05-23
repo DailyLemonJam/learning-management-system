@@ -22,8 +22,6 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.UUID;
-
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -38,7 +36,7 @@ public class CourseSettings {
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "start_date")

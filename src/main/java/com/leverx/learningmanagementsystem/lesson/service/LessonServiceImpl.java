@@ -1,7 +1,9 @@
 package com.leverx.learningmanagementsystem.lesson.service;
 
+import com.leverx.learningmanagementsystem.lesson.model.ClassroomLesson;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
+import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -39,10 +41,10 @@ public class LessonServiceImpl implements LessonService {
 
     @Transactional
     @Override
-    public Lesson update(UUID lessonId, Lesson lesson) {
+    public Lesson update(UUID lessonId, Lesson updatedLesson) {
         var existingLesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find lesson with id: " + lessonId));
-        return updateLesson(existingLesson, lesson);
+        return updateLesson(existingLesson, updatedLesson);
     }
 
     @Transactional
@@ -53,10 +55,30 @@ public class LessonServiceImpl implements LessonService {
         lessonRepository.delete(lesson);
     }
 
-    private Lesson updateLesson(Lesson existingLesson, Lesson lesson) {
-        existingLesson.setTitle(lesson.getTitle());
-        existingLesson.setDuration(lesson.getDuration());
-        return lessonRepository.save(existingLesson);
+    private Lesson updateLesson(Lesson existingLesson, Lesson updatedLesson) {
+        if (existingLesson.getClass().equals(updatedLesson.getClass())) {
+            if (existingLesson.getClass().equals(ClassroomLesson.class)) {
+                var existingLessonCast = (ClassroomLesson) existingLesson;
+                var updatedLessonCast = (ClassroomLesson) updatedLesson;
+                existingLessonCast.setTitle(updatedLessonCast.getTitle());
+                existingLessonCast.setDuration(updatedLessonCast.getDuration());
+                existingLessonCast.setLocation(updatedLessonCast.getLocation());
+                existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
+                return lessonRepository.save(existingLessonCast);
+            } else if (existingLesson.getClass().equals(VideoLesson.class)) {
+                var existingLessonCast = (VideoLesson) existingLesson;
+                var updatedLessonCast = (VideoLesson) updatedLesson;
+                existingLessonCast.setTitle(updatedLessonCast.getTitle());
+                existingLessonCast.setDuration(updatedLessonCast.getDuration());
+                existingLessonCast.setUrl(updatedLessonCast.getUrl());
+                existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
+                return lessonRepository.save(existingLessonCast);
+            }
+            throw new RuntimeException("Unknown Lesson type");
+        }
+        updatedLesson.setCourse(existingLesson.getCourse());
+        lessonRepository.delete(existingLesson);
+        return lessonRepository.save(updatedLesson);
     }
 
 }
