@@ -23,6 +23,7 @@
         <com.sap.cloud.db.jdbc.version>2.24.7</com.sap.cloud.db.jdbc.version>
         <sap.hana-liquibase.version>4.31.1</sap.hana-liquibase.version>
         <com.sap.cloud.security.xsuaa.version>3.6.0</com.sap.cloud.security.xsuaa.version>
+        <com.github.spullara.mustache.java.version>0.9.14</com.github.spullara.mustache.java.version>
     </properties>
 
     <dependencies>
@@ -100,6 +101,17 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Mustache -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mustache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.spullara.mustache.java</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${com.github.spullara.mustache.java.version}</version>
         </dependency>
 
         <!-- Tests -->
