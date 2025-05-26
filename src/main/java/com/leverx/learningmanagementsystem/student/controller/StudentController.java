@@ -9,14 +9,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/students")
@@ -46,8 +45,8 @@ public class StudentController {
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Students", description = "Returns all Students")
-    public List<StudentResponseDto> getAll() {
-        var students = studentService.getAll();
+    public Page<StudentResponseDto> getAll(Pageable pageable) {
+        var students = studentService.getAll(pageable);
         return studentMapper.toDtos(students);
     }
 

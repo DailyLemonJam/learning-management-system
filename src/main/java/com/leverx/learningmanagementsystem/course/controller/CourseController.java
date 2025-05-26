@@ -9,15 +9,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/courses")
@@ -47,8 +45,8 @@ public class CourseController {
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Courses", description = "Returns all Courses")
-    public List<CourseResponseDto> getAll() {
-        var courses = courseService.getAll();
+    public Page<CourseResponseDto> getAll(Pageable pageable) {
+        var courses = courseService.getAll(pageable);
         return courseMapper.toDtos(courses);
     }
 

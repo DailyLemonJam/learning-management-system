@@ -1,16 +1,17 @@
 package com.leverx.learningmanagementsystem.lesson.service;
 
+import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.model.ClassroomLesson;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
-import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,8 +36,8 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public List<Lesson> getAll() {
-        return lessonRepository.findAll();
+    public Page<Lesson> getAll(Pageable pageable) {
+        return lessonRepository.findAll(pageable);
     }
 
     @Transactional

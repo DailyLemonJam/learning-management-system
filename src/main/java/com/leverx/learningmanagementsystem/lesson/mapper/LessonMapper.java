@@ -7,10 +7,9 @@ import com.leverx.learningmanagementsystem.lesson.model.ClassroomLesson;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.LessonType;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -47,10 +46,8 @@ public class LessonMapper {
         throw new RuntimeException("Probably new Lesson type was created");
     }
 
-    public List<LessonResponseDto> toDtos(List<Lesson> lessons) {
-        var dtos = new ArrayList<LessonResponseDto>();
-        lessons.forEach(lesson -> dtos.add(toDto(lesson)));
-        return dtos;
+    public Page<LessonResponseDto> toDtos(Page<Lesson> lessons) {
+        return lessons.map(this::toDto);
     }
 
     public Lesson toModel(CreateLessonRequestDto request) {

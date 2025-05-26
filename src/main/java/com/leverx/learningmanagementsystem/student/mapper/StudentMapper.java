@@ -1,15 +1,15 @@
 package com.leverx.learningmanagementsystem.student.mapper;
 
+import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
-import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,10 +30,8 @@ public class StudentMapper {
         );
     }
 
-    public List<StudentResponseDto> toDtos(List<Student> students) {
-        var dtos = new ArrayList<StudentResponseDto>();
-        students.forEach(student -> dtos.add(toDto(student)));
-        return dtos;
+    public Page<StudentResponseDto> toDtos(Page<Student> students) {
+        return students.map(this::toDto);
     }
 
     public Student toModel(CreateStudentRequestDto request) {
