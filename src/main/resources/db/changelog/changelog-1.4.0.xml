@@ -20,4 +20,40 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="changeset-1.4.0_003" author="author">
+        <addColumn tableName="course">
+            <column name="created" type="timestamp"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="last_changed" type="timestamp"/>
+            <column name="last_changed_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="changeset-1.4.0_004" author="author">
+        <addColumn tableName="course_settings">
+            <column name="created" type="timestamp"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="last_changed" type="timestamp"/>
+            <column name="last_changed_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="changeset-1.4.0_005" author="author">
+        <addColumn tableName="lesson">
+            <column name="created" type="timestamp"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="last_changed" type="timestamp"/>
+            <column name="last_changed_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="changeset-1.4.0_006" author="author">
+        <addColumn tableName="student">
+            <column name="created" type="timestamp"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="last_changed" type="timestamp"/>
+            <column name="last_changed_by" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

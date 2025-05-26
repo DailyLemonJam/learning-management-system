@@ -1,16 +1,8 @@
 package com.leverx.learningmanagementsystem.lesson.model;
 
+import com.leverx.learningmanagementsystem.audit.model.Auditable;
 import com.leverx.learningmanagementsystem.course.model.Course;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -26,7 +18,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
 @SuperBuilder
 @NoArgsConstructor
@@ -34,7 +26,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "lesson_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Lesson {
+public abstract class Lesson extends Auditable {
 
     @Id
     @GeneratedValue

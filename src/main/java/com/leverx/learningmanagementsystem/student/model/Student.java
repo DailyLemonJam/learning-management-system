@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.student.model;
 
+import com.leverx.learningmanagementsystem.audit.model.Auditable;
 import com.leverx.learningmanagementsystem.course.model.Course;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -8,17 +10,6 @@ import lombok.ToString;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -30,14 +21,14 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "student")
-public class Student {
+public class Student extends Auditable {
 
     @Id
     @GeneratedValue
