@@ -35,6 +35,7 @@ public class EmailServiceImpl implements EmailService {
         return sender;
     }
 
+    // TODO: change to MIME
     private SimpleMailMessage createSimpleMailMessage(String to, String from, String subject, String text) {
         var message = new SimpleMailMessage();
         message.setTo(to);
