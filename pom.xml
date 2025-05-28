@@ -12,7 +12,7 @@
 
     <groupId>com.leverx</groupId>
     <artifactId>learning-management-system</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <name>learning-management-system</name>
     <description>learning-management-system</description>
 
@@ -22,6 +22,7 @@
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <com.sap.cloud.db.jdbc.version>2.24.7</com.sap.cloud.db.jdbc.version>
         <sap.hana-liquibase.version>4.31.1</sap.hana-liquibase.version>
+        <com.sap.cloud.security.xsuaa.version>3.6.0</com.sap.cloud.security.xsuaa.version>
     </properties>
 
     <dependencies>
@@ -46,12 +47,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- XSUAA -->
+        <dependency>
+            <groupId>com.sap.cloud.security.xsuaa</groupId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
+            <version>${com.sap.cloud.security.xsuaa.version}</version>
+        </dependency>
 
         <!-- DB -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sap.cloud.db.jdbc</groupId>
@@ -91,6 +102,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

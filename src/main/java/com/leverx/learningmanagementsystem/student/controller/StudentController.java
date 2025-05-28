@@ -46,7 +46,7 @@ public class StudentController {
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Students", description = "Returns all Students")
-    public List<StudentResponseDto> get() {
+    public List<StudentResponseDto> getAll() {
         var students = studentService.getAll();
         return studentMapper.toDtos(students);
     }
