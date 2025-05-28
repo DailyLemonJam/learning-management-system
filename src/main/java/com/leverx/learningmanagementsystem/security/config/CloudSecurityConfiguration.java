@@ -22,6 +22,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -49,22 +50,6 @@ public class CloudSecurityConfiguration {
         return new InMemoryUserDetailsManager(defaultUser, manager);
     }
 
-    private UserDetails createDefaultUser() {
-        return User.builder()
-                .username(defaultUserUsername)
-                .password(passwordEncoder().encode(defaultUserPassword))
-                .roles(Role.USER.getValue())
-                .build();
-    }
-
-    private UserDetails createManagerUser() {
-        return User.builder()
-                .username(managerUserUsername)
-                .password(passwordEncoder().encode(managerUserPassword))
-                .roles(Role.MANAGER.getValue())
-                .build();
-    }
-
     @Bean
     @Order(1)
     public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -72,7 +57,7 @@ public class CloudSecurityConfiguration {
                 .securityMatcher("/actuator/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
-                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        configurer.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/actuator/health").permitAll();
                     auth.anyRequest().hasRole(Role.MANAGER.getValue());
@@ -88,7 +73,7 @@ public class CloudSecurityConfiguration {
                 .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
-                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        configurer.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 ->
@@ -100,6 +85,22 @@ public class CloudSecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    private UserDetails createDefaultUser() {
+        return User.builder()
+                .username(defaultUserUsername)
+                .password(passwordEncoder().encode(defaultUserPassword))
+                .roles(Role.USER.getValue())
+                .build();
+    }
+
+    private UserDetails createManagerUser() {
+        return User.builder()
+                .username(managerUserUsername)
+                .password(passwordEncoder().encode(managerUserPassword))
+                .roles(Role.MANAGER.getValue())
+                .build();
     }
 
 }
