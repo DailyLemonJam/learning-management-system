@@ -65,5 +65,4 @@ public class GlobalExceptionHandler {
         log.error("Unexpected error occurred", ex);
         return new ErrorResponseDto(ex.getMessage());
     }
-
 }

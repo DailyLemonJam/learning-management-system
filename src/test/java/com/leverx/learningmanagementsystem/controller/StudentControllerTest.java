@@ -65,6 +65,7 @@ class StudentControllerTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getStudent_givenId_shouldReturnStudentAndReturn200() throws Exception {
+
         // when
         var result = mockMvc.perform(get("/students/{id}", "7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59")
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
@@ -79,6 +80,7 @@ class StudentControllerTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getAllStudents_shouldReturnAllStudentsAndReturn200() throws Exception {
+
         // when
         var result = mockMvc.perform(get("/students")
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
@@ -91,6 +93,7 @@ class StudentControllerTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void updateStudent_givenUpdateStudentRequestDto_shouldUpdateStudentAndReturn200() throws Exception {
+
         // given
         var localDate = LocalDate.now().minusDays(365 * 24);
         var request = new UpdateStudentRequestDto("New not last name", "New not first name",
@@ -114,6 +117,7 @@ class StudentControllerTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteStudent_givenId_shouldDeleteStudentAndReturn204AndReturn404() throws Exception {
+
         // when
         var result = mockMvc.perform(delete("/students/{id}", "7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59")
                 .with(csrf())

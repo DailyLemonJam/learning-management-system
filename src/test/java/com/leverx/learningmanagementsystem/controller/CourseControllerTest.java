@@ -88,6 +88,7 @@ class CourseControllerTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void updateCourse_givenUpdateCourseRequestDto_shouldUpdateCourseAndReturn200() throws Exception {
+
         // given
         var request = new UpdateCourseRequestDto("New Title", "New Description", BigDecimal.valueOf(20));
 
@@ -108,6 +109,7 @@ class CourseControllerTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteCourse_givenId_shouldDeleteCourseAndReturn204AndReturn404() throws Exception {
+
         // when
         var result = mockMvc.perform(delete("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d")
                 .with(csrf())
