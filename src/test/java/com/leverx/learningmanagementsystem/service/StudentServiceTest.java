@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.service;
 
-import com.leverx.learningmanagementsystem.model.Student;
-import com.leverx.learningmanagementsystem.service.student.StudentService;
+import com.leverx.learningmanagementsystem.student.model.Student;
+import com.leverx.learningmanagementsystem.student.service.StudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,10 @@ class StudentServiceTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void createStudent_givenStudent_shouldReturnStudent() {
+        // when
         var createdStudent = studentService.create(student);
 
+        // then
         assertNotNull(createdStudent);
         assertEquals(createdStudent.getFirstName(), student.getFirstName());
         assertEquals(createdStudent.getLastName(), student.getLastName());
@@ -49,7 +51,10 @@ class StudentServiceTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getStudent_givenId_shouldReturnStudent() {
+        // when
         var foundStudent = studentService.get(UUID.fromString("7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59"));
+
+        // then
         assertNotNull(foundStudent);
         assertEquals("7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59", foundStudent.getId().toString());
         assertEquals("John", foundStudent.getFirstName());
@@ -61,8 +66,10 @@ class StudentServiceTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getAllStudents_shouldReturnAllStudent() {
-        var students = studentService.get();
+        // when
+        var students = studentService.getAll();
 
+        // then
         assertNotNull(students);
         assertEquals(1, students.size());
         assertEquals("7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59", students.getFirst().getId().toString());
@@ -71,7 +78,10 @@ class StudentServiceTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void updateStudent_shouldUpdateStudentAndReturnStudent() {
+        // when
         var updatedStudent = studentService.update(UUID.fromString("7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59"), student);
+
+        // then
         assertNotNull(updatedStudent);
         assertEquals(updatedStudent.getFirstName(), student.getFirstName());
         assertEquals(updatedStudent.getLastName(), student.getLastName());
@@ -82,9 +92,11 @@ class StudentServiceTest {
     @Test
     @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteStudent_shouldDeleteStudent() {
+        // when
         studentService.delete(UUID.fromString("7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59"));
+        var students = studentService.getAll();
 
-        var students = studentService.get();
+        // then
         assertEquals(0, students.size());
     }
 
