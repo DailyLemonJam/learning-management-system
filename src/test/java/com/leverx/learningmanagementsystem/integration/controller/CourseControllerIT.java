@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.controller;
+package com.leverx.learningmanagementsystem.integration.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CourseControllerTest {
+class CourseControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
@@ -64,7 +64,7 @@ class CourseControllerTest {
     public void getCourse_givenId_shouldReturnCourseAndReturn200() throws Exception {
         // when
         var result = mockMvc.perform(get("/courses/{id}", "b19d4c5f-37a1-4e2b-a7f8-92d5cbefc86d")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                        .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
         // then
         result.andExpect(status().isOk());
@@ -78,7 +78,7 @@ class CourseControllerTest {
     public void getAllCourses_shouldReturnAllCoursesAndReturn200() throws Exception {
         // when
         var result = mockMvc.perform(get("/courses")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                        .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
         // then
         result.andExpect(status().isOk());

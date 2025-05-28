@@ -1,9 +1,19 @@
-package com.leverx.learningmanagementsystem.controller;
+package com.leverx.learningmanagementsystem.integration.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leverx.learningmanagementsystem.course.model.Course;
+import com.leverx.learningmanagementsystem.course.model.CourseSettings;
+import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
+import com.leverx.learningmanagementsystem.lesson.model.Lesson;
+import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
+import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
 import com.leverx.learningmanagementsystem.security.role.Role;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
+import com.leverx.learningmanagementsystem.student.model.Language;
+import com.leverx.learningmanagementsystem.student.model.Student;
+import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +22,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -24,12 +38,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class StudentControllerTest {
+@Transactional
+class StudentControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
 
     @Value("${security.configuration.default-user.username}")
     private String defaultUserUsername;
@@ -37,12 +61,53 @@ class StudentControllerTest {
     @Value("${security.configuration.default-user.password}")
     private String defaultUserPassword;
 
+    private Course course;
+    private CourseSettings courseSettings;
+    private Student student;
+    private Lesson videoLesson;
+
+    @BeforeEach
+    public void setUp() {
+        course = Course.builder()
+                .title("Java Course")
+                .courseSettings(courseSettings)
+                .description("The most useful description")
+                .price(BigDecimal.valueOf(50))
+                .coinsPaid(BigDecimal.valueOf(250))
+                .build();
+        courseSettings = CourseSettings.builder()
+                .startDate(LocalDateTime.now().plusDays(25))
+                .startDate(LocalDateTime.now().plusDays(50))
+                .isPublic(true)
+                .build();
+        student = Student.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email(UUID.randomUUID() + "john.doe@example.com")
+                .dateOfBirth(LocalDate.of(2000, 5, 8))
+                .coins(BigDecimal.valueOf(50))
+                .courses(new ArrayList<>())
+                .build();
+        videoLesson = VideoLesson.builder()
+                .course(course)
+                .title("Video lesson #1")
+                .duration(60)
+                .course(course)
+                .url("url.of.this.lesson")
+                .platform("Zoom")
+                .build();
+        courseRepository.save(course);
+        studentRepository.save(student);
+        lessonRepository.save(videoLesson);
+    }
+
     @Test
-    @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "/data/clear-db.sql")
     public void createStudent_givenCreateStudentRequestDto_shouldReturnStudentAndReturn200() throws Exception {
         // given
         var requestDto = new CreateStudentRequestDto("John", "Johnson",
-                "validemail@email.com", LocalDate.now().minusDays(365 * 25));
+                "validemail@email.com", LocalDate.now().minusDays(365 * 25),
+                Language.ENGLISH);
 
         // when
         var result = mockMvc.perform(post("/students")
@@ -56,28 +121,31 @@ class StudentControllerTest {
         result.andExpect(jsonPath("$.firstName").value("John"));
         result.andExpect(jsonPath("$.lastName").value("Johnson"));
         result.andExpect(jsonPath("$.coins").value(new BigDecimal(0)));
-        mockMvc.perform(get("/students")
-                        .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
+
+        var result2 = mockMvc.perform(get("/students")
+                        .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+
+        result2.andExpect(status().isOk());
+        result2.andExpect(jsonPath("$.content.length()").value(2));
     }
 
     @Test
-    @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "/data/clear-db.sql")
     public void getStudent_givenId_shouldReturnStudentAndReturn200() throws Exception {
         // when
-        var result = mockMvc.perform(get("/students/{id}", "7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59")
+        var result = mockMvc.perform(get("/students/{id}", student.getId())
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
         // then
         result.andExpect(status().isOk());
         result.andExpect(jsonPath("$.firstName").value("John"));
         result.andExpect(jsonPath("$.lastName").value("Doe"));
-        result.andExpect(jsonPath("$.email").value("john.doe@example.com"));
+        result.andExpect(jsonPath("$.dateOfBirth").value(LocalDate.of(2000, 5, 8).toString()));
+        result.andExpect(jsonPath("$.coins").value(BigDecimal.valueOf(50)));
     }
 
     @Test
-    @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "/data/clear-db.sql")
     public void getAllStudents_shouldReturnAllStudentsAndReturn200() throws Exception {
         // when
         var result = mockMvc.perform(get("/students")
@@ -85,19 +153,19 @@ class StudentControllerTest {
 
         // then
         result.andExpect(status().isOk());
-        result.andExpect(jsonPath("$.length()").value(1));
+        result.andExpect(jsonPath("$.content.length()").value(1));
     }
 
     @Test
-    @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "/data/clear-db.sql")
     public void updateStudent_givenUpdateStudentRequestDto_shouldUpdateStudentAndReturn200() throws Exception {
         // given
         var localDate = LocalDate.now().minusDays(365 * 24);
         var request = new UpdateStudentRequestDto("New not last name", "New not first name",
-                "email@email.com", localDate);
+                "email@email.com", localDate, Language.ENGLISH);
 
         // when
-        var result = mockMvc.perform(put("/students/{id}", "7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59")
+        var result = mockMvc.perform(put("/students/{id}", student.getId())
                         .with(csrf())
                         .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -112,10 +180,10 @@ class StudentControllerTest {
     }
 
     @Test
-    @Sql(scripts = {"/data/clear-db.sql", "/data/init-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "/data/clear-db.sql")
     public void deleteStudent_givenId_shouldDeleteStudentAndReturn204AndReturn404() throws Exception {
         // when
-        var result = mockMvc.perform(delete("/students/{id}", "7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59")
+        var result = mockMvc.perform(delete("/students/{id}", student.getId())
                 .with(csrf())
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
@@ -123,7 +191,7 @@ class StudentControllerTest {
         result.andExpect(status().isNoContent());
 
         // when
-        result = mockMvc.perform(delete("/students/{id}", "7c5e1f2a-9d84-4b6a-b9d5-6a2f3e7d0c59")
+        result = mockMvc.perform(delete("/students/{id}", student.getId())
                 .with(csrf())
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
