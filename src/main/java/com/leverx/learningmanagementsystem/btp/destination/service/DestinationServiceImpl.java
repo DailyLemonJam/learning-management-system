@@ -28,30 +28,29 @@ public class DestinationServiceImpl implements DestinationService {
     private final DestinationServiceAccessTokenProvider destinationServiceAccessTokenProvider;
 
     @Override
-    @Retryable(
-            retryFor = Unauthorized.class,
-            maxAttempts = 2
-    )
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public DestinationResponseDto getByName(String name) {
-        var destinationUri = createDestinationUri(name);
-        var accessToken = destinationServiceAccessTokenProvider.getAccessToken(
-                destinationServiceProperties.getClientId(),
-                destinationServiceProperties.getClientSecret(),
-                destinationServiceProperties.getUrl());
-        var authHeader = BEARER + accessToken;
-        return restClient.get()
-                .uri(destinationUri)
-                .header(AUTHORIZATION, authHeader)
-                .retrieve()
-                .body(DestinationResponseDto.class);
+        return tryToGet(name);
     }
 
-    @Recover
-    private DestinationResponseDto recover(Unauthorized ex, String name) {
-        log.info(ex.getMessage());
-        var key = destinationServiceProperties.getClientId();
-        destinationServiceAccessTokenProvider.evictCache(key);
-        return getByName(name);
+    private DestinationResponseDto tryToGet(String name) {
+        try {
+            var destinationUri = createDestinationUri(name);
+            var accessToken = destinationServiceAccessTokenProvider.getAccessToken(
+                    destinationServiceProperties.getClientId(),
+                    destinationServiceProperties.getClientSecret(),
+                    destinationServiceProperties.getUrl());
+            var authHeader = BEARER + accessToken;
+            return restClient.get()
+                    .uri(destinationUri)
+                    .header(AUTHORIZATION, authHeader)
+                    .retrieve()
+                    .body(DestinationResponseDto.class);
+        } catch (Unauthorized e) {
+            destinationServiceAccessTokenProvider.refreshAccessToken(destinationServiceProperties.getClientId(),
+                    destinationServiceProperties.getClientSecret(), destinationServiceProperties.getUrl());
+            throw e;
+        }
     }
 
     private String createDestinationUri(String name) {
