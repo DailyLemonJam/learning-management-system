@@ -1,0 +1,71 @@
+package com.leverx.learningmanagementsystem.student.controller;
+
+import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
+import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
+import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
+import com.leverx.learningmanagementsystem.student.mapper.StudentMapper;
+import com.leverx.learningmanagementsystem.student.service.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
+@RestController
+@RequestMapping("/students")
+@RequiredArgsConstructor
+@Tag(name = "Student Controller", description = "Handles Student operations")
+public class StudentController {
+    private final StudentService studentService;
+    private final StudentMapper studentMapper;
+
+    @PostMapping
+    @ResponseStatus(CREATED)
+    @Operation(summary = "Create Student", description = "Creates new Student entity")
+    public StudentResponseDto create(@Valid @RequestBody CreateStudentRequestDto request) {
+        var student = studentMapper.toModel(request);
+        var createdStudent = studentService.create(student);
+        return studentMapper.toDto(createdStudent);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Get Student", description = "Returns Student information")
+    public StudentResponseDto get(@PathVariable UUID id) {
+        var student = studentService.get(id);
+        return studentMapper.toDto(student);
+    }
+
+    @GetMapping
+    @ResponseStatus(OK)
+    @Operation(summary = "Get Students", description = "Returns all Students")
+    public List<StudentResponseDto> getAll() {
+        var students = studentService.getAll();
+        return studentMapper.toDtos(students);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(OK)
+    @Operation(summary = "Update Student", description = "Updates Student information")
+    public StudentResponseDto update(@PathVariable UUID id,
+                                     @Valid @RequestBody UpdateStudentRequestDto request) {
+        var student = studentMapper.toModel(request);
+        var updatedStudent = studentService.update(id, student);
+        return studentMapper.toDto(updatedStudent);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete Student", description = "Deletes Student entity from DB")
+    @ResponseStatus(NO_CONTENT)
+    public void delete(@PathVariable UUID id) {
+        studentService.delete(id);
+    }
+
+}
