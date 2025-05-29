@@ -3,7 +3,7 @@ spring:
     name: learning-management-system
 
   config:
-    import: application-local.yaml, application-secrets.yaml
+    import: application-secrets.yaml
 
   liquibase:
     enabled: true
