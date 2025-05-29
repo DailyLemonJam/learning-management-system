@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.lesson.model;
 
-import com.leverx.learningmanagementsystem.audit.model.Auditable;
+import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "lesson_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Lesson extends Auditable {
+public abstract class Lesson extends AuditableEntity {
 
     @Id
     @GeneratedValue

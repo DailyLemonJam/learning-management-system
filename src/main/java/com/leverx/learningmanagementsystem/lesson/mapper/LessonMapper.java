@@ -16,8 +16,7 @@ import java.util.Objects;
 public class LessonMapper {
 
     public LessonResponseDto toDto(Lesson lesson) {
-        if (Objects.equals(lesson.getClass(), ClassroomLesson.class)) {
-            var lessonCast = (ClassroomLesson) lesson;
+        if (lesson instanceof ClassroomLesson lessonCast) {
             return new LessonResponseDto(
                     lessonCast.getId(),
                     lessonCast.getTitle(),
@@ -29,8 +28,7 @@ public class LessonMapper {
                     null,
                     lessonCast.getCourse().getId()
             );
-        } else if (Objects.equals(lesson.getClass(), VideoLesson.class)) {
-            var lessonCast = (VideoLesson) lesson;
+        } else if (lesson instanceof VideoLesson lessonCast) {
             return new LessonResponseDto(
                     lessonCast.getId(),
                     lessonCast.getTitle(),

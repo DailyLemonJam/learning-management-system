@@ -58,28 +58,36 @@ public class LessonServiceImpl implements LessonService {
 
     private Lesson updateLesson(Lesson existingLesson, Lesson updatedLesson) {
         if (existingLesson.getClass().equals(updatedLesson.getClass())) {
-            if (existingLesson.getClass().equals(ClassroomLesson.class)) {
-                var existingLessonCast = (ClassroomLesson) existingLesson;
-                var updatedLessonCast = (ClassroomLesson) updatedLesson;
-                existingLessonCast.setTitle(updatedLessonCast.getTitle());
-                existingLessonCast.setDuration(updatedLessonCast.getDuration());
-                existingLessonCast.setLocation(updatedLessonCast.getLocation());
-                existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
-                return lessonRepository.save(existingLessonCast);
-            } else if (existingLesson.getClass().equals(VideoLesson.class)) {
-                var existingLessonCast = (VideoLesson) existingLesson;
-                var updatedLessonCast = (VideoLesson) updatedLesson;
-                existingLessonCast.setTitle(updatedLessonCast.getTitle());
-                existingLessonCast.setDuration(updatedLessonCast.getDuration());
-                existingLessonCast.setUrl(updatedLessonCast.getUrl());
-                existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
-                return lessonRepository.save(existingLessonCast);
+            if (existingLesson instanceof ClassroomLesson) {
+                return updateAsClassroomLesson(existingLesson, updatedLesson);
+            } else if (existingLesson instanceof VideoLesson) {
+                return updateAsVideoLesson(existingLesson, updatedLesson);
             }
             throw new RuntimeException("Unknown Lesson type");
         }
         updatedLesson.setCourse(existingLesson.getCourse());
         lessonRepository.delete(existingLesson);
         return lessonRepository.save(updatedLesson);
+    }
+
+    private Lesson updateAsClassroomLesson(Lesson existingLesson, Lesson updatedLesson) {
+        var existingLessonCast = (ClassroomLesson) existingLesson;
+        var updatedLessonCast = (ClassroomLesson) updatedLesson;
+        existingLessonCast.setTitle(updatedLessonCast.getTitle());
+        existingLessonCast.setDuration(updatedLessonCast.getDuration());
+        existingLessonCast.setLocation(updatedLessonCast.getLocation());
+        existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
+        return lessonRepository.save(existingLessonCast);
+    }
+
+    private Lesson updateAsVideoLesson(Lesson existingLesson, Lesson updatedLesson) {
+        var existingLessonCast = (VideoLesson) existingLesson;
+        var updatedLessonCast = (VideoLesson) updatedLesson;
+        existingLessonCast.setTitle(updatedLessonCast.getTitle());
+        existingLessonCast.setDuration(updatedLessonCast.getDuration());
+        existingLessonCast.setUrl(updatedLessonCast.getUrl());
+        existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
+        return lessonRepository.save(existingLessonCast);
     }
 
 }

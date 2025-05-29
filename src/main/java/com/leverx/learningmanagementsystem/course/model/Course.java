@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.course.model;
 
-import com.leverx.learningmanagementsystem.audit.model.Auditable;
+import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import jakarta.persistence.*;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "course")
-public class Course extends Auditable {
+public class Course extends AuditableEntity {
 
     @Id
     @GeneratedValue

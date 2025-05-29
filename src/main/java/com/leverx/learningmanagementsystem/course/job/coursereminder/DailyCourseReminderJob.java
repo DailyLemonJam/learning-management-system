@@ -26,7 +26,7 @@ public class DailyCourseReminderJob {
     private final CourseRepository courseRepository;
     private final SmtpServerSelectorService smtpServerSelectorService;
     private final EmailService emailService;
-    private final LocalizedCourseReminderContentGenerator contentBuilder;
+    private final LocalizedCourseReminderContentGenerator localizedCourseReminderContentGenerator;
 
     private static final String SUBJECT = "Course starts: %s!";
     private static final String BODY = "Hello, %s, there is a course about to start tomorrow!";
@@ -69,12 +69,12 @@ public class DailyCourseReminderJob {
     }
 
     private String generateSubject(Language language, String courseTitle) {
-        return contentBuilder.generateSubject(language, courseTitle);
+        return localizedCourseReminderContentGenerator.generateSubject(language, courseTitle);
     }
 
     private String generateBody(Language language, String studentName, String courseTitle) {
         var data = generateData(studentName, courseTitle);
-        return contentBuilder.generateBody(language, data);
+        return localizedCourseReminderContentGenerator.generateBody(language, data);
     }
 
     private Map<String, String> generateData(String studentName, String courseTitle) {

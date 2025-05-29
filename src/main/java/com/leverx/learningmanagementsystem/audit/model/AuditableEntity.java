@@ -3,7 +3,12 @@ package com.leverx.learningmanagementsystem.audit.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,14 +27,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Auditable {
+public abstract class AuditableEntity {
 
     @CreatedDate
-    @Column(updatable = false, name = "created")
+    @Column(name = "created")
     private LocalDateTime created;
 
     @CreatedBy
-    @Column(updatable = false, name = "created_by")
+    @Column(name = "created_by")
     private String createdBy;
 
     @LastModifiedDate
