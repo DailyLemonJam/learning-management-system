@@ -62,9 +62,9 @@ public class CourseControllerUnitTest {
         var request = new CreateCourseRequestDto("title", "description",
                 new BigDecimal(250), settings);
         var course = courseMapper.toModel(request);
+        when(courseService.create(course)).thenReturn(course);
 
         // when
-        when(courseService.create(course)).thenReturn(course);
         var result = mockMvc.perform(post("/courses")
                 .with(csrf())
                 .with(user(user).password(password))
@@ -89,9 +89,9 @@ public class CourseControllerUnitTest {
                 .price(BigDecimal.valueOf(60))
                 .lessons(new ArrayList<>())
                 .build();
+        when(courseService.get(id)).thenReturn(course);
 
         // when
-        when(courseService.get(id)).thenReturn(course);
         var result = mockMvc.perform(get("/courses/{id}", id)
                 .with(csrf())
                 .with(user(user).password(password)));
@@ -122,9 +122,9 @@ public class CourseControllerUnitTest {
                         .build()
         );
         var coursePage = new PageImpl<>(courses, pageable, courses.size());
+        when(courseService.getAll(any(Pageable.class))).thenReturn(coursePage);
 
         // when
-        when(courseService.getAll(any(Pageable.class))).thenReturn(coursePage);
         var result = mockMvc.perform(get("/courses")
                 .with(csrf())
                 .with(user(user).password(password)));
@@ -151,9 +151,9 @@ public class CourseControllerUnitTest {
                 .lessons(new ArrayList<>())
                 .students(new ArrayList<>())
                 .build();
+        when(courseService.update(id, updateRequestModel)).thenReturn(updatedCourse);
 
         // when
-        when(courseService.update(id, updateRequestModel)).thenReturn(updatedCourse);
         var result = mockMvc.perform(put("/courses/{id}", id)
                 .with(csrf())
                 .with(user(user).password(password))
@@ -171,9 +171,9 @@ public class CourseControllerUnitTest {
     public void deleteCourse_givenId_shouldDeleteCourseAndReturn204() throws Exception {
         // given
         var id = UUID.randomUUID();
+        doNothing().when(courseService).delete(id);
 
         // when
-        doNothing().when(courseService).delete(id);
         var result = mockMvc.perform(delete("/courses/{id}", id)
                 .with(csrf())
                 .with(user(user).password(password)));

@@ -48,8 +48,10 @@ public class CourseServiceImplUnitTest {
 
     @Test
     void createCourse_shouldSaveCourse() {
-        // when
+        // given
         when(courseRepository.save(any(Course.class))).thenReturn(course);
+
+        // when
         var savedCourse = courseService.create(course);
 
         // then
@@ -60,8 +62,10 @@ public class CourseServiceImplUnitTest {
 
     @Test
     void getCourse_shouldReturnCourse() {
-        // when
+        // given
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+
+        // when
         var foundCourse = courseService.get(courseId);
 
         // then
@@ -72,9 +76,13 @@ public class CourseServiceImplUnitTest {
 
     @Test
     void getCourse_shouldThrowException() {
+        // given
         when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
 
+        // when
         assertThrows(EntityNotFoundException.class, () -> courseService.get(courseId));
+
+        // then
         verify(courseRepository, times(1)).findById(courseId);
     }
 
@@ -97,9 +105,9 @@ public class CourseServiceImplUnitTest {
                         .build()
         );
         var coursePage = new PageImpl<>(courses, pageable, courses.size());
+        when(courseRepository.findAll(any(Pageable.class))).thenReturn(coursePage);
 
         // when
-        when(courseRepository.findAll(any(Pageable.class))).thenReturn(coursePage);
         var pageResult = courseService.getAll(Pageable.unpaged());
 
         // then
@@ -109,9 +117,11 @@ public class CourseServiceImplUnitTest {
 
     @Test
     void updateCourse_shouldUpdateCourse() {
-        // when
+        // given
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
         when(courseRepository.save(any(Course.class))).thenReturn(course);
+
+        // when
         var updatedCourse = courseService.update(courseId, course);
 
         // then
@@ -122,8 +132,10 @@ public class CourseServiceImplUnitTest {
 
     @Test
     void deleteCourse_shouldRemoveCourse() {
-        // when
+        // given
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+
+        // when
         courseService.delete(courseId);
 
         // then

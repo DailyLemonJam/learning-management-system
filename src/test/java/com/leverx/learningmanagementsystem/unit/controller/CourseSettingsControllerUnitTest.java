@@ -56,9 +56,9 @@ public class CourseSettingsControllerUnitTest {
                 .endDate(LocalDateTime.of(2025, 8, 25, 20, 0))
                 .isPublic(true)
                 .build();
+        when(courseSettingsService.get(id)).thenReturn(settings);
 
         // when
-        when(courseSettingsService.get(id)).thenReturn(settings);
         var result = mockMvc.perform(get("/course-settings/{id}", id)
                 .with(csrf())
                 .with(user(user).password(password)));
@@ -86,9 +86,9 @@ public class CourseSettingsControllerUnitTest {
                 .endDate(request.endDate())
                 .isPublic(request.isPublic())
                 .build();
+        when(courseSettingsService.update(id, updateRequestModel)).thenReturn(updatedSettings);
 
         // when
-        when(courseSettingsService.update(id, updateRequestModel)).thenReturn(updatedSettings);
         var result = mockMvc.perform(put("/course-settings/{id}", id)
                 .with(csrf())
                 .with(user(user).password(password))
