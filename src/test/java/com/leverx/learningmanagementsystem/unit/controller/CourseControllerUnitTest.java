@@ -10,6 +10,7 @@ import com.leverx.learningmanagementsystem.course.mapper.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -38,6 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(CourseController.class)
 @Import({CourseMapper.class, CourseSettingsMapper.class})
+@Tag("Unit")
 public class CourseControllerUnitTest {
 
     @Autowired

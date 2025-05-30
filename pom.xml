@@ -132,10 +132,12 @@
 
     <build>
         <plugins>
+            <!-- Spring Boot Maven -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!-- Maven compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -151,17 +153,17 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!-- Surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <argLine>${surefireArgLine}</argLine>
-                    <includes>
-                        <include>**/*UnitTest.java</include>
-                    </includes>
+                    <groups>Unit</groups>
                 </configuration>
             </plugin>
+            <!-- Failsafe -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -170,23 +172,19 @@
                     <execution>
                         <goals>
                             <goal>integration-test</goal>
-                            <goal>verify</goal>
                         </goals>
                         <configuration>
                             <argLine>${failsafeArgLine}</argLine>
+                            <groups>Integration</groups>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <!-- Jacoco -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/dto/*.class</exclude>
-                    </excludes>
-                </configuration>
                 <!-- Unit -->
                 <executions>
                     <execution>
