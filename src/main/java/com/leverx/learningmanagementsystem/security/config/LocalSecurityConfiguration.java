@@ -44,22 +44,6 @@ public class LocalSecurityConfiguration {
         return new InMemoryUserDetailsManager(defaultUser, manager);
     }
 
-    private UserDetails createDefaultUser() {
-        return User.builder()
-                .username(defaultUserUsername)
-                .password(passwordEncoder().encode(defaultUserPassword))
-                .roles(Role.USER.getValue())
-                .build();
-    }
-
-    private UserDetails createManagerUser() {
-        return User.builder()
-                .username(managerUserUsername)
-                .password(passwordEncoder().encode(managerUserPassword))
-                .roles(Role.MANAGER.getValue())
-                .build();
-    }
-
     @Bean
     @Order(1)
     public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -95,4 +79,19 @@ public class LocalSecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    private UserDetails createDefaultUser() {
+        return User.builder()
+                .username(defaultUserUsername)
+                .password(passwordEncoder().encode(defaultUserPassword))
+                .roles(Role.USER.getValue())
+                .build();
+    }
+
+    private UserDetails createManagerUser() {
+        return User.builder()
+                .username(managerUserUsername)
+                .password(passwordEncoder().encode(managerUserPassword))
+                .roles(Role.MANAGER.getValue())
+                .build();
+    }
 }

@@ -156,6 +156,7 @@ public class CourseControllerIT {
 
         // when
         var result = mockMvc.perform(get("/courses")
+                .param("sort", "price,asc")
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
         // then

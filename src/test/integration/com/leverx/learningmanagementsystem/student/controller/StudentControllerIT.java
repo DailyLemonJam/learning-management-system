@@ -65,7 +65,6 @@ class StudentControllerIT {
     }
 
     @Test
-    //@Sql(scripts = "/data/clear-db.sql")
     public void createStudent_givenCreateStudentRequestDto_shouldReturnStudentAndReturn201() throws Exception {
         // given
         var requestDto = new CreateStudentRequestDto("John", "Johnson",
@@ -93,7 +92,6 @@ class StudentControllerIT {
     }
 
     @Test
-    //@Sql(scripts = "/data/clear-db.sql")
     public void getStudent_givenId_shouldReturnStudentAndReturn200() throws Exception {
         // given
         var student = Student.builder()
@@ -119,7 +117,6 @@ class StudentControllerIT {
     }
 
     @Test
-    //@Sql(scripts = "/data/clear-db.sql")
     public void getAllStudents_shouldReturnAllStudentsAndReturn200() throws Exception {// given
         var student = Student.builder()
                 .firstName("John")
@@ -133,6 +130,7 @@ class StudentControllerIT {
 
         // when
         var result = mockMvc.perform(get("/students")
+                .param("sort", "lastName,asc")
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
         // then
@@ -141,7 +139,6 @@ class StudentControllerIT {
     }
 
     @Test
-    //@Sql(scripts = "/data/clear-db.sql")
     public void updateStudent_givenUpdateStudentRequestDto_shouldUpdateStudentAndReturn200() throws Exception {
         // given
         var student = Student.builder()
@@ -174,7 +171,6 @@ class StudentControllerIT {
     }
 
     @Test
-    //@Sql(scripts = "/data/clear-db.sql")
     public void deleteStudent_givenId_shouldDeleteStudentAndReturn204AndReturn404() throws Exception {
         // given
         var student = Student.builder()

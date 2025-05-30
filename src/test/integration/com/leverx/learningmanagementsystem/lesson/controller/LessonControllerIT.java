@@ -179,11 +179,12 @@ public class LessonControllerIT {
                 .duration(120)
                 .course(savedCourse)
                 .build();
-        var savedVideoLesson = lessonRepository.save(videoLesson);
-        var savedClassroomLesson = lessonRepository.save(classroomLesson);
+        lessonRepository.save(videoLesson);
+        lessonRepository.save(classroomLesson);
 
         // when
         var result = mockMvc.perform(get("/lessons")
+                .param("sort", "duration,asc")
                 .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
 
         // then
