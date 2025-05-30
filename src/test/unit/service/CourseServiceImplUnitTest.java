@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.unit.service;
+package service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.model.CourseSettings;

@@ -1,6 +1,5 @@
-package com.leverx.learningmanagementsystem.integration.controller;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leverx.learningmanagementsystem.LearningManagementSystemApplication;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
@@ -37,7 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = LearningManagementSystemApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Tag("Integration")
