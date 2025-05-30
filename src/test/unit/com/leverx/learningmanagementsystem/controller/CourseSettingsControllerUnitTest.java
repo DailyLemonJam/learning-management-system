@@ -1,7 +1,6 @@
-package controller;
+package com.leverx.learningmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.LearningManagementSystemApplication;
 import com.leverx.learningmanagementsystem.course.controller.CourseSettingsController;
 import com.leverx.learningmanagementsystem.course.dto.settings.UpdateCourseSettingsRequestDto;
 import com.leverx.learningmanagementsystem.course.mapper.CourseSettingsMapper;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CourseSettingsController.class)
 @Import(CourseSettingsMapper.class)
 @Tag("Unit")
-@ContextConfiguration(classes = LearningManagementSystemApplication.class)
 public class CourseSettingsControllerUnitTest {
 
     @Autowired

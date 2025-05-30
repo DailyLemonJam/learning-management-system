@@ -1,6 +1,5 @@
-package repository;
+package com.leverx.learningmanagementsystem.repository;
 
-import com.leverx.learningmanagementsystem.LearningManagementSystemApplication;
 import com.leverx.learningmanagementsystem.student.model.Language;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
 @Tag("Unit")
-@ContextConfiguration(classes = LearningManagementSystemApplication.class)
 public class StudentRepositoryUnitTest {
 
     @Autowired
