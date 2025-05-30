@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.controller;
+package com.leverx.learningmanagementsystem.coursesettings.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.course.controller.CourseSettingsController;

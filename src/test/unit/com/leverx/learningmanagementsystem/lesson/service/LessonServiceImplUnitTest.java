@@ -1,11 +1,10 @@
-package com.leverx.learningmanagementsystem.service;
+package com.leverx.learningmanagementsystem.lesson.service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
-import com.leverx.learningmanagementsystem.lesson.service.LessonServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

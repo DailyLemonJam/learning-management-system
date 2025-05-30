@@ -1,7 +1,6 @@
-package com.leverx.learningmanagementsystem.controller;
+package com.leverx.learningmanagementsystem.course.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.course.controller.CourseController;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.UpdateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSettingsRequestDto;

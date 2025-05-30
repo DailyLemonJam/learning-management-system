@@ -1,8 +1,7 @@
-package com.leverx.learningmanagementsystem.repository;
+package com.leverx.learningmanagementsystem.student.repository;
 
 import com.leverx.learningmanagementsystem.student.model.Language;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

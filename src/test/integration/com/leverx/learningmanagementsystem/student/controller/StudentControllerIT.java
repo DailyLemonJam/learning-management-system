@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem;
+package com.leverx.learningmanagementsystem.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.security.role.Role;
