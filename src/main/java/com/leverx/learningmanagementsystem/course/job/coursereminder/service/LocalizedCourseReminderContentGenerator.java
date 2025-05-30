@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.course.job.coursereminder.service;
 
-import com.leverx.learningmanagementsystem.student.model.Language;
 import com.samskivert.mustache.Mustache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mustache.MustacheResourceTemplateLoader;
@@ -23,13 +22,11 @@ public class LocalizedCourseReminderContentGenerator {
     private final MessageSource messageSource;
     private final MustacheResourceTemplateLoader mustacheResourceTemplateLoader;
 
-    public String generateSubject(Language language, String courseTitle) {
-        var locale = getLocaleFromLanguage(language);
+    public String generateSubject(Locale locale, String courseTitle) {
         return "%s: %s".formatted(messageSource.getMessage(SUBJECT, null, locale), courseTitle);
     }
 
-    public String generateBody(Language language, Map<String, String> data) {
-        var locale = getLocaleFromLanguage(language);
+    public String generateBody(Locale locale, Map<String, String> data) {
         var greetings = messageSource.getMessage(GREETINGS, null, locale);
         var mainContent = messageSource.getMessage(MAIN_CONTENT, null, locale);
         var closing = messageSource.getMessage(CLOSING, null, locale);
@@ -37,13 +34,6 @@ public class LocalizedCourseReminderContentGenerator {
         data.put(MAIN_CONTENT, mainContent);
         data.put(CLOSING, closing);
         return generate(data);
-    }
-
-    private Locale getLocaleFromLanguage(Language language) {
-        return switch (language) {
-            case ENGLISH -> Locale.ENGLISH;
-            case FRENCH -> Locale.FRENCH;
-        };
     }
 
     private String generate(Map<String, String> extendedData) {

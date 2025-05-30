@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.security.role.Role;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
-import com.leverx.learningmanagementsystem.student.model.Language;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -22,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.UUID;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -70,7 +70,7 @@ class StudentControllerIT {
         // given
         var requestDto = new CreateStudentRequestDto("John", "Johnson",
                 "validemail@email.com", LocalDate.now().minusDays(365 * 25),
-                Language.ENGLISH);
+                Locale.ENGLISH);
 
         // when
         var result = mockMvc.perform(post("/students")
@@ -156,7 +156,7 @@ class StudentControllerIT {
 
         var localDate = LocalDate.now().minusDays(365 * 24);
         var request = new UpdateStudentRequestDto("New not last name", "New not first name",
-                "email@email.com", localDate, Language.ENGLISH);
+                "email@email.com", localDate, Locale.ENGLISH);
 
         // when
         var result = mockMvc.perform(put("/students/{id}", savedStudent.getId())

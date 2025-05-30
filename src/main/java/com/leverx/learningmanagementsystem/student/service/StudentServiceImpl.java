@@ -60,7 +60,7 @@ public class StudentServiceImpl implements StudentService {
         existingStudent.setLastName(student.getLastName());
         existingStudent.setEmail(student.getEmail());
         existingStudent.setDateOfBirth(student.getDateOfBirth());
-        existingStudent.setLanguage(student.getLanguage());
+        existingStudent.setLocale(student.getLocale());
         return studentRepository.save(existingStudent);
     }
 

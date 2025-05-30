@@ -1,14 +1,16 @@
 package com.leverx.learningmanagementsystem.student.dto;
 
-import com.leverx.learningmanagementsystem.student.model.Language;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Schema(description = "Student Response DTO")
@@ -29,9 +31,8 @@ public record StudentResponseDto(@Schema(description = "Student UUID") @NotNull 
                                  @Schema(description = "Student coins")
                                  @NotNull BigDecimal coins,
 
-                                 @Schema(description = "Language of student")
-                                 @NotNull @Enumerated(EnumType.STRING)
-                                 Language language,
+                                 @Schema(description = "Locale of student")
+                                 Locale locale,
 
                                  @Schema(description = "Enrolled courses")
                                  @NotNull List<UUID> courses

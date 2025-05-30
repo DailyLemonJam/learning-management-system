@@ -16,7 +16,7 @@
 
     <changeSet id="changeset-1.3.0_002" author="author">
         <addColumn tableName="student">
-            <column name="language" type="varchar(30)"/>
+            <column name="locale" type="varchar(30)"/>
         </addColumn>
     </changeSet>
 

@@ -1,12 +1,14 @@
 package com.leverx.learningmanagementsystem.student.dto;
 
-import com.leverx.learningmanagementsystem.student.model.Language;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 @Schema(description = "Update Student Request DTO")
 public record UpdateStudentRequestDto(@Schema(description = "Updates Student firstName")
@@ -22,6 +24,6 @@ public record UpdateStudentRequestDto(@Schema(description = "Updates Student fir
                                       @NotNull @Past LocalDate dateOfBirth,
 
                                       @Schema(description = "Language of student")
-                                      @NotNull @Enumerated(EnumType.STRING)
-                                      Language language) {
+                                      @NotNull
+                                      Locale locale) {
 }

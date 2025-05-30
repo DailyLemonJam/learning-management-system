@@ -17,6 +17,7 @@ import org.hibernate.type.SqlTypes;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Getter
@@ -51,9 +52,8 @@ public class Student extends AuditableEntity {
     @Column(name = "coins")
     private BigDecimal coins;
 
-    @Column(name = "language")
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    @Column(name = "locale")
+    private Locale locale;
 
     @ManyToMany
     @JoinTable(name = "student_course",

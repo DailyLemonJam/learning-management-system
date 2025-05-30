@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.student.repository;
 
-import com.leverx.learningmanagementsystem.student.model.Language;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.AfterEach;
@@ -16,8 +15,11 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -35,7 +37,7 @@ public class StudentRepositoryUnitTest {
         student = Student.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .language(Language.ENGLISH)
+                .locale(Locale.ENGLISH)
                 .email("email@gmail.com")
                 .coins(BigDecimal.valueOf(150))
                 .dateOfBirth(LocalDate.EPOCH)
@@ -55,7 +57,7 @@ public class StudentRepositoryUnitTest {
         var newStudent = Student.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .language(Language.ENGLISH)
+                .locale(Locale.ENGLISH)
                 .email("email@gmail.com")
                 .coins(BigDecimal.valueOf(50))
                 .dateOfBirth(LocalDate.EPOCH)
@@ -94,7 +96,7 @@ public class StudentRepositoryUnitTest {
         var newStudentData = Student.builder()
                 .firstName("Bob")
                 .lastName("Smith")
-                .language(Language.FRENCH)
+                .locale(Locale.FRENCH)
                 .email("newemail@gmail.com")
                 .coins(BigDecimal.valueOf(250))
                 .dateOfBirth(LocalDate.now().minusDays(250))
@@ -104,7 +106,7 @@ public class StudentRepositoryUnitTest {
         // when
         var studentToUpdate = studentRepository.findById(student.getId())
                 .orElseThrow(EntityNotFoundException::new);
-        studentToUpdate.setLanguage(newStudentData.getLanguage());
+        studentToUpdate.setLocale(newStudentData.getLocale());
         studentToUpdate.setFirstName(newStudentData.getFirstName());
         studentToUpdate.setLastName(newStudentData.getLastName());
         studentToUpdate.setEmail(newStudentData.getEmail());
