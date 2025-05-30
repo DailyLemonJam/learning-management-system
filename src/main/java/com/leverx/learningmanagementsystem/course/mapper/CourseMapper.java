@@ -7,11 +7,11 @@ import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,10 +32,8 @@ public class CourseMapper {
         );
     }
 
-    public List<CourseResponseDto> toDtos(List<Course> courses) {
-        var dtos = new ArrayList<CourseResponseDto>();
-        courses.forEach(course -> dtos.add(toDto(course)));
-        return dtos;
+    public Page<CourseResponseDto> toDtos(Page<Course> courses) {
+        return courses.map(this::toDto);
     }
 
     public Course toModel(CreateCourseRequestDto request) {

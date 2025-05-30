@@ -4,6 +4,8 @@ spring:
     username: ${vcap.services.lms-hana-schema.credentials.user}
     password: ${vcap.services.lms-hana-schema.credentials.password}
     driver-class-name: ${vcap.services.lms-hana-schema.credentials.driver}
+  jpa:
+    database-platform: org.hibernate.dialect.HANADialect
 
 feature-flag-service:
   uri: ${vcap.services.lms-feature-flag.credentials.uri}

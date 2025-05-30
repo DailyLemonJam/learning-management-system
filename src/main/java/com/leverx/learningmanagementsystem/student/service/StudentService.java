@@ -1,8 +1,9 @@
 package com.leverx.learningmanagementsystem.student.service;
 
 import com.leverx.learningmanagementsystem.student.model.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface StudentService {
@@ -11,7 +12,7 @@ public interface StudentService {
 
     Student get(UUID id);
 
-    List<Student> getAll();
+    Page<Student> getAll(Pageable pageable);
 
     Student update(UUID id, Student student);
 

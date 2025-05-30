@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.student.model;
 
+import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.course.model.Course;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -9,39 +11,30 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinTable;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
-import static jakarta.persistence.GenerationType.UUID;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "student")
-public class Student {
+public class Student extends AuditableEntity {
 
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "first_name")
@@ -58,6 +51,9 @@ public class Student {
 
     @Column(name = "coins")
     private BigDecimal coins;
+
+    @Column(name = "locale")
+    private Locale locale;
 
     @ManyToMany
     @JoinTable(name = "student_course",

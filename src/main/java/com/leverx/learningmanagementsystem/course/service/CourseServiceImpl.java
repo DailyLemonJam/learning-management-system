@@ -4,10 +4,11 @@ import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,8 +30,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getAll() {
-        return courseRepository.findAll();
+    public Page<Course> getAll(Pageable pageable) {
+        return courseRepository.findAll(pageable);
     }
 
     @Transactional

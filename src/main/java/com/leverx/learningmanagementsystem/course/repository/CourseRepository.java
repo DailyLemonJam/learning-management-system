@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.course.repository;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -17,7 +19,7 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
     List<Course> findAllByCourseSettings_StartDateBetween(LocalDateTime tomorrow, LocalDateTime afterTomorrow);
 
     @EntityGraph(attributePaths = {"lessons"})
-    List<Course> findAll();
+    Page<Course> findAll(Pageable pageable);
 
     @EntityGraph(attributePaths = {"lessons"})
     Optional<Course> findById(UUID id);

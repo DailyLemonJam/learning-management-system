@@ -1,15 +1,15 @@
 package com.leverx.learningmanagementsystem.student.mapper;
 
+import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
-import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,16 +23,15 @@ public class StudentMapper {
                 student.getEmail(),
                 student.getDateOfBirth(),
                 student.getCoins(),
+                student.getLocale(),
                 student.getCourses().stream()
                         .map(Course::getId)
                         .collect(Collectors.toList())
         );
     }
 
-    public List<StudentResponseDto> toDtos(List<Student> students) {
-        var dtos = new ArrayList<StudentResponseDto>();
-        students.forEach(student -> dtos.add(toDto(student)));
-        return dtos;
+    public Page<StudentResponseDto> toDtos(Page<Student> students) {
+        return students.map(this::toDto);
     }
 
     public Student toModel(CreateStudentRequestDto request) {
@@ -41,6 +40,7 @@ public class StudentMapper {
                 .lastName(request.lastName())
                 .email(request.email())
                 .dateOfBirth(request.dateOfBirth())
+                .locale(request.locale())
                 .courses(new ArrayList<>())
                 .coins(new BigDecimal(0))
                 .build();
@@ -52,6 +52,7 @@ public class StudentMapper {
                 .lastName(request.lastName())
                 .email(request.email())
                 .dateOfBirth(request.dateOfBirth())
+                .locale(request.locale())
                 .build();
     }
 

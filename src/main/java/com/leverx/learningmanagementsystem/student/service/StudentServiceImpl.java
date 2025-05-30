@@ -5,10 +5,11 @@ import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.student.validator.StudentValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,8 +33,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getAll() {
-        return studentRepository.findAll();
+    public Page<Student> getAll(Pageable pageable) {
+        return studentRepository.findAll(pageable);
     }
 
     @Transactional
@@ -59,6 +60,7 @@ public class StudentServiceImpl implements StudentService {
         existingStudent.setLastName(student.getLastName());
         existingStudent.setEmail(student.getEmail());
         existingStudent.setDateOfBirth(student.getDateOfBirth());
+        existingStudent.setLocale(student.getLocale());
         return studentRepository.save(existingStudent);
     }
 

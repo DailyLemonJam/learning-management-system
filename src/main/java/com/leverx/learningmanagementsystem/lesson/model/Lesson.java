@@ -1,43 +1,37 @@
 package com.leverx.learningmanagementsystem.lesson.model;
 
+import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.course.model.Course;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
-import static jakarta.persistence.GenerationType.UUID;
 
 import java.util.UUID;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "lesson")
-public class Lesson {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "lesson_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Lesson extends AuditableEntity {
 
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "title")
