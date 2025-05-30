@@ -12,7 +12,7 @@ public class DestinationServiceAccessTokenProviderLocal implements DestinationSe
     }
 
     @Override
-    public void evictCache(String key) {
-
+    public String refreshAccessToken(String clientId, String clientSecret, String tokenUrl) {
+        return "";
     }
 }
