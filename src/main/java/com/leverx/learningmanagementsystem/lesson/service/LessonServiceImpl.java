@@ -44,16 +44,14 @@ public class LessonServiceImpl implements LessonService {
     @Transactional
     @Override
     public Lesson update(UUID lessonId, Lesson updatedLesson) {
-        var existingLesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find lesson with id: " + lessonId));
+        var existingLesson = get(lessonId);
         return updateLesson(existingLesson, updatedLesson);
     }
 
     @Transactional
     @Override
     public void delete(UUID lessonId) {
-        var lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find lesson with id: " + lessonId));
+        var lesson = get(lessonId);
         lessonRepository.delete(lesson);
     }
 

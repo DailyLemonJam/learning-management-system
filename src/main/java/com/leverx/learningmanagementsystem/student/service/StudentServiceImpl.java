@@ -43,16 +43,14 @@ public class StudentServiceImpl implements StudentService {
     public Student update(UUID id, Student student) {
         studentValidator.onUpdate(student);
 
-        var existingStudent = studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
+        var existingStudent = get(id);
         return updateStudent(existingStudent, student);
     }
 
     @Transactional
     @Override
     public void delete(UUID id) {
-        var student = studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
+        var student = get(id);
         studentRepository.delete(student);
     }
 
