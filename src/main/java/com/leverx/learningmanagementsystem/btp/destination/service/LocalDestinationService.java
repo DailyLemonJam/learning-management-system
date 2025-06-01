@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("local")
-public class DestinationServiceLocal implements DestinationService {
+public class LocalDestinationService implements DestinationService {
 
     @Override
     public DestinationResponseDto getByName(String name) {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("cloud")
 @RequiredArgsConstructor
-public class DestinationServiceAccessTokenProviderImpl implements DestinationServiceAccessTokenProvider {
+public class CloudDestinationServiceAccessTokenProvider implements DestinationServiceAccessTokenProvider {
 
     private final OAuth2TokenClient oAuth2TokenClient;
 

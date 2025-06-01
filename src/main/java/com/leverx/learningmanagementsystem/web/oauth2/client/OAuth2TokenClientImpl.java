@@ -3,7 +3,6 @@ package com.leverx.learningmanagementsystem.web.oauth2.client;
 import com.leverx.learningmanagementsystem.web.oauth2.exception.OAuth2TokenClientBadResponseException;
 import com.leverx.learningmanagementsystem.web.oauth2.dto.AccessTokenResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,7 +12,6 @@ import java.util.Map;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 
 @Component
-@Profile("cloud")
 @RequiredArgsConstructor
 public class OAuth2TokenClientImpl implements OAuth2TokenClient {
 

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("local")
-public class DestinationServiceAccessTokenProviderLocal implements DestinationServiceAccessTokenProvider {
+public class LocalDestinationServiceAccessTokenProvider implements DestinationServiceAccessTokenProvider {
 
     @Override
     public String getAccessToken(String clientId, String clientSecret, String url) {

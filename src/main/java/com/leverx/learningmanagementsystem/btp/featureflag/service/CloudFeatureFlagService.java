@@ -14,7 +14,7 @@ import java.util.Base64;
 @Service
 @Profile("cloud")
 @RequiredArgsConstructor
-public class FeatureFlagServiceImpl implements FeatureFlagService {
+public class CloudFeatureFlagService implements FeatureFlagService {
 
     private static final String EVALUATE_ENDPOINT = "/api/v2/evaluate/";
     private static final String AUTHORIZATION = "AUTHORIZATION";
