@@ -14,7 +14,11 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeatureFlagProperties {
+
     private String uri;
+
     private String username;
+
     private String password;
+
 }

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile("local")
 public class SmtpServerSelectorServiceLocal implements SmtpServerSelectorService {
+
     @Override
     public SmtpServerProperties getSmtpServerProperties() {
         return new SmtpServerProperties();
     }
+
 }

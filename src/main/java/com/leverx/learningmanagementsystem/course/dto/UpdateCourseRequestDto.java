@@ -8,7 +8,16 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Schema(description = "Update Course Request DTO")
-public record UpdateCourseRequestDto(@Schema(description = "Updates Course title") @NotBlank @Size(min = 3, max = 255) String title,
-                                     @Schema(description = "Updates Course description") @NotBlank @Size(min = 3, max = 255) String description,
-                                     @Schema(description = "Updates Course price") @NotNull BigDecimal price) {
+public record UpdateCourseRequestDto(
+
+        @Schema(description = "Updates Course title")
+        @NotBlank @Size(min = 3, max = 255) String title,
+
+        @Schema(description = "Updates Course description")
+        @NotBlank @Size(min = 3, max = 255) String description,
+
+        @Schema(description = "Updates Course price")
+        @NotNull BigDecimal price
+
+) {
 }

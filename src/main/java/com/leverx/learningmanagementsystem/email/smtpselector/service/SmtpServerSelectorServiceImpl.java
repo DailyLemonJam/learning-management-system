@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Profile("cloud")
 @RequiredArgsConstructor
 public class SmtpServerSelectorServiceImpl implements SmtpServerSelectorService {
+
     private static final String DESTINATION_SERVICE_ENABLED = "destination-service-enabled";
     private static final String SMTP_SERVER_DESTINATION_NAME = "SmtpDestination";
 

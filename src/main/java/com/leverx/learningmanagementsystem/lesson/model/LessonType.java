@@ -3,6 +3,7 @@ package com.leverx.learningmanagementsystem.lesson.model;
 import lombok.Getter;
 
 public enum LessonType {
+
     CLASSROOM("CLASSROOM"), VIDEO("VIDEO");
 
     @Getter

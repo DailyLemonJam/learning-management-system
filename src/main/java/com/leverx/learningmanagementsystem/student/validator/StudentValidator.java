@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class StudentValidator {
+
     private final StudentRepository studentRepository;
 
     public void onCreate(Student student) {

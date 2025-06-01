@@ -16,10 +16,17 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Builder
 public class SmtpServerProperties {
+
     private String user;
+
     private String password;
+
     private String from;
+
     private String host;
+
     private String port;
+
     private String protocol;
+
 }

@@ -18,6 +18,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PaymentsServiceImpl implements PaymentsService {
+
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
 
@@ -67,4 +68,5 @@ public class PaymentsServiceImpl implements PaymentsService {
         courseRepository.save(course);
         studentRepository.save(student);
     }
+
 }

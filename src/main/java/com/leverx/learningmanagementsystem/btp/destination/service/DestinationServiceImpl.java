@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Profile("cloud")
 @RequiredArgsConstructor
 public class DestinationServiceImpl implements DestinationService {
+
     private static final String DESTINATION_ENDPOINT = "/destination-destinationConfiguration/v1/destinations/";
 
     private static final String AUTHORIZATION = "AUTHORIZATION";

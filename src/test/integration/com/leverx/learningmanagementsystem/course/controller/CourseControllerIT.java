@@ -7,7 +7,7 @@ import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSetti
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.security.role.Role;
+import com.leverx.learningmanagementsystem.web.security.role.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

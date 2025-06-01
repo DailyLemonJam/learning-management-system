@@ -9,7 +9,7 @@ import com.leverx.learningmanagementsystem.lesson.dto.UpdateLessonRequestDto;
 import com.leverx.learningmanagementsystem.lesson.model.ClassroomLesson;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
-import com.leverx.learningmanagementsystem.security.role.Role;
+import com.leverx.learningmanagementsystem.web.security.role.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

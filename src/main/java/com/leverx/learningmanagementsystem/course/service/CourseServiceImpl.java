@@ -14,6 +14,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
+
     private final CourseRepository courseRepository;
 
     @Transactional
@@ -56,4 +57,5 @@ public class CourseServiceImpl implements CourseService {
         existingCourse.setPrice(course.getPrice());
         return courseRepository.save(existingCourse);
     }
+
 }

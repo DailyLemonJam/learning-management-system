@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile("local")
 public class UserProvidedServiceLocal implements UserProvidedService {
+
     @Override
     public SmtpServerProperties getSmtpServerProperties() {
         return null;
     }
+
 }

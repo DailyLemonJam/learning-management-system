@@ -12,6 +12,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class CourseSettingsServiceImpl implements CourseSettingsService {
+
     private final CourseSettingsRepository courseSettingsRepository;
 
     @Override

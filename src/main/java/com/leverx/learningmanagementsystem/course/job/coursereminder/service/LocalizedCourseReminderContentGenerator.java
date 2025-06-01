@@ -13,6 +13,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class LocalizedCourseReminderContentGenerator {
+
     private final String GREETINGS = "greeting";
     private final String MAIN_CONTENT = "mainContent";
     private final String CLOSING = "closing";

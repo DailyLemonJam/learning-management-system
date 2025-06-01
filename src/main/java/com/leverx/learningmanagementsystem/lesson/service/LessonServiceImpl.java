@@ -17,6 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
+
     private final LessonRepository lessonRepository;
     private final CourseRepository courseRepository;
 

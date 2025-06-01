@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
+
     Optional<Student> findByEmail(String email);
 
     @EntityGraph(attributePaths = {"courses"})
@@ -17,4 +18,5 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     @EntityGraph(attributePaths = {"courses"})
     Optional<Student> findById(UUID id);
+
 }

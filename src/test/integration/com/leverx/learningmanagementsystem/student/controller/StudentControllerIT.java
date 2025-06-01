@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.security.role.Role;
+import com.leverx.learningmanagementsystem.web.security.role.Role;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.model.Student;

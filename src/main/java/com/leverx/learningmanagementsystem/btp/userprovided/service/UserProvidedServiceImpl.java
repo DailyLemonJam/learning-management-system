@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Profile("cloud")
 @RequiredArgsConstructor
 public class UserProvidedServiceImpl implements UserProvidedService {
+
     private final SmtpServerProperties smtpServerProperties;
 
     @Override

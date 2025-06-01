@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile("local")
 public class FeatureFlagServiceLocal implements FeatureFlagService {
+
     @Override
     public FeatureFlagResponseDto getFeatureFlag(String name) {
         return null;
     }
+
 }

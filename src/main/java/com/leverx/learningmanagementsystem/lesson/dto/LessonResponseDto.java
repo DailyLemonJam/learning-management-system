@@ -1,39 +1,38 @@
 package com.leverx.learningmanagementsystem.lesson.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
 @Schema(description = "Lesson Response DTO")
-public record LessonResponseDto(@Schema(description = "Lesson UUID")
-                                @NotNull UUID id,
+public record LessonResponseDto(
 
-                                @Schema(description = "Lesson title")
-                                @NotBlank @Size(min = 3, max = 255) String title,
+        @Schema(description = "Lesson UUID")
+        UUID id,
 
-                                @Schema(description = "Lesson duration")
-                                @NotNull @Positive Integer duration,
+        @Schema(description = "Lesson title")
+        String title,
 
-                                @Schema(description = "Lesson type: Classroom or Video")
-                                @NotNull String lessonType,
+        @Schema(description = "Lesson duration")
+        Integer duration,
 
-                                @Schema(description = "Physical location (for classroom)")
-                                @Nullable String location,
+        @Schema(description = "Lesson type: Classroom or Video")
+        String lessonType,
 
-                                @Schema(description = "Max people allowed (for classroom)")
-                                @Nullable @Positive Integer capacity,
+        @Schema(description = "Physical location (for classroom)")
+        String location,
 
-                                @Schema(description = "Url for joining (for video)")
-                                @Nullable String url,
+        @Schema(description = "Max people allowed (for classroom)")
+        Integer capacity,
 
-                                @Schema(description = "Platform where lesson is held (for video)")
-                                @Nullable String platform,
+        @Schema(description = "Url for joining (for video)")
+        String url,
 
-                                @Schema(description = "Associated Course UUID")
-                                @NotNull UUID courseId) {
+        @Schema(description = "Platform where lesson is held (for video)")
+        String platform,
+
+        @Schema(description = "Associated Course UUID")
+        UUID courseId
+
+) {
 }

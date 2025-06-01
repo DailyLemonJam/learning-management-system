@@ -1,9 +1,16 @@
 package com.leverx.learningmanagementsystem.course.model;
 
-import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
+import com.leverx.learningmanagementsystem.core.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;

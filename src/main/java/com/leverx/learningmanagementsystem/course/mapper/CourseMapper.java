@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class CourseMapper {
+
     private final CourseSettingsMapper courseSettingsMapper;
 
     public CourseResponseDto toDto(Course course) {

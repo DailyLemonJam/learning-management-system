@@ -23,6 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Profile("cloud")
 public class DailyCourseReminderJob {
+
     private final CourseRepository courseRepository;
     private final SmtpServerSelectorService smtpServerSelectorService;
     private final EmailService emailService;

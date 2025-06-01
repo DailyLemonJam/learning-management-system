@@ -8,25 +8,28 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 @Schema(description = "Update Lesson Request DTO")
-public record UpdateLessonRequestDto(@Schema(description = "Updates Lesson title")
-                                     @NotBlank @Size(min = 3, max = 255) String title,
+public record UpdateLessonRequestDto(
 
-                                     @Schema(description = "Updates Lessons duration")
-                                     @Positive Integer duration,
+        @Schema(description = "Updates Lesson title")
+        @NotBlank @Size(min = 3, max = 255) String title,
 
-                                     @Schema(description = "Lesson type: Classroom or Video")
-                                     @NotNull String lessonType,
+        @Schema(description = "Updates Lessons duration")
+        @Positive Integer duration,
 
-                                     @Schema(description = "Physical location (for classroom)")
-                                     @Nullable String location,
+        @Schema(description = "Lesson type: Classroom or Video")
+        @NotNull String lessonType,
 
-                                     @Schema(description = "Max people allowed (for classroom)")
-                                     @Nullable @Positive Integer capacity,
+        @Schema(description = "Physical location (for classroom)")
+        @Nullable String location,
 
-                                     @Schema(description = "Url for joining (for video)")
-                                     @Nullable String url,
+        @Schema(description = "Max people allowed (for classroom)")
+        @Nullable @Positive Integer capacity,
 
-                                     @Schema(description = "Platform where lesson is held (for video)")
-                                     @Nullable String platform
+        @Schema(description = "Url for joining (for video)")
+        @Nullable String url,
+
+        @Schema(description = "Platform where lesson is held (for video)")
+        @Nullable String platform
+
 ) {
 }
