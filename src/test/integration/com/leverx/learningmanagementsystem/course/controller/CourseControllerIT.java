@@ -1,11 +1,10 @@
 package com.leverx.learningmanagementsystem.course.controller;
 
 import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
+import com.leverx.learningmanagementsystem.common.UtilsIT;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.UpdateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSettingsRequestDto;
-import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.web.security.role.Role;
 import org.junit.jupiter.api.AfterEach;
@@ -74,19 +73,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     @Test
     public void getCourse_givenId_shouldReturnCourseAndReturn200() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
         // when
@@ -103,32 +90,8 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     @Test
     public void getAllCourses_shouldReturnAllCoursesAndReturn200() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
-        var courseSettings2 = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course2 = Course.builder()
-                .title("Java Course 2")
-                .courseSettings(courseSettings2)
-                .description("The most useful description 2")
-                .price(BigDecimal.valueOf(100))
-                .coinsPaid(BigDecimal.valueOf(500))
-                .build();
-        course2.getCourseSettings().setCourse(course2);
+        var course = UtilsIT.createCourse();
+        var course2 = UtilsIT.createCourse2();
         courseRepository.save(course);
         courseRepository.save(course2);
 
@@ -147,19 +110,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     @Test
     public void updateCourse_givenUpdateCourseRequestDto_shouldUpdateCourseAndReturn200() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
         var updateRequest = new UpdateCourseRequestDto("New Nice Course Title", "New description", BigDecimal.valueOf(60));
@@ -182,19 +133,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     @Test
     public void deleteCourse_givenId_shouldDeleteCourseAndReturn204AndReturn404() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
         // when

@@ -1,13 +1,10 @@
 package com.leverx.learningmanagementsystem.lesson.controller;
 
 import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.course.model.CourseSettings;
+import com.leverx.learningmanagementsystem.common.UtilsIT;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonRequestDto;
 import com.leverx.learningmanagementsystem.lesson.dto.UpdateLessonRequestDto;
-import com.leverx.learningmanagementsystem.lesson.model.ClassroomLesson;
-import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
 import com.leverx.learningmanagementsystem.web.security.role.Role;
 import org.junit.jupiter.api.AfterEach;
@@ -15,9 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -51,19 +45,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void createVideoLesson_givenCreateLessonRequestDto_shouldReturnCourseAndReturn201() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
         var createLessonRequest = new CreateLessonRequestDto("First video lesson", 60, "VIDEO",
                 null, null, "video.url.com", "Zoom", savedCourse.getId());
@@ -94,26 +76,10 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void getVideoLesson_givenId_shouldReturnLessonAndReturn200() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
-        var lesson = VideoLesson.builder()
-                .title("Test lesson")
-                .platform("google")
-                .duration(90)
-                .course(savedCourse)
-                .build();
+
+        var lesson = UtilsIT.createVideoLesson(savedCourse);
         var savedLesson = lessonRepository.save(lesson);
 
         // when
@@ -122,7 +88,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
 
         // then
         result.andExpect(status().isOk());
-        result.andExpect(jsonPath("$.title").value("Test lesson"));
+        result.andExpect(jsonPath("$.title").value("Test video lesson"));
         result.andExpect(jsonPath("$.duration").value(90));
         result.andExpect(jsonPath("$.courseId").value(savedCourse.getId().toString()));
     }
@@ -130,33 +96,11 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void getAllLessons_shouldReturnAllLessonsAndReturn200() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
-        var videoLesson = VideoLesson.builder()
-                .title("Test video lesson")
-                .platform("google")
-                .duration(90)
-                .course(savedCourse)
-                .build();
-        var classroomLesson = ClassroomLesson.builder()
-                .title("Test classroom lesson")
-                .capacity(30)
-                .location("London")
-                .duration(120)
-                .course(savedCourse)
-                .build();
+
+        var videoLesson = UtilsIT.createVideoLesson(savedCourse);
+        var classroomLesson = UtilsIT.createClassroomLesson(savedCourse);
         lessonRepository.save(videoLesson);
         lessonRepository.save(classroomLesson);
 
@@ -181,27 +125,10 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void updateVideoLesson_givenUpdateLessonRequestDto_shouldUpdateLessonAndReturn200() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
-        var videoLesson = VideoLesson.builder()
-                .title("Test video lesson")
-                .platform("google")
-                .duration(90)
-                .course(savedCourse)
-                .build();
+        var videoLesson = UtilsIT.createVideoLesson(savedCourse);
         var savedVideoLesson = lessonRepository.save(videoLesson);
 
         var updateVideoLessonRequest = new UpdateLessonRequestDto("New Nice Course Title", 75, "VIDEO",
@@ -225,27 +152,10 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void deleteLesson_givenId_shouldDeleteLessonAndReturn204AndReturn404() throws Exception {
         // given
-        var courseSettings = CourseSettings.builder()
-                .startDate(LocalDateTime.now().plusDays(25))
-                .endDate(LocalDateTime.now().plusDays(50))
-                .isPublic(true)
-                .build();
-        var course = Course.builder()
-                .title("Java Course")
-                .courseSettings(courseSettings)
-                .description("The most useful description")
-                .price(BigDecimal.valueOf(50))
-                .coinsPaid(BigDecimal.valueOf(250))
-                .build();
-        course.getCourseSettings().setCourse(course);
+        var course = UtilsIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
-        var videoLesson = VideoLesson.builder()
-                .title("Test video lesson")
-                .platform("google")
-                .duration(90)
-                .course(savedCourse)
-                .build();
+        var videoLesson = UtilsIT.createVideoLesson(savedCourse);
         var savedVideoLesson = lessonRepository.save(videoLesson);
 
         // when

@@ -1,11 +1,11 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
 import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.web.security.role.Role;
+import com.leverx.learningmanagementsystem.common.UtilsIT;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
-import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
+import com.leverx.learningmanagementsystem.web.security.role.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.UUID;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -72,14 +71,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     @Test
     public void getStudent_givenId_shouldReturnStudentAndReturn200() throws Exception {
         // given
-        var student = Student.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email(UUID.randomUUID() + "john.doe@example.com")
-                .dateOfBirth(LocalDate.of(2000, 5, 8))
-                .coins(BigDecimal.valueOf(50))
-                .courses(new ArrayList<>())
-                .build();
+        var student = UtilsIT.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         // when
@@ -96,14 +88,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
 
     @Test
     public void getAllStudents_shouldReturnAllStudentsAndReturn200() throws Exception {// given
-        var student = Student.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email(UUID.randomUUID() + "john.doe@example.com")
-                .dateOfBirth(LocalDate.of(2000, 5, 8))
-                .coins(BigDecimal.valueOf(50))
-                .courses(new ArrayList<>())
-                .build();
+        var student = UtilsIT.createStudent(new ArrayList<>());
         studentRepository.save(student);
 
         // when
@@ -119,14 +104,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     @Test
     public void updateStudent_givenUpdateStudentRequestDto_shouldUpdateStudentAndReturn200() throws Exception {
         // given
-        var student = Student.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email(UUID.randomUUID() + "john.doe@example.com")
-                .dateOfBirth(LocalDate.of(2000, 5, 8))
-                .coins(BigDecimal.valueOf(50))
-                .courses(new ArrayList<>())
-                .build();
+        var student = UtilsIT.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         var localDate = LocalDate.now().minusDays(365 * 24);
@@ -151,14 +129,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     @Test
     public void deleteStudent_givenId_shouldDeleteStudentAndReturn204AndReturn404() throws Exception {
         // given
-        var student = Student.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email(UUID.randomUUID() + "john.doe@example.com")
-                .dateOfBirth(LocalDate.of(2000, 5, 8))
-                .coins(BigDecimal.valueOf(50))
-                .courses(new ArrayList<>())
-                .build();
+        var student = UtilsIT.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         // when

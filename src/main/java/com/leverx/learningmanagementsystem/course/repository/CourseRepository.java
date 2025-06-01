@@ -26,7 +26,7 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
     Optional<Course> findById(UUID id);
 
     @Lock(PESSIMISTIC_WRITE)
-    @Query("SELECT c FROM Course c LEFT JOIN FETCH c.lessons WHERE c.id=:id")
+    @Query("SELECT c FROM Course c WHERE c.id=:id")
     Optional<Course> findByIdForEnrollment(UUID id);
 
 }
