@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
 import com.leverx.learningmanagementsystem.web.security.role.Role;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
@@ -8,15 +8,9 @@ import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -33,26 +27,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-@Tag("Integration")
-class StudentControllerIT {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+class StudentControllerIT extends AbstractConfigurationIT {
 
     @Autowired
     private StudentRepository studentRepository;
-
-    @Value("${security.configuration.default-user.username}")
-    private String defaultUserUsername;
-
-    @Value("${security.configuration.default-user.password}")
-    private String defaultUserPassword;
 
     @BeforeEach
     public void setUp() {

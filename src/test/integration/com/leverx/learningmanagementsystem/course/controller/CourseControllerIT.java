@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.course.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.UpdateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSettingsRequestDto;
@@ -10,15 +10,9 @@ import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.web.security.role.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -32,34 +26,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-@Tag("Integration")
-public class CourseControllerIT {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+public class CourseControllerIT extends AbstractConfigurationIT {
 
     @Autowired
     private CourseRepository courseRepository;
 
-    @Value("${security.configuration.default-user.username}")
-    private String defaultUserUsername;
-
-    @Value("${security.configuration.default-user.password}")
-    private String defaultUserPassword;
-
     @BeforeEach
-    public void setUp() {
+    protected void setUp() {
         courseRepository.deleteAll();
     }
 
     @AfterEach
-    public void tearDown() {
+    protected void tearDown() {
         courseRepository.deleteAll();
     }
 
