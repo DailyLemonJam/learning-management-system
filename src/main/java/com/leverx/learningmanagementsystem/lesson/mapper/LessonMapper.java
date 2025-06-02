@@ -3,6 +3,7 @@ package com.leverx.learningmanagementsystem.lesson.mapper;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonRequestDto;
 import com.leverx.learningmanagementsystem.lesson.dto.LessonResponseDto;
 import com.leverx.learningmanagementsystem.lesson.dto.UpdateLessonRequestDto;
+import com.leverx.learningmanagementsystem.lesson.exception.LessonRequestValidationException;
 import com.leverx.learningmanagementsystem.lesson.model.ClassroomLesson;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.LessonType;
@@ -51,8 +52,10 @@ public class LessonMapper {
     public Lesson toModel(CreateLessonRequestDto request) {
         var lessonType = request.lessonType();
         if (Objects.equals(lessonType, LessonType.CLASSROOM.getName())) {
+            validateCreateClassroomLessonRequest(request);
             return createClassroomLesson(request);
         } else if (Objects.equals(lessonType, LessonType.VIDEO.getName())) {
+            validateCreateVideoLessonRequest(request);
             return createVideoLesson(request);
         }
         throw new RuntimeException("Incorrect lesson type");
@@ -61,9 +64,9 @@ public class LessonMapper {
     public Lesson toModel(UpdateLessonRequestDto request) {
         var lessonType = request.lessonType();
         if (Objects.equals(lessonType, LessonType.CLASSROOM.getName())) {
-            return createClassroomLesson(request);
+            return updateClassroomLesson(request);
         } else if (Objects.equals(lessonType, LessonType.VIDEO.getName())) {
-            return createVideoLesson(request);
+            return updateVideoLesson(request);
         }
         throw new RuntimeException("Incorrect lesson type");
     }
@@ -77,7 +80,7 @@ public class LessonMapper {
                 .build();
     }
 
-    private ClassroomLesson createClassroomLesson(UpdateLessonRequestDto request) {
+    private ClassroomLesson updateClassroomLesson(UpdateLessonRequestDto request) {
         return ClassroomLesson.builder()
                 .title(request.title())
                 .duration(request.duration())
@@ -95,13 +98,29 @@ public class LessonMapper {
                 .build();
     }
 
-    private VideoLesson createVideoLesson(UpdateLessonRequestDto request) {
+    private VideoLesson updateVideoLesson(UpdateLessonRequestDto request) {
         return VideoLesson.builder()
                 .title(request.title())
                 .duration(request.duration())
                 .url(request.url())
                 .platform(request.platform())
                 .build();
+    }
+
+    private void validateCreateVideoLessonRequest(CreateLessonRequestDto request) {
+        if (request.url() == null) {
+            throw new LessonRequestValidationException("Can't create Video Lesson without URL");
+        } else if (request.platform() == null) {
+            throw new LessonRequestValidationException("Can't create Video Lesson without Platform");
+        }
+    }
+
+    private void validateCreateClassroomLessonRequest(CreateLessonRequestDto request) {
+        if (request.location() == null) {
+            throw new LessonRequestValidationException("Can't create Classroom Lesson without Location");
+        } else if (request.capacity() == null) {
+            throw new LessonRequestValidationException("Can't create Classroom Lesson without Capacity");
+        }
     }
 
 }

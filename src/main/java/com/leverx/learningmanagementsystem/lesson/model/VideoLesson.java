@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.lesson.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@DiscriminatorValue("VIDEO")
+@Table(name = "video_lesson")
 public class VideoLesson extends Lesson {
 
     @Column(name = "url")

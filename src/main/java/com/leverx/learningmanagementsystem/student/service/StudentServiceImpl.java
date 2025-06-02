@@ -41,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     @Override
     public Student update(UUID id, Student student) {
-        studentValidator.onUpdate(student);
+        studentValidator.onUpdate(id, student);
 
         var existingStudent = get(id);
         return updateStudent(existingStudent, student);

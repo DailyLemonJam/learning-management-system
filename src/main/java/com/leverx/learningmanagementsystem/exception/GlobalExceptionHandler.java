@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.exception;
 
+import com.leverx.learningmanagementsystem.lesson.exception.LessonRequestValidationException;
 import com.leverx.learningmanagementsystem.web.oauth2.exception.OAuth2TokenClientBadResponseException;
 import com.leverx.learningmanagementsystem.course.exception.EntityValidationException;
 import com.leverx.learningmanagementsystem.email.smtpselector.exception.FeatureFlagServiceBadResponseException;
@@ -70,6 +71,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponseDto handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+        return new ErrorResponseDto(ex.getMessage());
+    }
+
+    @ExceptionHandler(LessonRequestValidationException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorResponseDto handleLessonRequestValidationException(LessonRequestValidationException ex){
         return new ErrorResponseDto(ex.getMessage());
     }
 

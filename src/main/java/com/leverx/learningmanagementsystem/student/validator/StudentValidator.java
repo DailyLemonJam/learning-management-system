@@ -6,6 +6,8 @@ import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class StudentValidator {
@@ -19,11 +21,12 @@ public class StudentValidator {
                 });
     }
 
-    public void onUpdate(Student student) {
-        studentRepository.findByEmail(student.getEmail())
-                .ifPresent(s -> {
-                    throw new EntityValidationException("New Email is already in use");
-                });
+    public void onUpdate(UUID studentId, Student student) {
+        var foundStudent = studentRepository.findByEmail(student.getEmail());
+        if (foundStudent.isEmpty() || studentId.equals(foundStudent.get().getId())) {
+            return;
+        }
+        throw new EntityValidationException("New Email is already in use");
     }
 
 }

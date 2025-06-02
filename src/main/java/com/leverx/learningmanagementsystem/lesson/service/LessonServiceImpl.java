@@ -74,8 +74,12 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (ClassroomLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        existingLessonCast.setLocation(updatedLessonCast.getLocation());
-        existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
+        if (updatedLessonCast.getLocation() != null) {
+            existingLessonCast.setLocation(updatedLessonCast.getLocation());
+        }
+        if (updatedLessonCast.getCapacity() != null) {
+            existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
+        }
         return lessonRepository.save(existingLessonCast);
     }
 
@@ -84,8 +88,12 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (VideoLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        existingLessonCast.setUrl(updatedLessonCast.getUrl());
-        existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
+        if (updatedLessonCast.getUrl() != null) {
+            existingLessonCast.setUrl(updatedLessonCast.getUrl());
+        }
+        if (updatedLessonCast.getPlatform() != null) {
+            existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
+        }
         return lessonRepository.save(existingLessonCast);
     }
 
