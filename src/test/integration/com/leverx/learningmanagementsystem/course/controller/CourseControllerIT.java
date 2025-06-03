@@ -1,23 +1,22 @@
 package com.leverx.learningmanagementsystem.course.controller;
 
 import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.util.CourseUtil;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.UpdateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSettingsRequestDto;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.core.security.role.Role;
+import com.leverx.learningmanagementsystem.util.CourseUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -41,6 +40,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void createCourse_givenCreateCourseRequestDto_shouldReturnCourseAndReturn201() throws Exception {
         // given
         var createCourseSettingsRequestDto = new CreateCourseSettingsRequestDto(
@@ -54,11 +54,9 @@ public class CourseControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/courses")
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createCourseRequestDto)));
-        var getResult = mockMvc.perform(get("/courses")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+        var getResult = mockMvc.perform(get("/courses"));
 
         // then
         result.andExpect(status().isCreated());
@@ -71,14 +69,14 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void getCourse_givenId_shouldReturnCourseAndReturn200() throws Exception {
         // given
         var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
 
         // when
-        var result = mockMvc.perform(get("/courses/{id}", savedCourse.getId())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+        var result = mockMvc.perform(get("/courses/{id}", savedCourse.getId()));
 
         // then
         result.andExpect(status().isOk());
@@ -88,6 +86,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void getAllCourses_shouldReturnAllCoursesAndReturn200() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -98,8 +97,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
 
         // when
         var result = mockMvc.perform(get("/courses")
-                .param("sort", "price,asc")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .param("sort", "price,asc"));
 
         // then
         result.andExpect(status().isOk());
@@ -109,6 +107,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void updateCourse_givenUpdateCourseRequestDto_shouldUpdateCourseAndReturn200() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -119,7 +118,6 @@ public class CourseControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(put("/courses/{id}", savedCourse.getId())
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)));
 
@@ -132,6 +130,7 @@ public class CourseControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void deleteCourse_givenId_shouldDeleteCourseAndReturn204AndReturn404() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -139,11 +138,9 @@ public class CourseControllerIT extends AbstractConfigurationIT {
 
         // when
         var result = mockMvc.perform(delete("/courses/{id}", savedCourse.getId())
-                .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .with(csrf()));
         var deleteResult = mockMvc.perform(delete("/courses/{id}", savedCourse.getId())
-                .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .with(csrf()));
 
         // then
         result.andExpect(status().isNoContent());

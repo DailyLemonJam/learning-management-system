@@ -1,21 +1,20 @@
 package com.leverx.learningmanagementsystem.lesson.controller;
 
 import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.util.CourseUtil;
-import com.leverx.learningmanagementsystem.util.LessonUtil;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonRequestDto;
 import com.leverx.learningmanagementsystem.lesson.dto.UpdateLessonRequestDto;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
-import com.leverx.learningmanagementsystem.core.security.role.Role;
+import com.leverx.learningmanagementsystem.util.CourseUtil;
+import com.leverx.learningmanagementsystem.util.LessonUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -44,6 +43,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void createVideoLesson_givenCreateLessonRequestDto_shouldReturnCourseAndReturn201() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -54,11 +54,9 @@ public class LessonControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/lessons")
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createLessonRequest)));
-        var getResult = mockMvc.perform(get("/lessons")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+        var getResult = mockMvc.perform(get("/lessons"));
 
         // then
         result.andExpect(status().isCreated());
@@ -75,6 +73,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void getVideoLesson_givenId_shouldReturnLessonAndReturn200() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -84,8 +83,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
         var savedLesson = lessonRepository.save(lesson);
 
         // when
-        var result = mockMvc.perform(get("/lessons/{id}", savedLesson.getId())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+        var result = mockMvc.perform(get("/lessons/{id}", savedLesson.getId()));
 
         // then
         result.andExpect(status().isOk());
@@ -95,6 +93,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void getAllLessons_shouldReturnAllLessonsAndReturn200() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -107,8 +106,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
 
         // when
         var result = mockMvc.perform(get("/lessons")
-                .param("sort", "duration,asc")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .param("sort", "duration,asc"));
 
         // then
         result.andExpect(status().isOk());
@@ -124,6 +122,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void updateVideoLesson_givenUpdateLessonRequestDto_shouldUpdateLessonAndReturn200() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -138,7 +137,6 @@ public class LessonControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(put("/lessons/{id}", savedVideoLesson.getId())
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateVideoLessonRequest)));
 
@@ -151,6 +149,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void deleteLesson_givenId_shouldDeleteLessonAndReturn204AndReturn404() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -161,11 +160,9 @@ public class LessonControllerIT extends AbstractConfigurationIT {
 
         // when
         var result = mockMvc.perform(delete("/lessons/{id}", savedVideoLesson.getId())
-                .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .with(csrf()));
         var deleteResult = mockMvc.perform(delete("/lessons/{id}", savedVideoLesson.getId())
-                .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .with(csrf()));
 
         // then
         result.andExpect(status().isNoContent());

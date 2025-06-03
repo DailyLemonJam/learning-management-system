@@ -1,16 +1,16 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
 import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.util.StudentUtil;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
-import com.leverx.learningmanagementsystem.core.security.role.Role;
+import com.leverx.learningmanagementsystem.util.StudentUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,6 +41,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void createStudent_givenCreateStudentRequestDto_shouldReturnStudentAndReturn201() throws Exception {
         // given
         var requestDto = new CreateStudentRequestDto("John", "Johnson",
@@ -51,12 +51,10 @@ class StudentControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/students")
                         .with(csrf())
-                        .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)));
 
-        var getResult = mockMvc.perform(get("/students")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+        var getResult = mockMvc.perform(get("/students"));
 
         // then
         result.andExpect(status().isCreated());
@@ -69,14 +67,14 @@ class StudentControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void getStudent_givenId_shouldReturnStudentAndReturn200() throws Exception {
         // given
         var student = StudentUtil.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         // when
-        var result = mockMvc.perform(get("/students/{id}", savedStudent.getId())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+        var result = mockMvc.perform(get("/students/{id}", savedStudent.getId()));
 
         // then
         result.andExpect(status().isOk());
@@ -87,14 +85,14 @@ class StudentControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void getAllStudents_shouldReturnAllStudentsAndReturn200() throws Exception {// given
         var student = StudentUtil.createStudent(new ArrayList<>());
         studentRepository.save(student);
 
         // when
         var result = mockMvc.perform(get("/students")
-                .param("sort", "lastName,asc")
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .param("sort", "lastName,asc"));
 
         // then
         result.andExpect(status().isOk());
@@ -102,6 +100,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void updateStudent_givenUpdateStudentRequestDto_shouldUpdateStudentAndReturn200() throws Exception {
         // given
         var student = StudentUtil.createStudent(new ArrayList<>());
@@ -114,7 +113,6 @@ class StudentControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(put("/students/{id}", savedStudent.getId())
                         .with(csrf())
-                        .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)));
 
@@ -127,6 +125,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void deleteStudent_givenId_shouldDeleteStudentAndReturn204AndReturn404() throws Exception {
         // given
         var student = StudentUtil.createStudent(new ArrayList<>());
@@ -134,11 +133,9 @@ class StudentControllerIT extends AbstractConfigurationIT {
 
         // when
         var result = mockMvc.perform(delete("/students/{id}", savedStudent.getId())
-                .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .with(csrf()));
         var deleteResult = mockMvc.perform(delete("/students/{id}", savedStudent.getId())
-                .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue())));
+                .with(csrf()));
 
         // then
         result.andExpect(status().isNoContent());

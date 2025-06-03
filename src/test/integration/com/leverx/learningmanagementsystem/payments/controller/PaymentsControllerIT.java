@@ -1,17 +1,17 @@
 package com.leverx.learningmanagementsystem.payments.controller;
 
 import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.util.CourseUtil;
-import com.leverx.learningmanagementsystem.util.StudentUtil;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.payments.dto.PurchaseCourseRequestDto;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
-import com.leverx.learningmanagementsystem.core.security.role.Role;
+import com.leverx.learningmanagementsystem.util.CourseUtil;
+import com.leverx.learningmanagementsystem.util.StudentUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,6 +44,7 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldReturnCourseNotFound() throws Exception {
         // given
         var courseId = UUID.randomUUID();
@@ -58,7 +58,6 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/payments/purchase-course/{courseId}", courseId)
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(purchaseCourseRequest)));
 
@@ -67,6 +66,7 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldReturnStudentNotFound() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -80,7 +80,6 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/payments/purchase-course/{courseId}", courseId)
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(purchaseCourseRequest)));
 
@@ -89,6 +88,7 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldReturnNotEnoughCoins() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -105,7 +105,6 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/payments/purchase-course/{courseId}", courseId)
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(purchaseCourseRequest)));
 
@@ -114,6 +113,7 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldReturnStudentAlreadyEnrolled() throws Exception {
         // given
         var course = CourseUtil.createCourse();
@@ -129,7 +129,6 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/payments/purchase-course/{courseId}", courseId)
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(purchaseCourseRequest)));
 
@@ -138,6 +137,7 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     }
 
     @Test
+    @WithMockUser
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldEnrollStudentAndTransferCoinsAndReturn200() throws Exception {
         // given
         var coursePrice = BigDecimal.valueOf(200);
@@ -158,7 +158,6 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
         // when
         var result = mockMvc.perform(post("/payments/purchase-course/{courseId}", courseId)
                 .with(csrf())
-                .with(user(defaultUserUsername).password(defaultUserPassword).roles(Role.USER.getValue()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(purchaseCourseRequest)));
 
