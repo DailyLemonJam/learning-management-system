@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.core.restclient.config;
+package com.leverx.learningmanagementsystem.web.restclient.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

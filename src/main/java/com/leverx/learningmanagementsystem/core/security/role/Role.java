@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.web.security.role;
+package com.leverx.learningmanagementsystem.core.security.role;
 
 import lombok.Getter;
 

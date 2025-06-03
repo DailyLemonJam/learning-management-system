@@ -1,7 +1,7 @@
-package com.leverx.learningmanagementsystem.email.smtpselector.mapper;
+package com.leverx.learningmanagementsystem.email.smtpprovider.mapper;
 
 import com.leverx.learningmanagementsystem.btp.destination.dto.DestinationResponseDto;
-import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
+import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
 import org.springframework.stereotype.Component;
 
 @Component

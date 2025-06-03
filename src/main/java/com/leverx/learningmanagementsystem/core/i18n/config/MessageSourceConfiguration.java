@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.course.job.coursereminder.config;
+package com.leverx.learningmanagementsystem.core.i18n.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ public class MessageSourceConfiguration {
     @Bean
     public MessageSource messageSource() {
         var messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("lang/messages");
+        messageSource.setBasename("i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

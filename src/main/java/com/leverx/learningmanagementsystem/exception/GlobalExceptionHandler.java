@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.exception;
 import com.leverx.learningmanagementsystem.lesson.exception.LessonRequestValidationException;
 import com.leverx.learningmanagementsystem.web.oauth2.exception.OAuth2TokenClientBadResponseException;
 import com.leverx.learningmanagementsystem.course.exception.EntityValidationException;
-import com.leverx.learningmanagementsystem.email.smtpselector.exception.FeatureFlagServiceBadResponseException;
+import com.leverx.learningmanagementsystem.email.smtpprovider.exception.FeatureFlagServiceBadResponseException;
 import com.leverx.learningmanagementsystem.exception.dto.ErrorResponseDto;
 import com.leverx.learningmanagementsystem.payments.exception.NotEnoughCoinsException;
 import com.leverx.learningmanagementsystem.payments.exception.StudentAlreadyEnrolledException;

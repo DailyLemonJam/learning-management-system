@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.userprovided.service;
 
-import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
+import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

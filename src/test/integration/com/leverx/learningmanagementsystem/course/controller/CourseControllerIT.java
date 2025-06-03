@@ -6,7 +6,7 @@ import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.UpdateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSettingsRequestDto;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.web.security.role.Role;
+import com.leverx.learningmanagementsystem.core.security.role.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

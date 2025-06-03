@@ -1,3 +1,9 @@
+info:
+  app:
+    name: Learning Management System
+    description: Learning Management System application made with Spring Boot
+    version: @project.version@
+
 spring:
   application:
     name: learning-management-system
@@ -22,12 +28,6 @@ management:
   info:
     env:
       enabled: true
-
-info:
-  app:
-    name: Learning Management System
-    description: Learning Management System application made with Spring Boot
-    version: @project.version@
 
 springdoc:
   api-docs:

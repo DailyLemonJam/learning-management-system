@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.email.smtpselector.exception;
+package com.leverx.learningmanagementsystem.email.smtpprovider.exception;
 
 public class FeatureFlagServiceBadResponseException extends RuntimeException {
 

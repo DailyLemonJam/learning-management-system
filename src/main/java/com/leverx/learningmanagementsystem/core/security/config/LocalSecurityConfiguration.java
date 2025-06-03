@@ -1,9 +1,6 @@
-package com.leverx.learningmanagementsystem.web.security.config;
+package com.leverx.learningmanagementsystem.core.security.config;
 
-import com.leverx.learningmanagementsystem.web.security.role.Role;
-import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
-import com.sap.cloud.security.xsuaa.token.TokenAuthenticationConverter;
-import lombok.RequiredArgsConstructor;
+import com.leverx.learningmanagementsystem.core.security.role.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,15 +19,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
-@Profile("cloud")
-@RequiredArgsConstructor
-public class CloudSecurityConfiguration {
-
-    private final XsuaaServiceConfiguration xsuaaServiceConfiguration;
+@Profile("local")
+public class LocalSecurityConfiguration {
 
     @Value("${security.configuration.default-user.username}")
     private String defaultUserUsername;
@@ -57,7 +51,7 @@ public class CloudSecurityConfiguration {
                 .securityMatcher("/actuator/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
-                        configurer.sessionCreationPolicy(STATELESS))
+                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/actuator/health").permitAll();
                     auth.anyRequest().hasRole(Role.MANAGER.getValue());
@@ -73,12 +67,10 @@ public class CloudSecurityConfiguration {
                 .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
-                        configurer.sessionCreationPolicy(STATELESS))
+                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().authenticated())
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwt ->
-                                jwt.jwtAuthenticationConverter(new TokenAuthenticationConverter(xsuaaServiceConfiguration))))
+                .httpBasic(withDefaults())
                 .build();
     }
 

@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.email.smtpselector.config;
+package com.leverx.learningmanagementsystem.email.smtpprovider.config;
 
 import lombok.Getter;
 import lombok.Setter;

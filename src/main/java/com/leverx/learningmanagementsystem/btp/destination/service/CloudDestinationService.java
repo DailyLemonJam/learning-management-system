@@ -5,6 +5,7 @@ import com.leverx.learningmanagementsystem.btp.destination.dto.DestinationRespon
 import com.leverx.learningmanagementsystem.btp.destination.service.auth.DestinationServiceAccessTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.context.annotation.Profile;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,6 @@ public class CloudDestinationService implements DestinationService {
 
     private static final String DESTINATION_ENDPOINT = "/destination-destinationConfiguration/v1/destinations/";
 
-    private static final String AUTHORIZATION = "AUTHORIZATION";
-    private static final String BEARER = "Bearer ";
-
     private final RestClient restClient;
     private final DestinationServiceProperties destinationServiceProperties;
     private final DestinationServiceAccessTokenProvider destinationServiceAccessTokenProvider;
@@ -36,19 +34,14 @@ public class CloudDestinationService implements DestinationService {
     private DestinationResponseDto tryToGet(String name) {
         try {
             var destinationUri = createDestinationUri(name);
-            var accessToken = destinationServiceAccessTokenProvider.getAccessToken(
-                    destinationServiceProperties.getClientId(),
-                    destinationServiceProperties.getClientSecret(),
-                    destinationServiceProperties.getUrl());
-            var authHeader = BEARER + accessToken;
+            var headers = createHeaders();
             return restClient.get()
                     .uri(destinationUri)
-                    .header(AUTHORIZATION, authHeader)
+                    .headers(headers::addAll)
                     .retrieve()
                     .body(DestinationResponseDto.class);
         } catch (Unauthorized e) {
-            destinationServiceAccessTokenProvider.refreshAccessToken(destinationServiceProperties.getClientId(),
-                    destinationServiceProperties.getClientSecret(), destinationServiceProperties.getUrl());
+            refreshAccessToken();
             throw e;
         }
     }
@@ -59,6 +52,25 @@ public class CloudDestinationService implements DestinationService {
                 .pathSegment(DESTINATION_ENDPOINT, name)
                 .build();
         return uriComponents.toUriString();
+    }
+
+    private HttpHeaders createHeaders() {
+        var accessToken = getAccessToken();
+        var headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+        return headers;
+    }
+
+    private String getAccessToken() {
+        return destinationServiceAccessTokenProvider.getAccessToken(
+                destinationServiceProperties.getClientId(),
+                destinationServiceProperties.getClientSecret(),
+                destinationServiceProperties.getUrl());
+    }
+
+    private void refreshAccessToken() {
+        destinationServiceAccessTokenProvider.refreshAccessToken(destinationServiceProperties.getClientId(),
+                destinationServiceProperties.getClientSecret(), destinationServiceProperties.getUrl());
     }
 
 }

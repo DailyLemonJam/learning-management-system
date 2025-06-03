@@ -1,12 +1,12 @@
-package com.leverx.learningmanagementsystem.email.smtpselector.service;
+package com.leverx.learningmanagementsystem.email.smtpprovider.service;
 
 import com.leverx.learningmanagementsystem.btp.destination.service.DestinationService;
 import com.leverx.learningmanagementsystem.btp.featureflag.dto.FeatureFlagResponseDto;
 import com.leverx.learningmanagementsystem.btp.featureflag.service.FeatureFlagService;
 import com.leverx.learningmanagementsystem.btp.userprovided.service.UserProvidedService;
-import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
-import com.leverx.learningmanagementsystem.email.smtpselector.exception.FeatureFlagServiceBadResponseException;
-import com.leverx.learningmanagementsystem.email.smtpselector.mapper.DestinationToSmtpServerPropertiesMapper;
+import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
+import com.leverx.learningmanagementsystem.email.smtpprovider.exception.FeatureFlagServiceBadResponseException;
+import com.leverx.learningmanagementsystem.email.smtpprovider.mapper.DestinationToSmtpServerPropertiesMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile("cloud")
 @RequiredArgsConstructor
-public class CloudSmtpServerSelectorService implements SmtpServerSelectorService {
+public class CloudSmtpServerCredentialsProvider implements SmtpServerCredentialsProvider {
 
     private static final String DESTINATION_SERVICE_ENABLED = "destination-service-enabled";
     private static final String SMTP_SERVER_DESTINATION_NAME = "SmtpDestination";

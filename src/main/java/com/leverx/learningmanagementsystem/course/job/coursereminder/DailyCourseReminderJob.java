@@ -4,8 +4,8 @@ import com.leverx.learningmanagementsystem.course.job.coursereminder.service.Loc
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.email.service.EmailService;
-import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
-import com.leverx.learningmanagementsystem.email.smtpselector.service.SmtpServerSelectorService;
+import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
+import com.leverx.learningmanagementsystem.email.smtpprovider.service.SmtpServerCredentialsProvider;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class DailyCourseReminderJob {
 
     private final CourseRepository courseRepository;
-    private final SmtpServerSelectorService smtpServerSelectorService;
+    private final SmtpServerCredentialsProvider smtpServerCredentialsProvider;
     private final EmailService emailService;
     private final LocalizedCourseReminderContentGenerator localizedCourseReminderContentGenerator;
 
@@ -35,7 +35,7 @@ public class DailyCourseReminderJob {
         var afterTomorrow = LocalDate.now().plusDays(2).atStartOfDay();
         var courses = courseRepository.findAllByCourseSettings_StartDateBetween(tomorrow, afterTomorrow);
 
-        var smtpServerProperties = smtpServerSelectorService.getSmtpServerProperties();
+        var smtpServerProperties = smtpServerCredentialsProvider.getSmtpServerProperties();
 
         courses.forEach(course -> sendEmailNotifications(course, smtpServerProperties));
     }

@@ -24,7 +24,6 @@ public class CloudFeatureFlagService implements FeatureFlagService {
     private final FeatureFlagProperties featureFlagProperties;
 
     @Override
-    @Retryable
     public FeatureFlagResponseDto getFeatureFlag(String name) {
         var uri = createFeatureFlagUri(name);
         var authHeader = createAuthHeader(featureFlagProperties);
