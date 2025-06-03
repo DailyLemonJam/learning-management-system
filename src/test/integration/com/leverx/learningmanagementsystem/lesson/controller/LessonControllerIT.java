@@ -1,7 +1,8 @@
 package com.leverx.learningmanagementsystem.lesson.controller;
 
-import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.common.UtilsIT;
+import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
+import com.leverx.learningmanagementsystem.util.CourseUtil;
+import com.leverx.learningmanagementsystem.util.LessonUtil;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonRequestDto;
 import com.leverx.learningmanagementsystem.lesson.dto.UpdateLessonRequestDto;
@@ -45,7 +46,7 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void createVideoLesson_givenCreateLessonRequestDto_shouldReturnCourseAndReturn201() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
         var createLessonRequest = new CreateLessonRequestDto("First video lesson", 60, "VIDEO",
                 null, null, "video.url.com", "Zoom", savedCourse.getId());
@@ -76,10 +77,10 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void getVideoLesson_givenId_shouldReturnLessonAndReturn200() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
 
-        var lesson = UtilsIT.createVideoLesson(savedCourse);
+        var lesson = LessonUtil.createVideoLesson(course);
         var savedLesson = lessonRepository.save(lesson);
 
         // when
@@ -96,11 +97,11 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void getAllLessons_shouldReturnAllLessonsAndReturn200() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
 
-        var videoLesson = UtilsIT.createVideoLesson(savedCourse);
-        var classroomLesson = UtilsIT.createClassroomLesson(savedCourse);
+        var videoLesson = LessonUtil.createVideoLesson(savedCourse);
+        var classroomLesson = LessonUtil.createClassroomLesson(savedCourse);
         lessonRepository.save(videoLesson);
         lessonRepository.save(classroomLesson);
 
@@ -125,10 +126,10 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void updateVideoLesson_givenUpdateLessonRequestDto_shouldUpdateLessonAndReturn200() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
 
-        var videoLesson = UtilsIT.createVideoLesson(savedCourse);
+        var videoLesson = LessonUtil.createVideoLesson(savedCourse);
         var savedVideoLesson = lessonRepository.save(videoLesson);
 
         var updateVideoLessonRequest = new UpdateLessonRequestDto("New Nice Course Title", 75, "VIDEO",
@@ -152,10 +153,10 @@ public class LessonControllerIT extends AbstractConfigurationIT {
     @Test
     public void deleteLesson_givenId_shouldDeleteLessonAndReturn204AndReturn404() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
 
-        var videoLesson = UtilsIT.createVideoLesson(savedCourse);
+        var videoLesson = LessonUtil.createVideoLesson(savedCourse);
         var savedVideoLesson = lessonRepository.save(videoLesson);
 
         // when

@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.common;
+package com.leverx.learningmanagementsystem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Tag;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Tag("Integration")
+@Tag("integration")
 public abstract class AbstractConfigurationIT {
 
     @Autowired

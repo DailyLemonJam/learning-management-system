@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.destination.service.auth;
+package com.leverx.learningmanagementsystem.btp.destinationservice.service.auth;
 
 import com.leverx.learningmanagementsystem.web.oauth2.client.OAuth2TokenClient;
 import lombok.RequiredArgsConstructor;

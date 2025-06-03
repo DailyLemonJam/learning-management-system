@@ -1,10 +1,9 @@
-package com.leverx.learningmanagementsystem.btp.featureflag.service;
+package com.leverx.learningmanagementsystem.btp.featureflagservice.service;
 
-import com.leverx.learningmanagementsystem.btp.featureflag.config.FeatureFlagProperties;
-import com.leverx.learningmanagementsystem.btp.featureflag.dto.FeatureFlagResponseDto;
+import com.leverx.learningmanagementsystem.btp.featureflagservice.config.FeatureFlagProperties;
+import com.leverx.learningmanagementsystem.btp.featureflagservice.dto.FeatureFlagResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;

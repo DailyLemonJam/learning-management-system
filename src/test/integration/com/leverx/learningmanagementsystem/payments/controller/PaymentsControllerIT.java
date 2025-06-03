@@ -1,7 +1,8 @@
 package com.leverx.learningmanagementsystem.payments.controller;
 
-import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.common.UtilsIT;
+import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
+import com.leverx.learningmanagementsystem.util.CourseUtil;
+import com.leverx.learningmanagementsystem.util.StudentUtil;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.payments.dto.PurchaseCourseRequestDto;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
@@ -48,7 +49,7 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
         // given
         var courseId = UUID.randomUUID();
 
-        var student = UtilsIT.createStudent(new ArrayList<>());
+        var student = StudentUtil.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
         var studentId = savedStudent.getId();
 
@@ -68,7 +69,7 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     @Test
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldReturnStudentNotFound() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
         var courseId = savedCourse.getId();
 
@@ -90,11 +91,11 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     @Test
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldReturnNotEnoughCoins() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
         var courseId = savedCourse.getId();
 
-        var student = UtilsIT.createStudent(new ArrayList<>());
+        var student = StudentUtil.createStudent(new ArrayList<>());
         student.setCoins(BigDecimal.ZERO);
         var savedStudent = studentRepository.save(student);
         var studentId = savedStudent.getId();
@@ -115,11 +116,11 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     @Test
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldReturnStudentAlreadyEnrolled() throws Exception {
         // given
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         var savedCourse = courseRepository.save(course);
         var courseId = savedCourse.getId();
 
-        var student = UtilsIT.createStudent(List.of(course));
+        var student = StudentUtil.createStudent(List.of(course));
         var savedStudent = studentRepository.save(student);
         var studentId = savedStudent.getId();
 
@@ -140,14 +141,14 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
     public void purchaseCourse_givenCourseIdAndPurchaseCourseRequestDto_shouldEnrollStudentAndTransferCoinsAndReturn200() throws Exception {
         // given
         var coursePrice = BigDecimal.valueOf(200);
-        var course = UtilsIT.createCourse();
+        var course = CourseUtil.createCourse();
         course.setCoinsPaid(BigDecimal.ZERO);
         course.setPrice(coursePrice);
         var savedCourse = courseRepository.save(course);
         var courseId = savedCourse.getId();
 
         var studentStartCoins = BigDecimal.valueOf(Long.MAX_VALUE);
-        var student = UtilsIT.createStudent(new ArrayList<>());
+        var student = StudentUtil.createStudent(new ArrayList<>());
         student.setCoins(studentStartCoins);
         var savedStudent = studentRepository.save(student);
         var studentId = savedStudent.getId();

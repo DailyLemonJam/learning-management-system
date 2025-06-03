@@ -1,8 +1,8 @@
-package com.leverx.learningmanagementsystem.btp.destination.service;
+package com.leverx.learningmanagementsystem.btp.destinationservice.service;
 
-import com.leverx.learningmanagementsystem.btp.destination.config.DestinationServiceProperties;
-import com.leverx.learningmanagementsystem.btp.destination.dto.DestinationResponseDto;
-import com.leverx.learningmanagementsystem.btp.destination.service.auth.DestinationServiceAccessTokenProvider;
+import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceProperties;
+import com.leverx.learningmanagementsystem.btp.destinationservice.dto.DestinationResponseDto;
+import com.leverx.learningmanagementsystem.btp.destinationservice.service.auth.DestinationServiceAccessTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

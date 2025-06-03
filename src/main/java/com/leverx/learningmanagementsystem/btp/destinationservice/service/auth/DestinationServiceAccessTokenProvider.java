@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.destination.service.auth;
+package com.leverx.learningmanagementsystem.btp.destinationservice.service.auth;
 
 public interface DestinationServiceAccessTokenProvider {
 

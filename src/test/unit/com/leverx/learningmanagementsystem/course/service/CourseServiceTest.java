@@ -30,8 +30,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("Unit")
-public class CourseServiceImplUnitTest {
+@Tag("unit")
+public class CourseServiceTest {
 
     @Mock
     private CourseRepository courseRepository;

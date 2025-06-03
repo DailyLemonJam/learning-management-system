@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.featureflag.dto;
+package com.leverx.learningmanagementsystem.btp.featureflagservice.dto;
 
 public record FeatureFlagResponseDto(
 

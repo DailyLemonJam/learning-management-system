@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
-import com.leverx.learningmanagementsystem.common.AbstractConfigurationIT;
-import com.leverx.learningmanagementsystem.common.UtilsIT;
+import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
+import com.leverx.learningmanagementsystem.util.StudentUtil;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
@@ -71,7 +71,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     @Test
     public void getStudent_givenId_shouldReturnStudentAndReturn200() throws Exception {
         // given
-        var student = UtilsIT.createStudent(new ArrayList<>());
+        var student = StudentUtil.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         // when
@@ -88,7 +88,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
 
     @Test
     public void getAllStudents_shouldReturnAllStudentsAndReturn200() throws Exception {// given
-        var student = UtilsIT.createStudent(new ArrayList<>());
+        var student = StudentUtil.createStudent(new ArrayList<>());
         studentRepository.save(student);
 
         // when
@@ -104,7 +104,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     @Test
     public void updateStudent_givenUpdateStudentRequestDto_shouldUpdateStudentAndReturn200() throws Exception {
         // given
-        var student = UtilsIT.createStudent(new ArrayList<>());
+        var student = StudentUtil.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         var localDate = LocalDate.now().minusDays(365 * 24);
@@ -129,7 +129,7 @@ class StudentControllerIT extends AbstractConfigurationIT {
     @Test
     public void deleteStudent_givenId_shouldDeleteStudentAndReturn204AndReturn404() throws Exception {
         // given
-        var student = UtilsIT.createStudent(new ArrayList<>());
+        var student = StudentUtil.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         // when

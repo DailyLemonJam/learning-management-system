@@ -29,8 +29,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("Unit")
-public class LessonServiceImplUnitTest {
+@Tag("unit")
+public class LessonServiceTest {
 
     @Mock
     private LessonRepository lessonRepository;

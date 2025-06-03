@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.btp.destination.service;
+package com.leverx.learningmanagementsystem.btp.destinationservice.service;
 
-import com.leverx.learningmanagementsystem.btp.destination.dto.DestinationResponseDto;
+import com.leverx.learningmanagementsystem.btp.destinationservice.dto.DestinationResponseDto;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 

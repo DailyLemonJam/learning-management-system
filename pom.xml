@@ -183,7 +183,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>${surefireArgLine}</argLine>
-                    <groups>Unit</groups>
+                    <groups>unit</groups>
                 </configuration>
             </plugin>
             <!-- Failsafe -->
@@ -197,7 +197,7 @@
                         </goals>
                         <configuration>
                             <argLine>${failsafeArgLine}</argLine>
-                            <groups>Integration</groups>
+                            <groups>integration</groups>
                         </configuration>
                     </execution>
                 </executions>

@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.featureflag.config;
+package com.leverx.learningmanagementsystem.btp.destinationservice.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,18 +7,20 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@ConfigurationProperties(prefix = "feature-flag-service")
+@ConfigurationProperties(prefix = "destination-service")
 @Component
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeatureFlagProperties {
+public class DestinationServiceProperties {
+
+    private String url;
 
     private String uri;
 
-    private String username;
+    private String clientId;
 
-    private String password;
+    private String clientSecret;
 
 }

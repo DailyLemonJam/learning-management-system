@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-@Tag("Unit")
-public class StudentRepositoryUnitTest {
+@Tag("unit")
+public class StudentRepositoryTest {
 
     @Autowired
     private StudentRepository studentRepository;

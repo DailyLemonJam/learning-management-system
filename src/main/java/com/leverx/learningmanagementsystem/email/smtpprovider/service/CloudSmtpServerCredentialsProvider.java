@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.email.smtpprovider.service;
 
-import com.leverx.learningmanagementsystem.btp.destination.service.DestinationService;
-import com.leverx.learningmanagementsystem.btp.featureflag.dto.FeatureFlagResponseDto;
-import com.leverx.learningmanagementsystem.btp.featureflag.service.FeatureFlagService;
+import com.leverx.learningmanagementsystem.btp.destinationservice.service.DestinationService;
+import com.leverx.learningmanagementsystem.btp.featureflagservice.dto.FeatureFlagResponseDto;
+import com.leverx.learningmanagementsystem.btp.featureflagservice.service.FeatureFlagService;
 import com.leverx.learningmanagementsystem.btp.userprovided.service.UserProvidedService;
 import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
 import com.leverx.learningmanagementsystem.email.smtpprovider.exception.FeatureFlagServiceBadResponseException;

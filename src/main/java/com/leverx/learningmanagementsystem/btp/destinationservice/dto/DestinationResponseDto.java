@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.destination.dto;
+package com.leverx.learningmanagementsystem.btp.destinationservice.dto;
 
 import java.util.List;
 import java.util.Map;
