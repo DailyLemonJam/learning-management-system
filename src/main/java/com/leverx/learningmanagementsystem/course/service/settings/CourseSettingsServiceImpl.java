@@ -35,5 +35,4 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         existingCourseSettings.setIsPublic(courseSettings.getIsPublic());
         return courseSettingsRepository.save(existingCourseSettings);
     }
-    
 }

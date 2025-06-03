@@ -28,5 +28,4 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
     @Lock(PESSIMISTIC_WRITE)
     @Query("SELECT c FROM Course c WHERE c.id=:id")
     Optional<Course> findByIdForEnrollment(UUID id);
-
 }

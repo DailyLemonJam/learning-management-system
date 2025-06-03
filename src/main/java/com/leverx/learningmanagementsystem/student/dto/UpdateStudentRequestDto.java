@@ -27,6 +27,5 @@ public record UpdateStudentRequestDto(
 
         @Schema(description = "Language of student")
         @NotNull Locale locale
-
 ) {
 }

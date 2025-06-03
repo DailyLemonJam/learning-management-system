@@ -42,5 +42,4 @@ public class CloudSmtpServerCredentialsProvider implements SmtpServerCredentials
         }
         return Boolean.parseBoolean(response.variation());
     }
-
 }

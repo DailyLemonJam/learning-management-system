@@ -62,5 +62,4 @@ public class CourseMapper {
                 .price(request.price())
                 .build();
     }
-
 }

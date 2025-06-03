@@ -10,6 +10,5 @@ public record PurchaseCourseRequestDto(
 
         @Schema(description = "Connects Course and Student after successful purchase")
         @NotNull UUID studentId
-
 ) {
 }

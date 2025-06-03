@@ -72,5 +72,4 @@ public class CloudDestinationService implements DestinationService {
         destinationServiceAccessTokenProvider.refreshAccessToken(destinationServiceProperties.getClientId(),
                 destinationServiceProperties.getClientSecret(), destinationServiceProperties.getUrl());
     }
-
 }

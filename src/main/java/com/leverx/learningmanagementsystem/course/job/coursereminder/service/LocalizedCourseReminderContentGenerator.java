@@ -48,5 +48,4 @@ public class LocalizedCourseReminderContentGenerator {
         var mustache = compiler.compile(reader);
         return mustache.execute(extendedData);
     }
-
 }

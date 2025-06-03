@@ -15,6 +15,5 @@ public record DestinationResponseDto(
         List<Map<String, Object>> authTokens,
 
         List<Map<String, Object>> certificates
-
 ) {
 }

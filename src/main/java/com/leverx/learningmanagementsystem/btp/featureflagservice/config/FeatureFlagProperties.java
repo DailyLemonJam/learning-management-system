@@ -20,5 +20,4 @@ public class FeatureFlagProperties {
     private String username;
 
     private String password;
-
 }

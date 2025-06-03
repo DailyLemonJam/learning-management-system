@@ -28,5 +28,4 @@ public class SmtpServerProperties {
     private String port;
 
     private String protocol;
-
 }

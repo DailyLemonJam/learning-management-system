@@ -44,5 +44,4 @@ public abstract class AuditableEntity {
     @LastModifiedBy
     @Column(name = "last_changed_by")
     private String lastChangedBy;
-
 }

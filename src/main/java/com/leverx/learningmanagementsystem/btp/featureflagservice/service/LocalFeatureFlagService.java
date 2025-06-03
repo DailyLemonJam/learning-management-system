@@ -12,5 +12,4 @@ public class LocalFeatureFlagService implements FeatureFlagService {
     public FeatureFlagResponseDto getFeatureFlag(String name) {
         return null;
     }
-
 }

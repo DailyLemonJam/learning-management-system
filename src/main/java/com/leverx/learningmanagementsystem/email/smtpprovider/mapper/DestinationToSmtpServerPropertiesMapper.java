@@ -17,5 +17,4 @@ public class DestinationToSmtpServerPropertiesMapper {
                 .protocol(destination.destinationConfiguration().get("mail.transport.protocol"))
                 .build();
     }
-
 }

@@ -77,5 +77,4 @@ public class StudentController {
     public void delete(@PathVariable UUID id) {
         studentService.delete(id);
     }
-
 }

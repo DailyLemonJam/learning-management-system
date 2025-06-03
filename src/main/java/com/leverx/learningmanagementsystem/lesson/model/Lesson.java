@@ -51,5 +51,4 @@ public abstract class Lesson extends AuditableEntity {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
-
 }

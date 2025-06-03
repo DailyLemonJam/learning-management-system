@@ -34,6 +34,5 @@ public record StudentResponseDto(
 
         @Schema(description = "Enrolled courses")
         List<UUID> courses
-
 ) {
 }

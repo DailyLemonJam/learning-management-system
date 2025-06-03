@@ -55,5 +55,4 @@ public class CourseServiceImpl implements CourseService {
         existingCourse.setPrice(course.getPrice());
         return courseRepository.save(existingCourse);
     }
-
 }

@@ -67,5 +67,4 @@ public class Course extends AuditableEntity {
 
     @ManyToMany(mappedBy = "courses", cascade = {PERSIST, MERGE})
     private List<Student> students;
-
 }

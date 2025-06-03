@@ -28,5 +28,4 @@ public class StudentValidator {
         }
         throw new EntityValidationException("New Email is already in use");
     }
-
 }

@@ -19,5 +19,4 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     @EntityGraph(attributePaths = {"courses"})
     Optional<Student> findById(UUID id);
-
 }

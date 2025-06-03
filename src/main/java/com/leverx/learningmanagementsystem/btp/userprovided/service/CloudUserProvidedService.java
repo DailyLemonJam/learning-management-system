@@ -16,5 +16,4 @@ public class CloudUserProvidedService implements UserProvidedService {
     public SmtpServerProperties getSmtpServerProperties() {
         return smtpServerProperties;
     }
-
 }

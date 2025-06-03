@@ -5,5 +5,4 @@ public class LessonRequestValidationException extends RuntimeException {
     public LessonRequestValidationException(String message) {
         super(message);
     }
-
 }

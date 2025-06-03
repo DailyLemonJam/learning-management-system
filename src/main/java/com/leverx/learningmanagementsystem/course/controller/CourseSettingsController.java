@@ -46,5 +46,4 @@ public class CourseSettingsController {
         var updatedSettings = courseSettingsService.update(id, settings);
         return courseSettingsMapper.toDto(updatedSettings);
     }
-
 }

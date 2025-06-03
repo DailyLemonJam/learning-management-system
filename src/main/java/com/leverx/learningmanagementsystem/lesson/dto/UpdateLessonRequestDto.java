@@ -30,6 +30,5 @@ public record UpdateLessonRequestDto(
 
         @Schema(description = "Platform where lesson is held (for video)")
         @Nullable String platform
-
 ) {
 }

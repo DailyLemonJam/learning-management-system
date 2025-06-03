@@ -102,5 +102,4 @@ public class CloudSecurityConfiguration {
                 .roles(Role.MANAGER.getValue())
                 .build();
     }
-
 }

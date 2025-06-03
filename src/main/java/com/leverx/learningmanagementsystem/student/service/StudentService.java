@@ -17,5 +17,4 @@ public interface StudentService {
     Student update(UUID id, Student student);
 
     void delete(UUID id);
-
 }

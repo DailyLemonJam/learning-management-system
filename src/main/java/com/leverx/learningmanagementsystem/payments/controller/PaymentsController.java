@@ -32,5 +32,4 @@ public class PaymentsController {
                                @Valid @RequestBody PurchaseCourseRequestDto request) {
         paymentsService.purchaseCourse(courseId, request.studentId());
     }
-
 }

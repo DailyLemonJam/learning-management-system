@@ -123,5 +123,4 @@ public class LessonMapper {
             throw new LessonRequestValidationException("Can't create Classroom Lesson without Capacity");
         }
     }
-
 }

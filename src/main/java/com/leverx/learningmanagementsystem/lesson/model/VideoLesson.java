@@ -27,5 +27,4 @@ public class VideoLesson extends Lesson {
 
     @Column(name = "platform")
     private String platform;
-
 }

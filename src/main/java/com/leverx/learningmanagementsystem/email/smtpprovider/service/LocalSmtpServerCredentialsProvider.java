@@ -12,5 +12,4 @@ public class LocalSmtpServerCredentialsProvider implements SmtpServerCredentials
     public SmtpServerProperties getSmtpServerProperties() {
         return null;
     }
-
 }

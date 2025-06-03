@@ -12,5 +12,4 @@ public class LocalUserProvidedService implements UserProvidedService {
     public SmtpServerProperties getSmtpServerProperties() {
         return null;
     }
-
 }

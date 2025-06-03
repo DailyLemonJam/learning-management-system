@@ -5,5 +5,4 @@ import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerP
 public interface UserProvidedService {
 
     SmtpServerProperties getSmtpServerProperties();
-
 }

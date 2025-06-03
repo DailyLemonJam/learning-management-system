@@ -33,6 +33,5 @@ public record LessonResponseDto(
 
         @Schema(description = "Associated Course UUID")
         UUID courseId
-
 ) {
 }

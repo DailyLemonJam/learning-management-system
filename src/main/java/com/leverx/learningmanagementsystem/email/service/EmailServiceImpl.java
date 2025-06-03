@@ -41,5 +41,4 @@ public class EmailServiceImpl implements EmailService {
         sender.getJavaMailProperties().setProperty("mail.smtp.starttls.enable", "true");
         return sender;
     }
-
 }

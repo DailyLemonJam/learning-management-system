@@ -56,5 +56,4 @@ public class StudentMapper {
                 .locale(request.locale())
                 .build();
     }
-
 }

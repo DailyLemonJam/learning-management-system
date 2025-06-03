@@ -9,6 +9,5 @@ public record FeatureFlagResponseDto(
         String type,
 
         String variation
-
 ) {
 }

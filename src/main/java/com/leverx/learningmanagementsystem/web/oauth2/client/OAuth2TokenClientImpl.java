@@ -54,5 +54,4 @@ public class OAuth2TokenClientImpl implements OAuth2TokenClient {
                 CLIENT_SECRET, clientSecret
         );
     }
-
 }

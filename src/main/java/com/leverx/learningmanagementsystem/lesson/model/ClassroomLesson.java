@@ -27,5 +27,4 @@ public class ClassroomLesson extends Lesson {
 
     @Column(name = "capacity")
     private Integer capacity;
-
 }

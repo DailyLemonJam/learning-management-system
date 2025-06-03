@@ -15,5 +15,4 @@ public class MessageSourceConfiguration {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
-
 }

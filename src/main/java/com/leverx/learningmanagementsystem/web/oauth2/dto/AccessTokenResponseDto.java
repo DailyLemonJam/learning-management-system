@@ -15,6 +15,5 @@ public record AccessTokenResponseDto(
         String scope,
 
         String jti
-
 ) {
 }

@@ -25,5 +25,4 @@ public class CloudDestinationServiceAccessTokenProvider implements DestinationSe
     public String refreshAccessToken(String clientId, String clientSecret, String tokenUrl) {
         return oAuth2TokenClient.getToken(clientId, clientSecret, tokenUrl);
     }
-
 }

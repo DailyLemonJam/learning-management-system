@@ -27,6 +27,5 @@ public record CourseResponseDto(
 
         @Schema(description = "Associated Lessons UUID")
         List<UUID> lessons
-
 ) {
 }

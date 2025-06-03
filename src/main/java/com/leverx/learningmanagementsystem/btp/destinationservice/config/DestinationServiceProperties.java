@@ -22,5 +22,4 @@ public class DestinationServiceProperties {
     private String clientId;
 
     private String clientSecret;
-
 }

@@ -19,6 +19,5 @@ public record CourseSettingsResponseDto(
 
         @Schema(description = "Shows if Course is public")
         Boolean isPublic
-
 ) {
 }

@@ -26,5 +26,4 @@ public class CacheConfiguration {
         cacheManager.setCaffeine(caffeine);
         return cacheManager;
     }
-
 }

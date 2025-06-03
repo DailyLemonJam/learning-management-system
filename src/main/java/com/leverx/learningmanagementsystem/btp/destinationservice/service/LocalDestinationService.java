@@ -12,5 +12,4 @@ public class LocalDestinationService implements DestinationService {
     public DestinationResponseDto getByName(String name) {
         return null;
     }
-
 }

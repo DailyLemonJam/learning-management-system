@@ -79,5 +79,4 @@ public class GlobalExceptionHandler {
     public ErrorResponseDto handleLessonRequestValidationException(LessonRequestValidationException ex){
         return new ErrorResponseDto(ex.getMessage());
     }
-
 }

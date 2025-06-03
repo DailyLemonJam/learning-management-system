@@ -16,5 +16,4 @@ public class LocalDestinationServiceAccessTokenProvider implements DestinationSe
     public String refreshAccessToken(String clientId, String clientSecret, String tokenUrl) {
         return "";
     }
-
 }

@@ -5,5 +5,4 @@ public class FeatureFlagServiceBadResponseException extends RuntimeException {
     public FeatureFlagServiceBadResponseException(String message) {
         super(message);
     }
-
 }

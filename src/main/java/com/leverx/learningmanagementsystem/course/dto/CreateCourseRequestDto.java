@@ -22,6 +22,5 @@ public record CreateCourseRequestDto(
 
         @Schema(description = "Sets CourseSettings")
         @NotNull CreateCourseSettingsRequestDto createCourseSettingsRequestDto
-
 ) {
 }

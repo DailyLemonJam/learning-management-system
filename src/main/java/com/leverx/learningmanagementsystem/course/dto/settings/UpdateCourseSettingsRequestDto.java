@@ -17,6 +17,5 @@ public record UpdateCourseSettingsRequestDto(
 
         @Schema(description = "Updates if Course should be public")
         @NotNull Boolean isPublic
-
 ) {
 }

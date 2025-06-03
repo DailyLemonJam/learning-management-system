@@ -27,6 +27,5 @@ public record CreateStudentRequestDto(
 
         @Schema(description = "Locale of Student")
         Locale locale
-
 ) {
 }

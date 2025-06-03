@@ -35,6 +35,5 @@ public record CreateLessonRequestDto(
 
         @Schema(description = "Sets associated Course UUID")
         @NotNull UUID courseId
-
 ) {
 }

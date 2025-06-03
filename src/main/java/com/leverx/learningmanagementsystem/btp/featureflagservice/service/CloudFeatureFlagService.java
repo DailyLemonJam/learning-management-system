@@ -52,5 +52,4 @@ public class CloudFeatureFlagService implements FeatureFlagService {
         builder.append(encoder.encodeToString(stringToEncode.getBytes()));
         return builder.toString();
     }
-
 }

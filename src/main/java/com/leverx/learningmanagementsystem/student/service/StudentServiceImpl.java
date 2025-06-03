@@ -62,5 +62,4 @@ public class StudentServiceImpl implements StudentService {
         existingStudent.setLocale(student.getLocale());
         return studentRepository.save(existingStudent);
     }
-
 }

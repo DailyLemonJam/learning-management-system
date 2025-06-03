@@ -81,5 +81,4 @@ public class DailyCourseReminderJob {
         data.put("courseTitle", courseTitle);
         return data;
     }
-
 }

@@ -94,5 +94,4 @@ public class LocalSecurityConfiguration {
                 .roles(Role.MANAGER.getValue())
                 .build();
     }
-
 }

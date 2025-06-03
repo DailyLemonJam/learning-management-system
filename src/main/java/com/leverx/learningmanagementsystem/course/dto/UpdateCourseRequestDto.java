@@ -18,6 +18,5 @@ public record UpdateCourseRequestDto(
 
         @Schema(description = "Updates Course price")
         @NotNull BigDecimal price
-
 ) {
 }

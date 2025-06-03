@@ -68,5 +68,4 @@ public class PaymentsServiceImpl implements PaymentsService {
         courseRepository.save(course);
         studentRepository.save(student);
     }
-
 }

@@ -12,5 +12,4 @@ public enum LessonType {
     LessonType(String type) {
         this.name = type;
     }
-
 }
