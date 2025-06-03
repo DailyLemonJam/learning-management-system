@@ -1,0 +1,1249 @@
+{
+	"info": {
+		"name": "learning-management-system-merged",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Application",
+			"item": [
+				{
+					"name": "Actuator",
+					"item": [
+						{
+							"name": "health",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/health",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "info",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{manager}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{manager-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "loggers",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{manager-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{manager}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/loggers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"loggers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Swagger",
+					"item": [
+						{
+							"name": "swagger",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api-docs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api-docs"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Courses",
+					"item": [
+						{
+							"name": "create-course",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"New Course\",\r\n    \"description\":\"New Big Course\",\r\n    \"price\":\"50\",\r\n    \"createCourseSettingsRequestDto\":{\r\n        \"startDate\":\"2025-04-30T14:28:00\",\r\n        \"endDate\":\"2025-05-30T14:28:00\",\r\n        \"isPublic\":\"true\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-course",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/courses/d69e8ad0-3acf-4c43-8430-14db1bc12ec2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses",
+										"d69e8ad0-3acf-4c43-8430-14db1bc12ec2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-courses",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/courses?page=0&size=5&sort=created,asc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										},
+										{
+											"key": "sort",
+											"value": "created,asc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-courses",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"New Title For Course\",\r\n    \"description\":\"NEW New Big Course\",\r\n    \"price\":\"100\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/courses/a98476b3-bdf6-454d-bcfe-a2b3d0a6a2ac",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses",
+										"a98476b3-bdf6-454d-bcfe-a2b3d0a6a2ac"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-course-settings",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/courses/a07c7623-9ce1-4d2b-93a2-c7d8aeba1d61",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses",
+										"a07c7623-9ce1-4d2b-93a2-c7d8aeba1d61"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CourseSettings",
+					"item": [
+						{
+							"name": "get-course-settings",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/course-settings/f2723cf4-917d-45df-a515-9d2da7db1d14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"course-settings",
+										"f2723cf4-917d-45df-a515-9d2da7db1d14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-course-settings",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/course-settings/fbb046cb-56ec-415f-a737-842d87010c1e",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"course-settings",
+										"fbb046cb-56ec-415f-a737-842d87010c1e"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lessons",
+					"item": [
+						{
+							"name": "create-video-lesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"Video Lesson\",\r\n    \"duration\":\"60\",\r\n    \"courseId\":\"f2723cf4-917d-45df-a515-9d2da7db1d14\",\r\n    \"lessonType\":\"VIDEO\",\r\n    \"url\":\"Link to lesson on platform1\",\r\n    \"platform\":\"Some platform name (google, zoom, ms)\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lessons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-classroom-lesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"Classroom Lesson\",\r\n    \"duration\":\"60\",\r\n    \"courseId\":\"f2723cf4-917d-45df-a515-9d2da7db1d14\",\r\n    \"lessonType\":\"CLASSROOM\",\r\n    \"location\":\"Company Office\",\r\n    \"capacity\":\"30\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lessons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-lesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/lessons/92d5b808-8b9b-425a-811d-7550600cc066",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"92d5b808-8b9b-425a-811d-7550600cc066"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-lessons",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/lessons?page=0&size=30&sort=id,asc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "30"
+										},
+										{
+											"key": "sort",
+											"value": "id,asc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-video-lesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"Video Lesson V3\",\r\n    \"duration\":\"600\",\r\n    \"lessonType\":\"VIDEO\",\r\n    \"url\":\"fds fsd fds fds         fdsfsfdsfdsfdfds\",\r\n    \"platform\":\"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lessons/68adc3b4-f919-43c0-a938-6afbc928f8ba",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"68adc3b4-f919-43c0-a938-6afbc928f8ba"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-classroom-lesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"Video Lesson v2\",\r\n    \"duration\":\"60\",\r\n    \"lessonType\":\"CLASSROOM\",\r\n    \"location\":\"Paris, Belarus\",\r\n    \"capacity\":\"20\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/lessons/59edd0f8-a966-4ba8-8a57-be9e9784de78",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"59edd0f8-a966-4ba8-8a57-be9e9784de78"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-lesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/lessons/0177faf3-7a24-4090-bd92-49525006f25a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"0177faf3-7a24-4090-bd92-49525006f25a"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Students",
+					"item": [
+						{
+							"name": "create-student",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"John\",\r\n    \"lastName\":\"Johnson\",\r\n    \"email\":\"john2@email.com\",\r\n    \"dateOfBirth\":\"2000-10-20\",\r\n    \"locale\":\"fr\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/students",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-student",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/students/bc805ed8-1dda-4129-b8b0-ddf32784ef6a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"bc805ed8-1dda-4129-b8b0-ddf32784ef6a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-students",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/students?page=0&size=10&sort=email,desc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "email,desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-student",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"John\",\r\n    \"lastName\":\"Johnson\",\r\n    \"email\":\"john@email.com\",\r\n    \"dateOfBirth\":\"2000-10-20\",\r\n    \"locale\":\"en\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/students/5232126e-3236-436f-923f-ebfeadb07547",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"5232126e-3236-436f-923f-ebfeadb07547"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-student",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/students/5f70714c-a212-4e49-a71d-1dc03f4f4a09",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"5f70714c-a212-4e49-a71d-1dc03f4f4a09"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Payments",
+					"item": [
+						{
+							"name": "purchase-course",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{user-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentId\":\"cfae708d-3348-47b7-8e13-f1f0f08b88e7\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/payments/purchase-course/3a8d00c8-6bf0-46e5-a6fc-0f77f4a6cc83",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"payments",
+										"purchase-course",
+										"3a8d00c8-6bf0-46e5-a6fc-0f77f4a6cc83"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "BTP Services",
+			"item": [
+				{
+					"name": "Destination Service",
+					"item": [
+						{
+							"name": "get-destination-service-token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://68cadf89trial.authentication.us10.hana.ondemand.com/oauth/token",
+									"protocol": "https",
+									"host": [
+										"68cadf89trial",
+										"authentication",
+										"us10",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-destination-service-smtp",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://destination-configuration.cfapps.us10.hana.ondemand.com/destination-configuration/v1/destinations/SmtpDestination",
+									"protocol": "https",
+									"host": [
+										"destination-configuration",
+										"cfapps",
+										"us10",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"destination-configuration",
+										"v1",
+										"destinations",
+										"SmtpDestination"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Feature Flag Service",
+					"item": [
+						{
+							"name": "get-feature-flag",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://feature-flags.cfapps.us10.hana.ondemand.com/api/v2/evaluate/destination-service-enabled",
+									"protocol": "https",
+									"host": [
+										"feature-flags",
+										"cfapps",
+										"us10",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"evaluate",
+										"destination-service-enabled"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "XSUAA",
+					"item": [
+						{
+							"name": "get-token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://68cadf89trial.authentication.us10.hana.ondemand.com/oauth/token",
+									"protocol": "https",
+									"host": [
+										"68cadf89trial",
+										"authentication",
+										"us10",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user",
+			"value": "user",
+			"type": "default"
+		},
+		{
+			"key": "user-password",
+			"value": "123",
+			"type": "default"
+		},
+		{
+			"key": "manager",
+			"value": "manager",
+			"type": "string"
+		},
+		{
+			"key": "manager-password",
+			"value": "123",
+			"type": "string"
+		}
+	]
+}
