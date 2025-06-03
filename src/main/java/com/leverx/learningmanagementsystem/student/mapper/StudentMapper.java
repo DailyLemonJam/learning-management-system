@@ -6,6 +6,7 @@ import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -30,8 +31,8 @@ public class StudentMapper {
         );
     }
 
-    public Page<StudentResponseDto> toDtos(Page<Student> students) {
-        return students.map(this::toDto);
+    public PagedModel<StudentResponseDto> toDtos(Page<Student> students) {
+        return new PagedModel<>(students.map(this::toDto));
     }
 
     public Student toModel(CreateStudentRequestDto request) {

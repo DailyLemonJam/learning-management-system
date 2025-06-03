@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +56,7 @@ public class StudentController {
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Students", description = "Returns all Students")
-    public Page<StudentResponseDto> getAll(Pageable pageable) {
+    public PagedModel<StudentResponseDto> getAll(Pageable pageable) {
         var students = studentService.getAll(pageable);
         return studentMapper.toDtos(students);
     }

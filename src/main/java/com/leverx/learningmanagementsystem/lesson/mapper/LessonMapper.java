@@ -9,6 +9,7 @@ import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.LessonType;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -45,8 +46,8 @@ public class LessonMapper {
         throw new RuntimeException("Probably new Lesson type was created");
     }
 
-    public Page<LessonResponseDto> toDtos(Page<Lesson> lessons) {
-        return lessons.map(this::toDto);
+    public PagedModel<LessonResponseDto> toDtos(Page<Lesson> lessons) {
+        return new PagedModel<>(lessons.map(this::toDto));
     }
 
     public Lesson toModel(CreateLessonRequestDto request) {
