@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor
@@ -73,10 +73,10 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (ClassroomLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        if (!isNull(updatedLessonCast.getLocation())) {
+        if (nonNull(updatedLessonCast.getLocation())) {
             existingLessonCast.setLocation(updatedLessonCast.getLocation());
         }
-        if (!isNull(updatedLessonCast.getCapacity())) {
+        if (nonNull(updatedLessonCast.getCapacity())) {
             existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
         }
         return lessonRepository.save(existingLessonCast);
@@ -87,10 +87,10 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (VideoLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        if (!isNull(updatedLessonCast.getUrl())) {
+        if (nonNull(updatedLessonCast.getUrl())) {
             existingLessonCast.setUrl(updatedLessonCast.getUrl());
         }
-        if (!isNull(updatedLessonCast.getPlatform())) {
+        if (nonNull(updatedLessonCast.getPlatform())) {
             existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
         }
         return lessonRepository.save(existingLessonCast);
