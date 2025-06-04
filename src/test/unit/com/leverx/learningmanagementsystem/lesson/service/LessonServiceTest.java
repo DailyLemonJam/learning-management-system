@@ -3,8 +3,8 @@ package com.leverx.learningmanagementsystem.lesson.service;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
-import com.leverx.learningmanagementsystem.util.CourseUtil;
-import com.leverx.learningmanagementsystem.util.LessonUtil;
+import com.leverx.learningmanagementsystem.course.common.builder.CourseBuilder;
+import com.leverx.learningmanagementsystem.lesson.common.builder.LessonBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -43,9 +43,9 @@ public class LessonServiceTest {
     @Test
     void createLesson_ShouldSaveLesson() {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseBuilder.createCourse();
         var courseId = UUID.randomUUID();
-        var videoLesson = LessonUtil.createVideoLesson(course);
+        var videoLesson = LessonBuilder.createVideoLesson(course);
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
         when(lessonRepository.save(videoLesson)).thenReturn(videoLesson);
 
@@ -61,8 +61,8 @@ public class LessonServiceTest {
     @Test
     void getLesson_ShouldReturnLesson() {
         // given
-        var course = CourseUtil.createCourse();
-        var videoLesson = LessonUtil.createVideoLesson(course);
+        var course = CourseBuilder.createCourse();
+        var videoLesson = LessonBuilder.createVideoLesson(course);
         var lessonId = UUID.randomUUID();
         videoLesson.setId(lessonId);
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(videoLesson));
@@ -88,8 +88,8 @@ public class LessonServiceTest {
     @Test
     void getAllLessons_ShouldReturnLessonsPage() {
         // given
-        var course = CourseUtil.createCourse();
-        var videoLesson = LessonUtil.createVideoLesson(course);
+        var course = CourseBuilder.createCourse();
+        var videoLesson = LessonBuilder.createVideoLesson(course);
         var lessonPage = new PageImpl<>(Collections.singletonList(videoLesson));
         when(lessonRepository.findAll(any(Pageable.class))).thenReturn(lessonPage);
 
@@ -104,8 +104,8 @@ public class LessonServiceTest {
     @Test
     void updateLesson_ShouldUpdateLesson() {
         // given
-        var course = CourseUtil.createCourse();
-        var videoLesson = LessonUtil.createVideoLesson(course);
+        var course = CourseBuilder.createCourse();
+        var videoLesson = LessonBuilder.createVideoLesson(course);
         var lessonId = UUID.randomUUID();
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(videoLesson));
         when(lessonRepository.save(any(Lesson.class))).thenReturn(videoLesson);
@@ -121,8 +121,8 @@ public class LessonServiceTest {
     @Test
     void deleteLesson_ShouldDeleteLesson() {
         // given
-        var course = CourseUtil.createCourse();
-        var videoLesson = LessonUtil.createVideoLesson(course);
+        var course = CourseBuilder.createCourse();
+        var videoLesson = LessonBuilder.createVideoLesson(course);
         var lessonId = UUID.randomUUID();
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(videoLesson));
 

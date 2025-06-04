@@ -4,7 +4,7 @@ import com.leverx.learningmanagementsystem.AbstractCommonIT;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.dto.UpdateStudentRequestDto;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
-import com.leverx.learningmanagementsystem.util.StudentUtil;
+import com.leverx.learningmanagementsystem.util.StudentUtilIT;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,7 +70,7 @@ class StudentControllerIT extends AbstractCommonIT {
     @WithMockUser
     public void getStudent_givenId_shouldReturnStudentAndReturn200() throws Exception {
         // given
-        var student = StudentUtil.createStudent(new ArrayList<>());
+        var student = StudentUtilIT.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         // when
@@ -87,7 +87,7 @@ class StudentControllerIT extends AbstractCommonIT {
     @Test
     @WithMockUser
     public void getAllStudents_shouldReturnAllStudentsAndReturn200() throws Exception {// given
-        var student = StudentUtil.createStudent(new ArrayList<>());
+        var student = StudentUtilIT.createStudent(new ArrayList<>());
         studentRepository.save(student);
 
         // when
@@ -103,7 +103,7 @@ class StudentControllerIT extends AbstractCommonIT {
     @WithMockUser
     public void updateStudent_givenUpdateStudentRequestDto_shouldUpdateStudentAndReturn200() throws Exception {
         // given
-        var student = StudentUtil.createStudent(new ArrayList<>());
+        var student = StudentUtilIT.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         var localDate = LocalDate.now().minusDays(365 * 24);
@@ -128,7 +128,7 @@ class StudentControllerIT extends AbstractCommonIT {
     @WithMockUser
     public void deleteStudent_givenId_shouldDeleteStudentAndReturn204AndReturn404() throws Exception {
         // given
-        var student = StudentUtil.createStudent(new ArrayList<>());
+        var student = StudentUtilIT.createStudent(new ArrayList<>());
         var savedStudent = studentRepository.save(student);
 
         // when

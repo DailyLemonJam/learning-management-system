@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.util;
+package com.leverx.learningmanagementsystem.course.common.builder;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.model.CourseSettings;
@@ -6,7 +6,7 @@ import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class CourseUtil {
+public class CourseBuilder {
 
     public static Course createCourse() {
         var courseSettings = CourseSettings.builder()

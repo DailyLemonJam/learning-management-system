@@ -5,7 +5,7 @@ import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.UpdateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSettingsRequestDto;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.util.CourseUtil;
+import com.leverx.learningmanagementsystem.util.CourseUtilIT;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +72,7 @@ public class CourseControllerIT extends AbstractCommonIT {
     @WithMockUser
     public void getCourse_givenId_shouldReturnCourseAndReturn200() throws Exception {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseUtilIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
         // when
@@ -89,8 +89,8 @@ public class CourseControllerIT extends AbstractCommonIT {
     @WithMockUser
     public void getAllCourses_shouldReturnAllCoursesAndReturn200() throws Exception {
         // given
-        var course = CourseUtil.createCourse();
-        var course2 = CourseUtil.createCourse();
+        var course = CourseUtilIT.createCourse();
+        var course2 = CourseUtilIT.createCourse();
         course2.setPrice(BigDecimal.valueOf(100));
         courseRepository.save(course);
         courseRepository.save(course2);
@@ -110,7 +110,7 @@ public class CourseControllerIT extends AbstractCommonIT {
     @WithMockUser
     public void updateCourse_givenUpdateCourseRequestDto_shouldUpdateCourseAndReturn200() throws Exception {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseUtilIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
         var updateRequest = new UpdateCourseRequestDto("New Nice Course Title", "New description", BigDecimal.valueOf(60));
@@ -133,7 +133,7 @@ public class CourseControllerIT extends AbstractCommonIT {
     @WithMockUser
     public void deleteCourse_givenId_shouldDeleteCourseAndReturn204AndReturn404() throws Exception {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseUtilIT.createCourse();
         var savedCourse = courseRepository.save(course);
 
         // when

@@ -2,7 +2,7 @@ package com.leverx.learningmanagementsystem.course.service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.util.CourseUtil;
+import com.leverx.learningmanagementsystem.course.common.builder.CourseBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ public class CourseServiceTest {
     @Test
     void createCourse_shouldSaveCourse() {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseBuilder.createCourse();
         when(courseRepository.save(any(Course.class))).thenReturn(course);
 
         // when
@@ -54,7 +54,7 @@ public class CourseServiceTest {
     @Test
     void getCourse_shouldReturnCourse() {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseBuilder.createCourse();
         var courseId = UUID.randomUUID();
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
 
@@ -85,8 +85,8 @@ public class CourseServiceTest {
         // given
         var pageable = PageRequest.of(0, 5);
         var courses = List.of(
-                CourseUtil.createCourse(),
-                CourseUtil.createCourse()
+                CourseBuilder.createCourse(),
+                CourseBuilder.createCourse()
         );
         var coursePage = new PageImpl<>(courses, pageable, courses.size());
         when(courseRepository.findAll(any(Pageable.class))).thenReturn(coursePage);
@@ -102,7 +102,7 @@ public class CourseServiceTest {
     @Test
     void updateCourse_shouldUpdateCourse() {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseBuilder.createCourse();
         var courseId = UUID.randomUUID();
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
         when(courseRepository.save(any(Course.class))).thenReturn(course);
@@ -119,7 +119,7 @@ public class CourseServiceTest {
     @Test
     void deleteCourse_shouldRemoveCourse() {
         // given
-        var course = CourseUtil.createCourse();
+        var course = CourseBuilder.createCourse();
         var courseId = UUID.randomUUID();
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
 
