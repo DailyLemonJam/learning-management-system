@@ -1,12 +1,11 @@
 package com.leverx.learningmanagementsystem.lesson.service;
 
-import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
-import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
+import com.leverx.learningmanagementsystem.util.CourseUtil;
+import com.leverx.learningmanagementsystem.util.LessonUtil;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,25 +40,16 @@ public class LessonServiceTest {
     @InjectMocks
     private LessonServiceImpl lessonService;
 
-    private Lesson videoLesson;
-    private UUID lessonId;
-    private UUID courseId;
-    private Course course;
-
-    @BeforeEach
-    void setUp() {
-        lessonId = UUID.randomUUID();
-        courseId = UUID.randomUUID();
-        course = new Course();
-        videoLesson = new VideoLesson();
-        videoLesson.setId(lessonId);
-    }
-
     @Test
     void createLesson_ShouldSaveLesson() {
-        // when
+        // given
+        var course = CourseUtil.createCourse();
+        var courseId = UUID.randomUUID();
+        var videoLesson = LessonUtil.createVideoLesson(course);
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
         when(lessonRepository.save(videoLesson)).thenReturn(videoLesson);
+
+        // when
         var createdLesson = lessonService.create(videoLesson, courseId);
 
         // then
@@ -70,8 +60,14 @@ public class LessonServiceTest {
 
     @Test
     void getLesson_ShouldReturnLesson() {
-        // when
+        // given
+        var course = CourseUtil.createCourse();
+        var videoLesson = LessonUtil.createVideoLesson(course);
+        var lessonId = UUID.randomUUID();
+        videoLesson.setId(lessonId);
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(videoLesson));
+
+        // when
         var foundLesson = lessonService.get(lessonId);
 
         // then
@@ -81,7 +77,8 @@ public class LessonServiceTest {
 
     @Test
     void getLesson_ShouldThrowException() {
-        // when
+        // given
+        var lessonId = UUID.randomUUID();
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.empty());
 
         // then
@@ -91,10 +88,12 @@ public class LessonServiceTest {
     @Test
     void getAllLessons_ShouldReturnLessonsPage() {
         // given
+        var course = CourseUtil.createCourse();
+        var videoLesson = LessonUtil.createVideoLesson(course);
         var lessonPage = new PageImpl<>(Collections.singletonList(videoLesson));
+        when(lessonRepository.findAll(any(Pageable.class))).thenReturn(lessonPage);
 
         // when
-        when(lessonRepository.findAll(any(Pageable.class))).thenReturn(lessonPage);
         var result = lessonService.getAll(Pageable.unpaged());
 
         // then
@@ -104,9 +103,14 @@ public class LessonServiceTest {
 
     @Test
     void updateLesson_ShouldUpdateLesson() {
-        // when
+        // given
+        var course = CourseUtil.createCourse();
+        var videoLesson = LessonUtil.createVideoLesson(course);
+        var lessonId = UUID.randomUUID();
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(videoLesson));
         when(lessonRepository.save(any(Lesson.class))).thenReturn(videoLesson);
+
+        // when
         var updatedLesson = lessonService.update(lessonId, videoLesson);
 
         // then
@@ -116,8 +120,13 @@ public class LessonServiceTest {
 
     @Test
     void deleteLesson_ShouldDeleteLesson() {
-        // when
+        // given
+        var course = CourseUtil.createCourse();
+        var videoLesson = LessonUtil.createVideoLesson(course);
+        var lessonId = UUID.randomUUID();
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(videoLesson));
+
+        // when
         lessonService.delete(lessonId);
 
         // then
@@ -126,11 +135,11 @@ public class LessonServiceTest {
 
     @Test
     void deleteLesson_NotFound() {
-        // when
+        // given
+        var lessonId = UUID.randomUUID();
         when(lessonRepository.findById(lessonId)).thenReturn(Optional.empty());
 
         // then
         assertThrows(EntityNotFoundException.class, () -> lessonService.delete(lessonId));
     }
-
 }

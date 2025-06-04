@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-public class StudentUtil {
+public class StudentUtilIT {
 
     public static Student createStudent(List<Course> enrolledCourses) {
         return Student.builder()
@@ -20,5 +20,4 @@ public class StudentUtil {
                 .courses(enrolledCourses)
                 .build();
     }
-
 }

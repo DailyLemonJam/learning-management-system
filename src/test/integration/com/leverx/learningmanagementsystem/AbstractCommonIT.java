@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Tag("integration")
-public abstract class AbstractConfigurationIT {
+public abstract class AbstractCommonIT {
 
     @Autowired
     protected MockMvc mockMvc;
@@ -26,5 +26,4 @@ public abstract class AbstractConfigurationIT {
 
     @Value("${security.configuration.default-user.password}")
     protected String defaultUserPassword;
-
 }

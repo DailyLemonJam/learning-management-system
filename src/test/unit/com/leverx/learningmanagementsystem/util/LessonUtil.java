@@ -25,5 +25,4 @@ public class LessonUtil {
                 .course(course)
                 .build();
     }
-
 }

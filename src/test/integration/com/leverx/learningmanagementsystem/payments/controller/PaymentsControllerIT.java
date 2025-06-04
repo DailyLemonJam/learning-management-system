@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.payments.controller;
 
-import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
+import com.leverx.learningmanagementsystem.AbstractCommonIT;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.payments.dto.PurchaseCourseRequestDto;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
@@ -23,7 +23,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class PaymentsControllerIT extends AbstractConfigurationIT {
+public class PaymentsControllerIT extends AbstractCommonIT {
 
     @Autowired
     private CourseRepository courseRepository;
@@ -173,5 +173,4 @@ public class PaymentsControllerIT extends AbstractConfigurationIT {
 
         assertEquals(coursePrice, courseResult.getCoinsPaid());
     }
-
 }

@@ -1,10 +1,9 @@
 package com.leverx.learningmanagementsystem.course.service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
+import com.leverx.learningmanagementsystem.util.CourseUtil;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,8 +14,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,21 +36,10 @@ public class CourseServiceTest {
     @InjectMocks
     private CourseServiceImpl courseService;
 
-    private Course course;
-    private UUID courseId;
-
-    @BeforeEach
-    void setUp() {
-        courseId = UUID.randomUUID();
-        course = new Course();
-        course.setId(courseId);
-        course.setCourseSettings(new CourseSettings());
-        course.setTitle("Test Course");
-    }
-
     @Test
     void createCourse_shouldSaveCourse() {
         // given
+        var course = CourseUtil.createCourse();
         when(courseRepository.save(any(Course.class))).thenReturn(course);
 
         // when
@@ -68,6 +54,8 @@ public class CourseServiceTest {
     @Test
     void getCourse_shouldReturnCourse() {
         // given
+        var course = CourseUtil.createCourse();
+        var courseId = UUID.randomUUID();
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
 
         // when
@@ -82,6 +70,7 @@ public class CourseServiceTest {
     @Test
     void getCourse_shouldThrowException() {
         // given
+        var courseId = UUID.randomUUID();
         when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
 
         // when
@@ -96,18 +85,8 @@ public class CourseServiceTest {
         // given
         var pageable = PageRequest.of(0, 5);
         var courses = List.of(
-                Course.builder()
-                        .courseSettings(CourseSettings.builder().build())
-                        .description("Course")
-                        .price(BigDecimal.valueOf(60))
-                        .lessons(new ArrayList<>())
-                        .build(),
-                Course.builder()
-                        .courseSettings(CourseSettings.builder().build())
-                        .description("Course 2")
-                        .price(BigDecimal.valueOf(80))
-                        .lessons(new ArrayList<>())
-                        .build()
+                CourseUtil.createCourse(),
+                CourseUtil.createCourse()
         );
         var coursePage = new PageImpl<>(courses, pageable, courses.size());
         when(courseRepository.findAll(any(Pageable.class))).thenReturn(coursePage);
@@ -123,6 +102,8 @@ public class CourseServiceTest {
     @Test
     void updateCourse_shouldUpdateCourse() {
         // given
+        var course = CourseUtil.createCourse();
+        var courseId = UUID.randomUUID();
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
         when(courseRepository.save(any(Course.class))).thenReturn(course);
 
@@ -138,6 +119,8 @@ public class CourseServiceTest {
     @Test
     void deleteCourse_shouldRemoveCourse() {
         // given
+        var course = CourseUtil.createCourse();
+        var courseId = UUID.randomUUID();
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
 
         // when
@@ -146,5 +129,4 @@ public class CourseServiceTest {
         // then
         verify(courseRepository, times(1)).delete(course);
     }
-
 }

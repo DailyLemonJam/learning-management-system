@@ -24,5 +24,4 @@ public class CourseUtil {
         course.getCourseSettings().setCourse(course);
         return course;
     }
-
 }

@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.course.controller;
 
-import com.leverx.learningmanagementsystem.AbstractConfigurationIT;
+import com.leverx.learningmanagementsystem.AbstractCommonIT;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.UpdateCourseRequestDto;
 import com.leverx.learningmanagementsystem.course.dto.settings.CreateCourseSettingsRequestDto;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CourseControllerIT extends AbstractConfigurationIT {
+public class CourseControllerIT extends AbstractCommonIT {
 
     @Autowired
     private CourseRepository courseRepository;
@@ -146,5 +146,4 @@ public class CourseControllerIT extends AbstractConfigurationIT {
         result.andExpect(status().isNoContent());
         deleteResult.andExpect(status().isNotFound());
     }
-
 }
