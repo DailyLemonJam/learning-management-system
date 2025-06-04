@@ -9,6 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 
+import static java.util.Objects.isNull;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 
 @Component
@@ -33,7 +34,7 @@ public class OAuth2TokenClientImpl implements OAuth2TokenClient {
                 .contentType(APPLICATION_FORM_URLENCODED)
                 .retrieve()
                 .body(AccessTokenResponseDto.class);
-        if (response != null) {
+        if (!isNull(response)) {
             return response.accessToken();
         }
         throw new OAuth2TokenClientBadResponseException("Unable to get access token");

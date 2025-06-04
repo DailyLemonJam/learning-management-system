@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import static java.util.Objects.isNull;
+
 @Service
 @RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
@@ -56,13 +58,10 @@ public class LessonServiceImpl implements LessonService {
     }
 
     private Lesson updateLesson(Lesson existingLesson, Lesson updatedLesson) {
-        if (existingLesson.getClass().equals(updatedLesson.getClass())) {
-            if (existingLesson instanceof ClassroomLesson) {
-                return updateAsClassroomLesson(existingLesson, updatedLesson);
-            } else if (existingLesson instanceof VideoLesson) {
-                return updateAsVideoLesson(existingLesson, updatedLesson);
-            }
-            throw new RuntimeException("Unknown Lesson type");
+        if (existingLesson instanceof ClassroomLesson && updatedLesson instanceof ClassroomLesson) {
+            return updateAsClassroomLesson(existingLesson, updatedLesson);
+        } else if (existingLesson instanceof VideoLesson && updatedLesson instanceof VideoLesson) {
+            return updateAsVideoLesson(existingLesson, updatedLesson);
         }
         updatedLesson.setCourse(existingLesson.getCourse());
         lessonRepository.delete(existingLesson);
@@ -74,10 +73,10 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (ClassroomLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        if (updatedLessonCast.getLocation() != null) {
+        if (!isNull(updatedLessonCast.getLocation())) {
             existingLessonCast.setLocation(updatedLessonCast.getLocation());
         }
-        if (updatedLessonCast.getCapacity() != null) {
+        if (!isNull(updatedLessonCast.getCapacity())) {
             existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
         }
         return lessonRepository.save(existingLessonCast);
@@ -88,10 +87,10 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (VideoLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        if (updatedLessonCast.getUrl() != null) {
+        if (!isNull(updatedLessonCast.getUrl())) {
             existingLessonCast.setUrl(updatedLessonCast.getUrl());
         }
-        if (updatedLessonCast.getPlatform() != null) {
+        if (!isNull(updatedLessonCast.getPlatform())) {
             existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
         }
         return lessonRepository.save(existingLessonCast);

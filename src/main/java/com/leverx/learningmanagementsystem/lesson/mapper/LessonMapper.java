@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
+
 @Component
 public class LessonMapper {
 
@@ -109,17 +111,17 @@ public class LessonMapper {
     }
 
     private void validateCreateVideoLessonRequest(CreateLessonRequestDto request) {
-        if (request.url() == null) {
+        if (isNull(request.url())) {
             throw new LessonRequestValidationException("Can't create Video Lesson without URL");
-        } else if (request.platform() == null) {
+        } else if (isNull(request.platform())) {
             throw new LessonRequestValidationException("Can't create Video Lesson without Platform");
         }
     }
 
     private void validateCreateClassroomLessonRequest(CreateLessonRequestDto request) {
-        if (request.location() == null) {
+        if (isNull(request.location())) {
             throw new LessonRequestValidationException("Can't create Classroom Lesson without Location");
-        } else if (request.capacity() == null) {
+        } else if (isNull(request.capacity())) {
             throw new LessonRequestValidationException("Can't create Classroom Lesson without Capacity");
         }
     }

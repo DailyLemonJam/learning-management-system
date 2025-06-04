@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import static java.util.Objects.isNull;
+
 @Service
 @Profile("cloud")
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class CloudSmtpServerCredentialsProvider implements SmtpServerCredentials
     }
 
     private Boolean convertToBooleanResponse(FeatureFlagResponseDto response) {
-        if (response == null || response.httpStatus() != HttpStatus.OK.value()) {
+        if (isNull(response) || response.httpStatus() != HttpStatus.OK.value()) {
             throw new FeatureFlagServiceBadResponseException("Invalid feature flag response");
         }
         return Boolean.parseBoolean(response.variation());
