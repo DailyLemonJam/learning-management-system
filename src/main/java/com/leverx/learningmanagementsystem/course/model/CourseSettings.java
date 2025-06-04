@@ -1,7 +1,14 @@
 package com.leverx.learningmanagementsystem.course.model;
 
-import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
-import jakarta.persistence.*;
+import com.leverx.learningmanagementsystem.core.audit.model.AuditableEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -46,5 +53,4 @@ public class CourseSettings extends AuditableEntity {
     @MapsId
     @JoinColumn(name = "id")
     private Course course;
-
 }

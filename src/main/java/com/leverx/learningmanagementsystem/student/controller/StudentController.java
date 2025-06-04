@@ -9,19 +9,30 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.web.PagedModel;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/students")
 @RequiredArgsConstructor
 @Tag(name = "Student Controller", description = "Handles Student operations")
 public class StudentController {
+
     private final StudentService studentService;
     private final StudentMapper studentMapper;
 
@@ -45,7 +56,7 @@ public class StudentController {
     @GetMapping
     @ResponseStatus(OK)
     @Operation(summary = "Get Students", description = "Returns all Students")
-    public Page<StudentResponseDto> getAll(Pageable pageable) {
+    public PagedModel<StudentResponseDto> getAll(Pageable pageable) {
         var students = studentService.getAll(pageable);
         return studentMapper.toDtos(students);
     }
@@ -66,5 +77,4 @@ public class StudentController {
     public void delete(@PathVariable UUID id) {
         studentService.delete(id);
     }
-
 }

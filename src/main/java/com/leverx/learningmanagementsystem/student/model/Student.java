@@ -1,8 +1,15 @@
 package com.leverx.learningmanagementsystem.student.model;
 
-import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
+import com.leverx.learningmanagementsystem.core.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.course.model.Course;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -60,5 +67,4 @@ public class Student extends AuditableEntity {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> courses;
-
 }

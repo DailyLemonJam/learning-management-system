@@ -1,0 +1,9 @@
+_schema-version: "3.1"
+ID: learning-management-system-ext
+version: 1.3.0
+extends: learning-management-system
+
+modules:
+  - name: learning-management-system
+    parameters:
+      memory: 2048M

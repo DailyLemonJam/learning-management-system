@@ -14,9 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import static java.util.Objects.nonNull;
+
 @Service
 @RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
+
     private final LessonRepository lessonRepository;
     private final CourseRepository courseRepository;
 
@@ -43,27 +46,22 @@ public class LessonServiceImpl implements LessonService {
     @Transactional
     @Override
     public Lesson update(UUID lessonId, Lesson updatedLesson) {
-        var existingLesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find lesson with id: " + lessonId));
+        var existingLesson = get(lessonId);
         return updateLesson(existingLesson, updatedLesson);
     }
 
     @Transactional
     @Override
     public void delete(UUID lessonId) {
-        var lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find lesson with id: " + lessonId));
+        var lesson = get(lessonId);
         lessonRepository.delete(lesson);
     }
 
     private Lesson updateLesson(Lesson existingLesson, Lesson updatedLesson) {
-        if (existingLesson.getClass().equals(updatedLesson.getClass())) {
-            if (existingLesson instanceof ClassroomLesson) {
-                return updateAsClassroomLesson(existingLesson, updatedLesson);
-            } else if (existingLesson instanceof VideoLesson) {
-                return updateAsVideoLesson(existingLesson, updatedLesson);
-            }
-            throw new RuntimeException("Unknown Lesson type");
+        if (existingLesson instanceof ClassroomLesson && updatedLesson instanceof ClassroomLesson) {
+            return updateAsClassroomLesson(existingLesson, updatedLesson);
+        } else if (existingLesson instanceof VideoLesson && updatedLesson instanceof VideoLesson) {
+            return updateAsVideoLesson(existingLesson, updatedLesson);
         }
         updatedLesson.setCourse(existingLesson.getCourse());
         lessonRepository.delete(existingLesson);
@@ -75,8 +73,12 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (ClassroomLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        existingLessonCast.setLocation(updatedLessonCast.getLocation());
-        existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
+        if (nonNull(updatedLessonCast.getLocation())) {
+            existingLessonCast.setLocation(updatedLessonCast.getLocation());
+        }
+        if (nonNull(updatedLessonCast.getCapacity())) {
+            existingLessonCast.setCapacity(updatedLessonCast.getCapacity());
+        }
         return lessonRepository.save(existingLessonCast);
     }
 
@@ -85,9 +87,12 @@ public class LessonServiceImpl implements LessonService {
         var updatedLessonCast = (VideoLesson) updatedLesson;
         existingLessonCast.setTitle(updatedLessonCast.getTitle());
         existingLessonCast.setDuration(updatedLessonCast.getDuration());
-        existingLessonCast.setUrl(updatedLessonCast.getUrl());
-        existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
+        if (nonNull(updatedLessonCast.getUrl())) {
+            existingLessonCast.setUrl(updatedLessonCast.getUrl());
+        }
+        if (nonNull(updatedLessonCast.getPlatform())) {
+            existingLessonCast.setPlatform(updatedLessonCast.getPlatform());
+        }
         return lessonRepository.save(existingLessonCast);
     }
-
 }

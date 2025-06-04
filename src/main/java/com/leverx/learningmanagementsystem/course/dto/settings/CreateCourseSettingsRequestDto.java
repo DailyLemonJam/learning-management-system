@@ -7,7 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Schema(description = "Create CourseSettings Request DTO")
-public record CreateCourseSettingsRequestDto(@Schema(description = "Sets start date of a Course") @NotNull @FutureOrPresent LocalDateTime startDate,
-                                             @Schema(description = "Sets end date of a Course") @NotNull @FutureOrPresent LocalDateTime endDate,
-                                             @Schema(description = "Sets if Course should be public") @NotNull Boolean isPublic) {
+public record CreateCourseSettingsRequestDto(
+
+        @Schema(description = "Sets start date of a Course")
+        @NotNull @FutureOrPresent LocalDateTime startDate,
+
+        @Schema(description = "Sets end date of a Course")
+        @NotNull @FutureOrPresent LocalDateTime endDate,
+
+        @Schema(description = "Sets if Course should be public")
+        @NotNull Boolean isPublic
+) {
 }

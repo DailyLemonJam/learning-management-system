@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
+
+    @EntityGraph(attributePaths = {"courses"})
     Optional<Student> findByEmail(String email);
 
     @EntityGraph(attributePaths = {"courses"})

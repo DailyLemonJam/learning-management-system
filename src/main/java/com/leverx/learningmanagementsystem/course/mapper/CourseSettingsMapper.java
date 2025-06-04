@@ -24,5 +24,4 @@ public class CourseSettingsMapper {
                 .isPublic(request.isPublic())
                 .build();
     }
-
 }

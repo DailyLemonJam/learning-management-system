@@ -3,14 +3,18 @@ package com.leverx.learningmanagementsystem.lesson.mapper;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonRequestDto;
 import com.leverx.learningmanagementsystem.lesson.dto.LessonResponseDto;
 import com.leverx.learningmanagementsystem.lesson.dto.UpdateLessonRequestDto;
+import com.leverx.learningmanagementsystem.lesson.exception.LessonRequestValidationException;
 import com.leverx.learningmanagementsystem.lesson.model.ClassroomLesson;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.LessonType;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 @Component
 public class LessonMapper {
@@ -44,15 +48,17 @@ public class LessonMapper {
         throw new RuntimeException("Probably new Lesson type was created");
     }
 
-    public Page<LessonResponseDto> toDtos(Page<Lesson> lessons) {
-        return lessons.map(this::toDto);
+    public PagedModel<LessonResponseDto> toDtos(Page<Lesson> lessons) {
+        return new PagedModel<>(lessons.map(this::toDto));
     }
 
     public Lesson toModel(CreateLessonRequestDto request) {
         var lessonType = request.lessonType();
         if (Objects.equals(lessonType, LessonType.CLASSROOM.getName())) {
+            validateCreateClassroomLessonRequest(request);
             return createClassroomLesson(request);
         } else if (Objects.equals(lessonType, LessonType.VIDEO.getName())) {
+            validateCreateVideoLessonRequest(request);
             return createVideoLesson(request);
         }
         throw new RuntimeException("Incorrect lesson type");
@@ -61,9 +67,9 @@ public class LessonMapper {
     public Lesson toModel(UpdateLessonRequestDto request) {
         var lessonType = request.lessonType();
         if (Objects.equals(lessonType, LessonType.CLASSROOM.getName())) {
-            return createClassroomLesson(request);
+            return updateClassroomLesson(request);
         } else if (Objects.equals(lessonType, LessonType.VIDEO.getName())) {
-            return createVideoLesson(request);
+            return updateVideoLesson(request);
         }
         throw new RuntimeException("Incorrect lesson type");
     }
@@ -77,7 +83,7 @@ public class LessonMapper {
                 .build();
     }
 
-    private ClassroomLesson createClassroomLesson(UpdateLessonRequestDto request) {
+    private ClassroomLesson updateClassroomLesson(UpdateLessonRequestDto request) {
         return ClassroomLesson.builder()
                 .title(request.title())
                 .duration(request.duration())
@@ -95,7 +101,7 @@ public class LessonMapper {
                 .build();
     }
 
-    private VideoLesson createVideoLesson(UpdateLessonRequestDto request) {
+    private VideoLesson updateVideoLesson(UpdateLessonRequestDto request) {
         return VideoLesson.builder()
                 .title(request.title())
                 .duration(request.duration())
@@ -104,4 +110,19 @@ public class LessonMapper {
                 .build();
     }
 
+    private void validateCreateVideoLessonRequest(CreateLessonRequestDto request) {
+        if (isNull(request.url())) {
+            throw new LessonRequestValidationException("Can't create Video Lesson without URL");
+        } else if (isNull(request.platform())) {
+            throw new LessonRequestValidationException("Can't create Video Lesson without Platform");
+        }
+    }
+
+    private void validateCreateClassroomLessonRequest(CreateLessonRequestDto request) {
+        if (isNull(request.location())) {
+            throw new LessonRequestValidationException("Can't create Classroom Lesson without Location");
+        } else if (isNull(request.capacity())) {
+            throw new LessonRequestValidationException("Can't create Classroom Lesson without Capacity");
+        }
+    }
 }

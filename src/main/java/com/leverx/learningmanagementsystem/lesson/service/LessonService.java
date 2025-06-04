@@ -17,5 +17,4 @@ public interface LessonService {
     Lesson update(UUID lessonId, Lesson lesson);
 
     void delete(UUID lessonId);
-
 }

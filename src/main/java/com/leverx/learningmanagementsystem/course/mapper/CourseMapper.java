@@ -8,6 +8,7 @@ import com.leverx.learningmanagementsystem.course.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class CourseMapper {
+
     private final CourseSettingsMapper courseSettingsMapper;
 
     public CourseResponseDto toDto(Course course) {
@@ -32,8 +34,8 @@ public class CourseMapper {
         );
     }
 
-    public Page<CourseResponseDto> toDtos(Page<Course> courses) {
-        return courses.map(this::toDto);
+    public PagedModel<CourseResponseDto> toDtos(Page<Course> courses) {
+        return new PagedModel<>(courses.map(this::toDto));
     }
 
     public Course toModel(CreateCourseRequestDto request) {
@@ -60,5 +62,4 @@ public class CourseMapper {
                 .price(request.price())
                 .build();
     }
-
 }

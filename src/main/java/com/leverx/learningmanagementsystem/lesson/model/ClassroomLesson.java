@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.lesson.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@DiscriminatorValue("CLASSROOM")
+@Table(name = "classroom_lesson")
 public class ClassroomLesson extends Lesson {
 
     @Column(name = "location")
@@ -27,5 +27,4 @@ public class ClassroomLesson extends Lesson {
 
     @Column(name = "capacity")
     private Integer capacity;
-
 }

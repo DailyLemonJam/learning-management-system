@@ -1,10 +1,9 @@
 package com.leverx.learningmanagementsystem.email.service;
 
-import com.leverx.learningmanagementsystem.email.smtpselector.config.SmtpServerProperties;
+import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -42,5 +41,4 @@ public class EmailServiceImpl implements EmailService {
         sender.getJavaMailProperties().setProperty("mail.smtp.starttls.enable", "true");
         return sender;
     }
-
 }

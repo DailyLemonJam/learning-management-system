@@ -6,5 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Schema(description = "Purchase Course Request DTO")
-public record PurchaseCourseRequestDto(@Schema(description = "Connects Course and Student after successful purchase") @NotNull UUID studentId) {
+public record PurchaseCourseRequestDto(
+
+        @Schema(description = "Connects Course and Student after successful purchase")
+        @NotNull UUID studentId
+) {
 }

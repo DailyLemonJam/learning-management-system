@@ -12,6 +12,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class CourseSettingsServiceImpl implements CourseSettingsService {
+
     private final CourseSettingsRepository courseSettingsRepository;
 
     @Override
@@ -34,5 +35,4 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         existingCourseSettings.setIsPublic(courseSettings.getIsPublic());
         return courseSettingsRepository.save(existingCourseSettings);
     }
-    
 }

@@ -14,6 +14,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
+
     private final CourseRepository courseRepository;
 
     @Transactional
@@ -37,16 +38,14 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     @Override
     public Course update(UUID id, Course course) {
-        var existingCourse = courseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find course with id: " + id));
+        var existingCourse = get(id);
         return updateCourse(existingCourse, course);
     }
 
     @Transactional
     @Override
     public void delete(UUID id) {
-        var course = courseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find course with id: " + id));
+        var course = get(id);
         courseRepository.delete(course);
     }
 

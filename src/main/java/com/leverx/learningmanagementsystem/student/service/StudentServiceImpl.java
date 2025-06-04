@@ -15,6 +15,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
+
     private final StudentRepository studentRepository;
     private final StudentValidator studentValidator;
 
@@ -40,18 +41,16 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     @Override
     public Student update(UUID id, Student student) {
-        studentValidator.onUpdate(student);
+        studentValidator.onUpdate(id, student);
 
-        var existingStudent = studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
+        var existingStudent = get(id);
         return updateStudent(existingStudent, student);
     }
 
     @Transactional
     @Override
     public void delete(UUID id) {
-        var student = studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find student with id: " + id));
+        var student = get(id);
         studentRepository.delete(student);
     }
 
@@ -63,5 +62,4 @@ public class StudentServiceImpl implements StudentService {
         existingStudent.setLocale(student.getLocale());
         return studentRepository.save(existingStudent);
     }
-
 }
