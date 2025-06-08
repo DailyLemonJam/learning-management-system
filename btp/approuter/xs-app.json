@@ -1,0 +1,27 @@
+{
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/actuator/(.*)$",
+      "target": "/actuator/$1",
+      "destination": "lms-none",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/api/v1/application-info",
+      "target": "/api/v1/application-info",
+      "destination": "lms-oauth2",
+      "authenticationType": "xsuaa",
+      "scope": "$XSAPPNAME.Admin",
+      "csrfProtection": false
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "destination": "lms-oauth2",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    }
+  ]
+}

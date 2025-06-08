@@ -25,3 +25,8 @@ user-service-mail:
   host: ${vcap.services.lms-user-provided-service.credentials.host}
   port: ${vcap.services.lms-user-provided-service.credentials.port}
   protocol: ${vcap.services.lms-user-provided-service.credentials.protocol}
+
+xsuaa-service:
+  tokenUrl: ${vcap.services.lms-xsuaa.credentials.url}
+  clientId: ${vcap.services.lms-xsuaa.credentials.clientid}
+  clientSecret: ${vcap.services.lms-xsuaa.credentials.clientsecret}
