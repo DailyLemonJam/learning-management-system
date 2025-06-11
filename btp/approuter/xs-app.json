@@ -1,0 +1,21 @@
+{
+  "welcomeFile": "/api/v1/application-info",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/api/v1/application-info",
+      "target": "/api/v1/application-info",
+      "destination": "lms-destination",
+      "authenticationType": "xsuaa",
+      "scope": "$XSAPPNAME.Admin",
+      "csrfProtection": false
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "destination": "lms-destination",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    }
+  ]
+}

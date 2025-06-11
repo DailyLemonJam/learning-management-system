@@ -1,0 +1,36 @@
+{
+  "xsappname": "learning-management-system",
+  "tenant-mode": "shared",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Admin access to application info"
+    },
+    {
+      "name":"$XSAPPNAME.Callback",
+      "description":"With this scope set, the callbacks for subscribe, unsubscribe and getDependencies can be called",
+      "grant-as-authority-to-apps":[
+        "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      ]
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Admin",
+      "description": "Administrator role",
+      "scope-references": ["$XSAPPNAME.Admin"]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "LMS-Admin-Role-Collection",
+      "description": "Admin Role Collection for LMS",
+      "role-template-references": ["$XSAPPNAME.Admin"]
+    }
+  ],
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.cfapps.us10-001.hana.ondemand.com/login/callback"
+    ]
+  }
+}
