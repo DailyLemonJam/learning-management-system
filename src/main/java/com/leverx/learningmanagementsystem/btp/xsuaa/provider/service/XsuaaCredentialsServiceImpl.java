@@ -3,9 +3,9 @@ package com.leverx.learningmanagementsystem.btp.xsuaa.provider.service;
 import com.leverx.learningmanagementsystem.btp.xsuaa.provider.config.XsuaaProperties;
 import com.leverx.learningmanagementsystem.btp.xsuaa.provider.dto.XsuaaCredentialsResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class XsuaaCredentialsServiceImpl implements XsuaaCredentialsService {
 

@@ -13,10 +13,14 @@ modules:
       memory: 1024M
       buildpack: sap_java_buildpack_jakarta
       routes:
-        - route: https://68cadf89trial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com
+        - route: ${default-url}
       health-check-type: http
       health-check-http-endpoint: /actuator/health
       health-check-timeout: 30
+    provides:
+      - name: lms-destination
+        properties:
+          url: ${default-url}
     properties:
       SPRING_PROFILES_ACTIVE: cloud
       TARGET_RUNTIME: tomcat
@@ -30,6 +34,7 @@ modules:
       - name: lms-hana-schema
       - name: lms-xsuaa
       - name: lms-user-provided-service
+      - name: lms-saas-provisioning-service
   - name: approuter
     type: nodejs
     path: btp/approuter
@@ -37,24 +42,17 @@ modules:
       memory: 512MB
       disk-quota: 512MB
       routes:
-        - route: https://68cadf89trial-dev-approuter.cfapps.us10-001.hana.ondemand.com
+        - route: ${org}-${space}-${app-name}.${domain}
     requires:
       - name: lms-xsuaa
+      - name: lms-destination
+        group: destinations
+        properties:
+          name: lms-destination
+          url: ~{url}
+          forwardAuthToken: true
     properties:
-      destinations: >
-        [
-          {
-            "name": "lms-oauth2",
-            "url": "https://68cadf89trial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com",
-            "forwardAuthToken": true
-          },
-          {
-            "name": "lms-none",
-            "url": "https://68cadf89trial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com",
-            "forwardAuthToken": false
-          }
-        ]
-      TENANT_HOST_PATTERN: "^(.*)-${space}-approuter.cfapps.us10-001.hana.ondemand.com"
+      TENANT_HOST_PATTERN: "^(.*)-${space}-${app-name}.${domain}"
 
 resources:
   - name: lms-destination-service
