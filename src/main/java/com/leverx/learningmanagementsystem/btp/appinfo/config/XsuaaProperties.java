@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.xsuaa.provider.config;
+package com.leverx.learningmanagementsystem.btp.appinfo.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

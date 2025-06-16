@@ -1,5 +1,5 @@
 {
-  "xsappname": "learning-management-system",
+  "xsappname": "lms",
   "tenant-mode": "shared",
   "scopes": [
     {

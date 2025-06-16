@@ -74,8 +74,10 @@ public class CloudSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(STATELESS))
-                .authorizeHttpRequests(auth ->
-                        auth.anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/api/v1/application-info").hasRole(Role.ADMIN.getValue());
+                    auth.anyRequest().authenticated();
+                })
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt ->
                                 jwt.jwtAuthenticationConverter(new TokenAuthenticationConverter(xsuaaServiceConfiguration))))

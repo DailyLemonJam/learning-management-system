@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.xsuaa.provider.dto;
+package com.leverx.learningmanagementsystem.btp.appinfo.dto;
 
 public record XsuaaCredentialsResponseDto(
 

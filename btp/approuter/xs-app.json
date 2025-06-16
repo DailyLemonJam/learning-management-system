@@ -5,15 +5,14 @@
     {
       "source": "^/api/v1/application-info",
       "target": "/api/v1/application-info",
-      "destination": "lms-destination",
+      "destination": "lms-api",
       "authenticationType": "xsuaa",
-      "scope": "$XSAPPNAME.Admin",
       "csrfProtection": false
     },
     {
       "source": "^(.*)$",
       "target": "$1",
-      "destination": "lms-destination",
+      "destination": "lms-api",
       "authenticationType": "xsuaa",
       "csrfProtection": false
     }

@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.saasprovisionningservice.dto;
+package com.leverx.learningmanagementsystem.btp.subscription.dto;
 
 public record SubscribeRequestDto(
 

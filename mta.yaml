@@ -18,7 +18,7 @@ modules:
       health-check-http-endpoint: /actuator/health
       health-check-timeout: 30
     provides:
-      - name: lms-destination
+      - name: lms-api
         properties:
           url: ${default-url}
     properties:
@@ -45,10 +45,10 @@ modules:
         - route: ${org}-${space}-${app-name}.${domain}
     requires:
       - name: lms-xsuaa
-      - name: lms-destination
+      - name: lms-api
         group: destinations
         properties:
-          name: lms-destination
+          name: lms-api
           url: ~{url}
           forwardAuthToken: true
     properties:
