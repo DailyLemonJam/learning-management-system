@@ -1,14 +1,21 @@
 package com.leverx.learningmanagementsystem.btp.servicemanager.service;
 
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.CreateBindingRequestDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.ServiceBindingsResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.CreateInstanceRequestDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.ServiceInstancesResponseDto;
+
 public interface ServiceManager {
 
-    // TODO: check pc for local commits
+    ServiceInstancesResponseDto getServiceInstances();
 
-    void createSchema();
+    ServiceBindingsResponseDto getServiceBindings();
 
-    void bindSchema();
+    void createServiceInstance(CreateInstanceRequestDto request);
 
-    void deleteSchema();
+    void bindServiceInstance(CreateBindingRequestDto request);
 
-    void unbindSchema();
+    void deleteServiceInstance(String serviceInstanceId);
+
+    void unbindServiceInstance(String serviceBindingId);
 }
