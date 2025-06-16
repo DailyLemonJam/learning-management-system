@@ -18,11 +18,13 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
     private final LocalDatabaseProperties localDatabaseProperties;
+    private final DataSource defaultDataSource;
 
     @Override
     protected DataSource selectAnyDataSource() {
         System.out.println("SelectAnyDataSource was called");
-        return dataSources.values().iterator().next();
+        //return dataSources.values().iterator().next();
+        return defaultDataSource;
     }
 
     @Override
@@ -30,8 +32,6 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         System.out.println("SelectDataSource returned %s".formatted(currentTenantId));
         return dataSources.get(currentTenantId);
     }
-
-    // TODO: init / refresh dataSources map
 
     public DataSource createAndConfigureTenantDataSource(String tenantId) {
         var dataSource = new HikariDataSource();
@@ -44,5 +44,9 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         dataSources.put(tenantId, dataSource);
 
         return dataSource;
+    }
+
+    public void deleteTenantDataSource(String tenantId) {
+        dataSources.remove(tenantId);
     }
 }

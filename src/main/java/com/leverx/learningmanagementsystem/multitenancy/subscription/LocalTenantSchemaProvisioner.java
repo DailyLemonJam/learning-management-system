@@ -40,6 +40,7 @@ public class LocalTenantSchemaProvisioner implements TenantSchemaProvisioner {
         tenantId = createValidSQLTenantId(tenantId);
         try {
             dropSchema(tenantId);
+            deleteTenantDataSource(tenantId);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw e;
@@ -54,6 +55,10 @@ public class LocalTenantSchemaProvisioner implements TenantSchemaProvisioner {
     private void createTenantDataSource(String tenantId) {
         multiTenantConnectionProvider.createAndConfigureTenantDataSource(tenantId);
     }
+    private void deleteTenantDataSource(String tenantId) {
+        multiTenantConnectionProvider.deleteTenantDataSource(tenantId);
+    }
+
 
     private void dropSchema(String tenantId) {
         String createSchemaSQL = "DROP SCHEMA IF EXISTS %s CASCADE".formatted(tenantId);
