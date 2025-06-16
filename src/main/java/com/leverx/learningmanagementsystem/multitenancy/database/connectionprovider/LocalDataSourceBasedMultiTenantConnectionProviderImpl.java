@@ -3,6 +3,7 @@ package com.leverx.learningmanagementsystem.multitenancy.database.connectionprov
 import com.leverx.learningmanagementsystem.multitenancy.database.config.LocalDatabaseProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Component
 @Profile("local")
 @RequiredArgsConstructor
@@ -22,14 +24,15 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     protected DataSource selectAnyDataSource() {
-        System.out.println("SelectAnyDataSource was called");
+        log.info("SelectAnyDataSource was called");
         //return dataSources.values().iterator().next();
         return defaultDataSource;
     }
 
     @Override
     protected DataSource selectDataSource(String currentTenantId) {
-        System.out.println("SelectDataSource returned %s".formatted(currentTenantId));
+        log.info("SelectDataSource returned %s".formatted(currentTenantId));
+
         return dataSources.get(currentTenantId);
     }
 

@@ -35,6 +35,7 @@ modules:
       - name: lms-xsuaa
       - name: lms-user-provided-service
       - name: lms-saas-provisioning-service
+      - name: lms-service-manager
   - name: approuter
     type: nodejs
     path: btp/approuter
@@ -95,3 +96,9 @@ resources:
       service: saas-registry
       service-plan: application
       path: btp/saas-provisioning/xs-saas-provisioning.json
+
+  - name: lms-service-manager
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container
