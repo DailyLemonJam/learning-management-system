@@ -4,6 +4,6 @@
   "description": "Learning Management System application for managing Courses, Lessons and Students",
   "category": "Management Systems",
   "appUrls": {
-    "onSubscription": "https://68cadf89trial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscribe/{tenantId}"
+    "onSubscription": "https://dd045185trial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscribe/{tenantId}"
   }
 }
