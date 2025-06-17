@@ -52,7 +52,7 @@ public class LocalSubscriptionService implements SubscriptionService {
             throw e;
         }
 
-        return new UnsubscribeResponseDto("Tenant successfully subscribed");
+        return new UnsubscribeResponseDto("Tenant successfully unsubscribed");
     }
 
     private void createSchema(String name) {
@@ -68,6 +68,7 @@ public class LocalSubscriptionService implements SubscriptionService {
     private void createTenantDataSource(String tenantId) {
         connectionProvider.createTenantDataSource(tenantId);
     }
+
     private void deleteTenantDataSource(String tenantId) {
         connectionProvider.deleteTenantDataSource(tenantId);
     }

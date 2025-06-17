@@ -13,19 +13,19 @@ public interface ServiceManager {
 
     InstanceResponseDto createInstance(CreateInstanceByPlanIdRequestDto request);
 
-    InstanceResponseDto getInstanceByInstanceId(String instanceId);
+    InstanceResponseDto getInstanceByTenantId(String tenantId);
 
     InstancesResponseDto getAllInstances();
 
-    void deleteInstance(String instanceId);
+    void deleteInstance(String tenantId);
 
     // Bindings
 
     BindingResponseDto createBinding(CreateBindingRequestDto request);
 
-    BindingResponseDto getBindingByBindingId(String bindingId);
+    BindingResponseDto getBindingByTenantId(String tenantId);
 
     BindingsResponseDto getAllBindings();
 
-    void deleteBinding(String bindingId);
+    void deleteBinding(String tenantId);
 }
