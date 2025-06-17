@@ -1,55 +1,276 @@
 package com.leverx.learningmanagementsystem.btp.servicemanager.service;
 
+import com.leverx.learningmanagementsystem.btp.servicemanager.auth.ServiceManagerAccessTokenProvider;
+import com.leverx.learningmanagementsystem.btp.servicemanager.configuration.ServiceManagerProperties;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingsResponseDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.CreateBindingRequestDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.CreateInstanceByPlanIdRequestDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.InstanceResponseDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.InstancesResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import static org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
 @Profile("cloud")
 @Service
+@RequiredArgsConstructor
 public class ServiceManagerImpl implements ServiceManager {
 
+    private static final String INSTANCES_ENDPOINT_VERSION = "v1";
+    private static final String INSTANCES_ENDPOINT_NAME = "service_instances";
+    private static final String BINDINGS_ENDPOINT_VERSION = "v1";
+    private static final String BINDINGS_ENDPOINT_NAME = "service_bindings";
+
+    private final ServiceManagerProperties serviceManagerProperties;
+    private final ServiceManagerAccessTokenProvider serviceManagerAccessTokenProvider;
+    private final RestClient restClient;
+
+    // Instance methods
+
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public InstanceResponseDto createInstance(CreateInstanceByPlanIdRequestDto request) {
-        return null;
+        return tryCreateInstance(request);
     }
 
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public InstanceResponseDto getInstanceByInstanceId(String instanceId) {
-        return null;
+        return tryGetInstanceByInstanceId(instanceId);
     }
 
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public InstancesResponseDto getAllInstances() {
-        return null;
+        return tryGetAllInstances();
     }
 
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public void deleteInstance(String instanceId) {
-
+        tryDeleteInstance(instanceId);
     }
 
+    // Binding methods
+
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public BindingResponseDto createBinding(CreateBindingRequestDto request) {
-        return null;
+        return tryCreateBinding(request);
     }
 
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public BindingResponseDto getBindingByBindingId(String bindingId) {
-        return null;
+        return tryGetBindingByBindingId(bindingId);
     }
 
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public BindingsResponseDto getAllBindings() {
-        return null;
+        return tryGetAllBindings();
     }
 
     @Override
+    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public void deleteBinding(String bindingId) {
+        tryDeleteBinding(bindingId);
+    }
 
+    // Try Instance methods
+
+    private InstanceResponseDto tryCreateInstance(CreateInstanceByPlanIdRequestDto request) {
+        try {
+            var uri = buildInstanceUri();
+            var headers = buildHeaders();
+
+            return restClient.post()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .body(request)
+                    .retrieve()
+                    .body(InstanceResponseDto.class);
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    private InstanceResponseDto tryGetInstanceByInstanceId(String instanceId) {
+        try {
+            var uri = buildInstanceUri(instanceId);
+            var headers = buildHeaders();
+
+            return restClient.get()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .retrieve()
+                    .body(InstanceResponseDto.class);
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    private InstancesResponseDto tryGetAllInstances() {
+        try {
+            var uri = buildInstanceUri();
+            var headers = buildHeaders();
+
+            return restClient.get()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .retrieve()
+                    .body(InstancesResponseDto.class);
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    private void tryDeleteInstance(String instanceId) {
+        try {
+            var uri = buildInstanceUri(instanceId);
+            var headers = buildHeaders();
+
+            restClient.delete()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    // Try Binding methods
+
+    private BindingResponseDto tryCreateBinding(CreateBindingRequestDto request) {
+        try {
+            var uri = buildBindingUri();
+            var headers = buildHeaders();
+
+            return restClient.post()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .body(request)
+                    .retrieve()
+                    .body(BindingResponseDto.class);
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    private BindingResponseDto tryGetBindingByBindingId(String bindingId) {
+        try {
+            var uri = buildBindingUri(bindingId);
+            var headers = buildHeaders();
+
+            return restClient.get()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .retrieve()
+                    .body(BindingResponseDto.class);
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    private BindingsResponseDto tryGetAllBindings() {
+        try {
+            var uri = buildBindingUri();
+            var headers = buildHeaders();
+
+            return restClient.get()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .retrieve()
+                    .body(BindingsResponseDto.class);
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    private void tryDeleteBinding(String bindingId) {
+        try {
+            var uri = buildBindingUri(bindingId);
+            var headers = buildHeaders();
+
+            restClient.delete()
+                    .uri(uri)
+                    .headers(headers::addAll)
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (Unauthorized ex) {
+            refreshAccessToken();
+            throw ex;
+        }
+    }
+
+    // Util methods
+
+    private String buildInstanceUri() {
+        var uriComponents = UriComponentsBuilder.newInstance()
+                .host(serviceManagerProperties.getSmUrl())
+                .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME)
+                .build();
+        return uriComponents.toUriString();
+    }
+
+    private String buildInstanceUri(String instanceId) {
+        var uriComponents = UriComponentsBuilder.newInstance()
+                .host(serviceManagerProperties.getSmUrl())
+                .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME, instanceId)
+                .build();
+        return uriComponents.toUriString();
+    }
+
+    private String buildBindingUri() {
+        var uriComponents = UriComponentsBuilder.newInstance()
+                .host(serviceManagerProperties.getSmUrl())
+                .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME)
+                .build();
+        return uriComponents.toUriString();
+    }
+
+    private String buildBindingUri(String bindingId) {
+        var uriComponents = UriComponentsBuilder.newInstance()
+                .host(serviceManagerProperties.getSmUrl())
+                .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME, bindingId)
+                .build();
+        return uriComponents.toUriString();
+    }
+
+    private HttpHeaders buildHeaders() {
+        var accessToken = getAccessToken();
+        var headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+        return headers;
+    }
+
+    private String getAccessToken() {
+        return serviceManagerAccessTokenProvider.getAccessToken(
+                serviceManagerProperties.getClientId(),
+                serviceManagerProperties.getClientSecret(),
+                serviceManagerProperties.getUrl()
+        );
+    }
+
+    private void refreshAccessToken() {
+        serviceManagerAccessTokenProvider.refreshAccessToken(
+                serviceManagerProperties.getClientId(),
+                serviceManagerProperties.getClientSecret(),
+                serviceManagerProperties.getUrl());
     }
 }

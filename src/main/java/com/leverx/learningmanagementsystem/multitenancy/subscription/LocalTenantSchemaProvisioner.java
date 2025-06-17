@@ -59,7 +59,6 @@ public class LocalTenantSchemaProvisioner implements TenantSchemaProvisioner {
         multiTenantConnectionProvider.deleteTenantDataSource(tenantId);
     }
 
-
     private void dropSchema(String tenantId) {
         String createSchemaSQL = "DROP SCHEMA IF EXISTS %s CASCADE".formatted(tenantId);
         jdbcTemplate.execute(createSchemaSQL);

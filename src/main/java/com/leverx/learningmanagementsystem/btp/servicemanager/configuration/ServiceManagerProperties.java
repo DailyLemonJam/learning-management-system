@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceManagerConfiguration {
+public class ServiceManagerProperties {
 
     private String url;
 
