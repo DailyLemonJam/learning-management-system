@@ -1,21 +1,31 @@
 package com.leverx.learningmanagementsystem.btp.servicemanager.service;
 
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.CreateBindingRequestDto;
-import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.ServiceBindingsResponseDto;
-import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.CreateInstanceRequestDto;
-import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.ServiceInstancesResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingsResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.CreateInstanceByPlanIdRequestDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.InstanceResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.InstancesResponseDto;
 
 public interface ServiceManager {
 
-    ServiceInstancesResponseDto getServiceInstances();
+    // Instances
 
-    ServiceBindingsResponseDto getServiceBindings();
+    InstanceResponseDto createInstance(CreateInstanceByPlanIdRequestDto request);
 
-    void createServiceInstance(CreateInstanceRequestDto request);
+    InstanceResponseDto getInstanceByInstanceId(String instanceId);
 
-    void bindServiceInstance(CreateBindingRequestDto request);
+    InstancesResponseDto getAllInstances();
 
-    void deleteServiceInstance(String serviceInstanceId);
+    void deleteInstance(String instanceId);
 
-    void unbindServiceInstance(String serviceBindingId);
+    // Bindings
+
+    BindingResponseDto createBinding(CreateBindingRequestDto request);
+
+    BindingResponseDto getBindingByBindingId(String bindingId);
+
+    BindingsResponseDto getAllBindings();
+
+    void deleteBinding(String bindingId);
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
-public record ServiceInstanceResponseDto(
+public record InstanceResponseDto(
 
         @JsonProperty("id") String id,
 
@@ -16,6 +16,8 @@ public record ServiceInstanceResponseDto(
         @JsonProperty("name") String name,
 
         @JsonProperty("shared") Boolean shared,
+
+        @JsonProperty("usable") Boolean usable,
 
         @JsonProperty("labels") Map<String, List<String>> labels
 ) {

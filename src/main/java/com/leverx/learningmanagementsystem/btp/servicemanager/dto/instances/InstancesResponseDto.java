@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record ServiceInstancesResponseDto(
+public record InstancesResponseDto(
 
         @JsonProperty("token") String token,
 
         @JsonProperty("num_items") Integer numItems,
 
-        @JsonProperty("items") List<ServiceInstanceResponseDto> instances
+        @JsonProperty("items") List<InstanceResponseDto> instances
 ) {
 }

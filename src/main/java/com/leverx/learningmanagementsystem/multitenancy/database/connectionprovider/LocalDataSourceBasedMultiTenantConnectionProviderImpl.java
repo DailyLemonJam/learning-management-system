@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider;
 
-import com.leverx.learningmanagementsystem.multitenancy.database.config.LocalDatabaseProperties;
+import com.leverx.learningmanagementsystem.multitenancy.database.config.DatabaseProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String> {
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
-    private final LocalDatabaseProperties localDatabaseProperties;
+    private final DatabaseProperties databaseProperties;
     private final DataSource defaultDataSource;
 
     @Override
@@ -38,9 +38,9 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     public DataSource createAndConfigureTenantDataSource(String tenantId) {
         var dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(localDatabaseProperties.getUrl() + "?currentSchema=" + tenantId);
-        dataSource.setUsername(localDatabaseProperties.getUsername());
-        dataSource.setPassword(localDatabaseProperties.getPassword());
+        dataSource.setJdbcUrl(databaseProperties.getUrl() + "?currentSchema=" + tenantId);
+        dataSource.setUsername(databaseProperties.getUsername());
+        dataSource.setPassword(databaseProperties.getPassword());
         dataSource.setSchema(tenantId);
         dataSource.setMaximumPoolSize(10);
 
