@@ -9,4 +9,8 @@ public interface SubscriptionService {
     String subscribe(SubscribeRequestDto request);
 
     UnsubscribeResponseDto unsubscribe(UnsubscribeRequestDto request);
+
+    default String createValidSQLTenantId(String tenantId) {
+        return tenantId.replace("-", "_");
+    }
 }

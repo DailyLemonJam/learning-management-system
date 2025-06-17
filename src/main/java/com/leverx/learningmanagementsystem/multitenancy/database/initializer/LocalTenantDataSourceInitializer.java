@@ -1,10 +1,7 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.initializer;
 
 import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.LocalDataSourceBasedMultiTenantConnectionProviderImpl;
-import liquibase.Liquibase;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
-import liquibase.resource.ClassLoaderResourceAccessor;
+import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -13,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Slf4j
@@ -23,6 +19,7 @@ import java.util.List;
 public class LocalTenantDataSourceInitializer implements ApplicationRunner {
 
     private final LocalDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
+    private final LiquibaseSchemaMigrationService schemaMigrationService;
     private final JdbcTemplate jdbcTemplate;
 
     @Override
@@ -45,20 +42,10 @@ public class LocalTenantDataSourceInitializer implements ApplicationRunner {
     }
 
     private void createDataSourceForTenant(String schema) {
-        connectionProvider.createAndConfigureTenantDataSource(schema);
+        connectionProvider.createTenantDataSource(schema);
     }
 
     private void applyLiquibaseForTenant(String schema) throws Exception {
-        try (var connection = connectionProvider.getConnection(schema)) {
-            String changelogPath = "/db/db.changelog-master.yaml";
-
-            var liquibase = new Liquibase(changelogPath, new ClassLoaderResourceAccessor(),
-                    new JdbcConnection(connection));
-            liquibase.update("");
-
-        } catch (SQLException | LiquibaseException e) {
-            log.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
+        schemaMigrationService.applyLiquibaseChangelog(schema);
     }
 }

@@ -18,8 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
-@Profile("cloud")
 @Service
+@Profile("cloud")
 @RequiredArgsConstructor
 public class ServiceManagerImpl implements ServiceManager {
 

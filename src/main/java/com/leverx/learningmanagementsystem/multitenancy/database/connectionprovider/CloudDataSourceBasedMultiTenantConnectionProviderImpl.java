@@ -24,7 +24,7 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         return null;
     }
 
-    public DataSource createAndConfigureTenantDataSource(String tenantId) {
+    public DataSource createTenantDataSource(String tenantId) {
         return null;
     }
 

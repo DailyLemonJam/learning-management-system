@@ -25,7 +25,6 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
     @Override
     protected DataSource selectAnyDataSource() {
         log.info("SelectAnyDataSource was called");
-        //return dataSources.values().iterator().next();
         return defaultDataSource;
     }
 
@@ -36,12 +35,11 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         return dataSources.get(currentTenantId);
     }
 
-    public DataSource createAndConfigureTenantDataSource(String tenantId) {
+    public DataSource createTenantDataSource(String tenantId) {
         var dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(databaseProperties.getUrl() + "?currentSchema=" + tenantId);
         dataSource.setUsername(databaseProperties.getUsername());
         dataSource.setPassword(databaseProperties.getPassword());
-        dataSource.setSchema(tenantId);
         dataSource.setMaximumPoolSize(10);
 
         dataSources.put(tenantId, dataSource);
