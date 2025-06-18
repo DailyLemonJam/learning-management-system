@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider;
 
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
-import com.leverx.learningmanagementsystem.multitenancy.database.config.DatabaseProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String> {
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
-    private final DatabaseProperties databaseProperties;
     private final DataSource defaultDataSource;
 
     @Override

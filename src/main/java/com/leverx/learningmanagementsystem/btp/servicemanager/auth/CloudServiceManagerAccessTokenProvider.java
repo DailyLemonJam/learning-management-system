@@ -2,6 +2,7 @@ package com.leverx.learningmanagementsystem.btp.servicemanager.auth;
 
 import com.leverx.learningmanagementsystem.web.oauth2.client.OAuth2TokenClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class CloudServiceManagerAccessTokenProvider implements ServiceManagerAcc
         return oAuth2TokenClient.getToken(clientId, clientSecret, tokenUrl);
     }
 
-    @Cacheable(cacheNames = "serviceManagerAccessToken", key = "#clientId")
+    @CachePut(cacheNames = "serviceManagerAccessToken", key = "#clientId")
     @Override
     public String refreshAccessToken(String clientId, String clientSecret, String tokenUrl) {
         return oAuth2TokenClient.getToken(clientId, clientSecret, tokenUrl);

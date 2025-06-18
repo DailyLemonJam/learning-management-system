@@ -9,15 +9,17 @@ import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.Crea
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.InstanceResponseDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.InstancesResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpHeaders;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
+@Slf4j
 @Service
 @Profile("cloud")
 @RequiredArgsConstructor
@@ -37,6 +39,7 @@ public class ServiceManagerImpl implements ServiceManager {
     @Override
     @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public InstanceResponseDto createInstance(CreateInstanceByPlanIdRequestDto request) {
+        log.info("Started trying to create Instance");
         return tryCreateInstance(request);
     }
 
@@ -88,20 +91,27 @@ public class ServiceManagerImpl implements ServiceManager {
 
     private InstanceResponseDto tryCreateInstance(CreateInstanceByPlanIdRequestDto request) {
         try {
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            log.info("tryCreateInstance method was called here");
+
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .build().toUriString();
+                    .toUriString();
+
+            log.info("Create Instance uri: %s".formatted(uri));
             var headers = buildHeaders();
+            log.info("Headers: %s".formatted(headers.asSingleValueMap().toString()));
 
             return restClient.post()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .body(request)
                     .retrieve()
                     .body(InstanceResponseDto.class);
         } catch (Unauthorized ex) {
+            log.info("Unauthorized when creating Instance");
+            log.info(ex.getMessage());
             refreshAccessToken();
             throw ex;
         }
@@ -109,17 +119,17 @@ public class ServiceManagerImpl implements ServiceManager {
 
     private InstanceResponseDto tryGetInstanceByTenantId(String tenantId) {
         try {
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME)
                     .queryParam("async", false)
                     .queryParam("labelQuery", "tenantId eq %s".formatted(tenantId))
-                    .build().toUriString();
+                    .toUriString();
             var headers = buildHeaders();
 
             var instances = restClient.get()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .retrieve()
                     .body(InstancesResponseDto.class);
 
@@ -133,16 +143,16 @@ public class ServiceManagerImpl implements ServiceManager {
 
     private InstancesResponseDto tryGetAllInstances() {
         try {
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .build().toUriString();
+                    .toUriString();
             var headers = buildHeaders();
 
             return restClient.get()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .retrieve()
                     .body(InstancesResponseDto.class);
         } catch (Unauthorized ex) {
@@ -155,16 +165,16 @@ public class ServiceManagerImpl implements ServiceManager {
         try {
             var instance = tryGetInstanceByTenantId(tenantId);
 
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME, instance.id())
                     .queryParam("async", false)
-                    .build().toUriString();
+                    .toUriString();
             var headers = buildHeaders();
 
             restClient.delete()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .retrieve()
                     .toBodilessEntity();
         } catch (Unauthorized ex) {
@@ -177,16 +187,16 @@ public class ServiceManagerImpl implements ServiceManager {
 
     private BindingResponseDto tryCreateBinding(CreateBindingRequestDto request) {
         try {
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .build().toUriString();
+                    .toUriString();
             var headers = buildHeaders();
 
             return restClient.post()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .body(request)
                     .retrieve()
                     .body(BindingResponseDto.class);
@@ -198,17 +208,17 @@ public class ServiceManagerImpl implements ServiceManager {
 
     private BindingResponseDto tryGetBindingByTenantId(String tenantId) {
         try {
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME)
                     .queryParam("async", false)
                     .queryParam("labelQuery", "tenantId eq %s".formatted(tenantId))
-                    .build().toUri();
+                    .toUriString();
             var headers = buildHeaders();
 
             var bindings = restClient.get()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .retrieve()
                     .body(BindingsResponseDto.class);
 
@@ -222,16 +232,16 @@ public class ServiceManagerImpl implements ServiceManager {
 
     private BindingsResponseDto tryGetAllBindings() {
         try {
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .build().toUri();
+                    .toUriString();
             var headers = buildHeaders();
 
             return restClient.get()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .retrieve()
                     .body(BindingsResponseDto.class);
         } catch (Unauthorized ex) {
@@ -244,16 +254,16 @@ public class ServiceManagerImpl implements ServiceManager {
         try {
             var binding = tryGetBindingByTenantId(tenantId);
 
-            var uri = UriComponentsBuilder.newInstance()
-                    .host(serviceManagerProperties.getSmUrl())
+            var uri = UriComponentsBuilder
+                    .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME, binding.id())
                     .queryParam("async", false)
-                    .build().toUriString();
+                    .toUriString();
             var headers = buildHeaders();
 
             restClient.delete()
                     .uri(uri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .retrieve()
                     .toBodilessEntity();
         } catch (Unauthorized ex) {
@@ -265,6 +275,7 @@ public class ServiceManagerImpl implements ServiceManager {
     // Util methods
 
     private HttpHeaders buildHeaders() {
+        log.info("Building headers");
         var accessToken = getAccessToken();
         var headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
@@ -272,6 +283,7 @@ public class ServiceManagerImpl implements ServiceManager {
     }
 
     private String getAccessToken() {
+        log.info("Getting Access Token");
         return serviceManagerAccessTokenProvider.getAccessToken(
                 serviceManagerProperties.getClientId(),
                 serviceManagerProperties.getClientSecret(),
@@ -280,6 +292,7 @@ public class ServiceManagerImpl implements ServiceManager {
     }
 
     private void refreshAccessToken() {
+        log.info("Refreshing Access Token");
         serviceManagerAccessTokenProvider.refreshAccessToken(
                 serviceManagerProperties.getClientId(),
                 serviceManagerProperties.getClientSecret(),

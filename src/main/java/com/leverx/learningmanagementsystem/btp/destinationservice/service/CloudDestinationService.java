@@ -19,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class CloudDestinationService implements DestinationService {
 
-    private static final String DESTINATION_ENDPOINT = "/destination-destinationConfiguration/v1/destinations/";
+    private static final String DESTINATION_ENDPOINT = "/destination-configuration/v1/destinations/";
 
     private final RestClient restClient;
     private final DestinationServiceProperties destinationServiceProperties;
@@ -47,11 +47,10 @@ public class CloudDestinationService implements DestinationService {
     }
 
     private String createDestinationUri(String name) {
-        var uriComponents = UriComponentsBuilder.newInstance()
-                .host(destinationServiceProperties.getUri())
+        return UriComponentsBuilder
+                .fromUriString(destinationServiceProperties.getUri())
                 .pathSegment(DESTINATION_ENDPOINT, name)
-                .build();
-        return uriComponents.toUriString();
+                .toUriString();
     }
 
     private HttpHeaders createHeaders() {

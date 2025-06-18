@@ -34,11 +34,10 @@ public class CloudFeatureFlagService implements FeatureFlagService {
     }
 
     private String createFeatureFlagUri(String name) {
-        var uriComponents = UriComponentsBuilder.newInstance()
-                .host(featureFlagProperties.getUri())
+        return UriComponentsBuilder
+                .fromUriString(featureFlagProperties.getUri())
                 .pathSegment(EVALUATE_ENDPOINT, name)
-                .build();
-        return uriComponents.toUriString();
+                .toUriString();
     }
 
     private String createAuthHeader(FeatureFlagProperties featureFlagProperties) {

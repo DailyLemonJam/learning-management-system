@@ -34,15 +34,29 @@ public class CloudSubscriptionService implements SubscriptionService {
     public String subscribe(SubscribeRequestDto request) {
         var tenantId = createValidSQLTenantId(request.subscribedTenantId());
 
+        log.info("Created validSQLTenantId: %s".formatted(tenantId));
+
         var createInstanceRequest = buildCreateInstanceByPlanIdRequestDto(tenantId);
         var instanceResponse = serviceManager.createInstance(createInstanceRequest);
+        log.info("--- Created Instance ---");
+        log.info("Instance ID: %s".formatted(instanceResponse.id()));
+        log.info("Instance Name: %s".formatted(instanceResponse.name()));
+        log.info("Instance Labels: %s".formatted(instanceResponse.labels().toString()));
 
         var createBindingRequest = buildCreateBindingRequest(instanceResponse, tenantId);
         var bindingResponse = serviceManager.createBinding(createBindingRequest);
+        log.info("--- Created Binding ---");
+        log.info("Binding ID: %s".formatted(bindingResponse.id()));
+        log.info("Instance ID: %s".formatted(bindingResponse.serviceInstanceId()));
+        log.info("Binding Credentials: %s".formatted(bindingResponse.credentials().toString()));
+        log.info("Binding Name: %s".formatted(bindingResponse.name()));
+        log.info("Binding Labels: %s".formatted(bindingResponse.labels().toString()));
 
         connectionProvider.createTenantDataSource(bindingResponse, tenantId);
+        log.info("--- Created TenantDataSource for new schema ---");
 
         schemaMigrationService.applyLiquibaseChangelog(tenantId);
+        log.info("--- Applied Liquibase migration on new schema ---");
 
         return TENANT_SPECIFIC_URL_TEMPLATE.formatted(request.subscribedTenantId());
     }
@@ -52,10 +66,13 @@ public class CloudSubscriptionService implements SubscriptionService {
         var tenantId = createValidSQLTenantId(request.subscribedTenantId());
 
         serviceManager.deleteBinding(tenantId);
+        log.info("--- Deleted Binding ---");
 
         serviceManager.deleteInstance(tenantId);
+        log.info("--- Deleted Instance ---");
 
         connectionProvider.deleteTenantDataSource(tenantId);
+        log.info("--- Deleted DataSource ---");
 
         return new UnsubscribeResponseDto("Tenant successfully unsubscribed");
     }
