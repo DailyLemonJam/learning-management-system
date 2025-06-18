@@ -123,9 +123,11 @@ public class ServiceManagerImpl implements ServiceManager {
                     .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .queryParam("labelQuery", "tenantId eq %s".formatted(tenantId))
+                    .queryParam("labelQuery", "tenantId eq '%s'".formatted(tenantId))
                     .toUriString();
             var headers = buildHeaders();
+
+            log.info("tryGetInstance: Uri with labelQuery: %s".formatted(uri));
 
             var instances = restClient.get()
                     .uri(uri)
@@ -212,9 +214,11 @@ public class ServiceManagerImpl implements ServiceManager {
                     .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .queryParam("labelQuery", "tenantId eq %s".formatted(tenantId))
+                    .queryParam("labelQuery", "tenantId eq '%s'".formatted(tenantId))
                     .toUriString();
             var headers = buildHeaders();
+
+            log.info("tryGetBinding: Uri with labelQuery: %s".formatted(uri));
 
             var bindings = restClient.get()
                     .uri(uri)

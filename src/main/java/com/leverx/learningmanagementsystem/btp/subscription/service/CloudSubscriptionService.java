@@ -58,7 +58,7 @@ public class CloudSubscriptionService implements SubscriptionService {
         schemaMigrationService.applyLiquibaseChangelog(tenantId);
         log.info("--- Applied Liquibase migration on new schema ---");
 
-        return TENANT_SPECIFIC_URL_TEMPLATE.formatted(request.subscribedTenantId());
+        return TENANT_SPECIFIC_URL_TEMPLATE.formatted(request.subscribedSubdomain());
     }
 
     @Override
