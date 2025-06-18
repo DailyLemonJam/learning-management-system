@@ -113,7 +113,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .host(serviceManagerProperties.getSmUrl())
                     .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .queryParam("labelQuery", "tenantId:%s".formatted(tenantId))
+                    .queryParam("labelQuery", "tenantId eq %s".formatted(tenantId))
                     .build().toUriString();
             var headers = buildHeaders();
 
@@ -202,7 +202,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .host(serviceManagerProperties.getSmUrl())
                     .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .queryParam("labelQuery", "tenantId:%s".formatted(tenantId))
+                    .queryParam("labelQuery", "tenantId eq %s".formatted(tenantId))
                     .build().toUri();
             var headers = buildHeaders();
 

@@ -36,19 +36,21 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         return dataSources.get(currentTenantId);
     }
 
-    public DataSource createTenantDataSource(BindingResponseDto binding, String tenantId) {
-        // TODO: use credentials from binding for datasource
-        //var credentials = binding.credentials();
+    public void createTenantDataSource(BindingResponseDto binding, String tenantId) {
+        var credentials = binding.credentials();
+        var url = credentials.get("url");
+        var username = credentials.get("user");
+        var password = credentials.get("password");
+        var driver = credentials.get("driver");
 
         var dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(databaseProperties.getUrl() + "?currentSchema=" + tenantId);
-        dataSource.setUsername(databaseProperties.getUsername());
-        dataSource.setPassword(databaseProperties.getPassword());
+        dataSource.setJdbcUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setDriverClassName(driver);
         dataSource.setMaximumPoolSize(10);
 
         dataSources.put(tenantId, dataSource);
-
-        return dataSource;
     }
 
     public void deleteTenantDataSource(String tenantId) {

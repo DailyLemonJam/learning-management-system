@@ -19,8 +19,8 @@ public class LiquibaseSchemaMigrationServiceImpl implements LiquibaseSchemaMigra
     private final AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String> connectionProvider;
 
     @Override
-    public void applyLiquibaseChangelog(String schemaName) {
-        try (var connection = connectionProvider.getConnection(schemaName)) {
+    public void applyLiquibaseChangelog(String tenantId) {
+        try (var connection = connectionProvider.getConnection(tenantId)) {
             String changelogPath = "/db/db.changelog-master.yaml";
 
             var liquibase = new Liquibase(changelogPath, new ClassLoaderResourceAccessor(),

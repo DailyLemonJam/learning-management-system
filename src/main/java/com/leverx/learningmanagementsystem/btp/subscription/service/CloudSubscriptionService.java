@@ -24,7 +24,7 @@ import java.util.List;
 public class CloudSubscriptionService implements SubscriptionService {
 
     private static final String TENANT_SPECIFIC_URL_TEMPLATE = "https://%s-dev-approuter.cfapps.us10-001.hana.ondemand.com";
-    private static final String SCHEMA_PLAN_ID = "9196d940-4ba6-452c-941a-094b13934083";
+    private static final String SCHEMA_SERVICE_PLAN_ID = "9196d940-4ba6-452c-941a-094b13934083";
 
     private final CloudDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
     private final LiquibaseSchemaMigrationService schemaMigrationService;
@@ -67,7 +67,7 @@ public class CloudSubscriptionService implements SubscriptionService {
         var labels = new HashMap<String, List<String>>();
         labels.put("tenantId", List.of(tenantId));
 
-        return new CreateInstanceByPlanIdRequestDto("schema_%s".formatted(tenantId), SCHEMA_PLAN_ID, parameters, labels);
+        return new CreateInstanceByPlanIdRequestDto("schema_%s".formatted(tenantId), SCHEMA_SERVICE_PLAN_ID, parameters, labels);
     }
 
     private CreateBindingRequestDto buildCreateBindingRequest(InstanceResponseDto instance, String tenantId) {
