@@ -12,6 +12,7 @@ import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovi
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CloudSubscriptionService implements SubscriptionService {
 
+    @Value("${application-variables.applicationUri}")
+    private String applicationUri;
+
+    @Value("${application-variables.applicationName}")
+    private String applicationName;
+
     private static final String TENANT_SPECIFIC_URL_TEMPLATE = "https://%s-dev-approuter.cfapps.us10-001.hana.ondemand.com";
-    private static final String SCHEMA_SERVICE_PLAN_ID = "9196d940-4ba6-452c-941a-094b13934083";
+    //private static final String SCHEMA_SERVICE_PLAN_ID = "9196d940-4ba6-452c-941a-094b13934083";
 
     private static final String LABEL_TENANT_ID_NAME = "tenantId";
     private static final String SCHEMA_NAME_TEMPLATE = "schema_%s";
     private static final String BINDING_NAME_TEMPLATE = "binding_%s";
+    private static final String HTTPS_PROTOCOL = "https";
+    private static final String APPROUTER_NAME = "approuter"; // TODO: replace somewhere to separate service
 
     private final CloudDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
     private final LiquibaseSchemaMigrationService schemaMigrationService;
@@ -48,7 +57,8 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         schemaMigrationService.applyLiquibaseChangelog(tenantId);
 
-        return TENANT_SPECIFIC_URL_TEMPLATE.formatted(request.subscribedSubdomain());
+        return buildTenantSpecificUrl(subdomain);
+        //return TENANT_SPECIFIC_URL_TEMPLATE.formatted(request.subscribedSubdomain());
     }
 
     @Override
@@ -65,13 +75,15 @@ public class CloudSubscriptionService implements SubscriptionService {
     }
 
     private CreateInstanceByPlanIdRequestDto buildCreateInstanceByPlanIdRequestDto(String tenantId, String schemaName) {
-//        var parameters = new HashMap<String, String>();
-//        parameters.put("databaseName", "hana-db");
+        var schemaServicePlanId = getSchemaServicePlanId();
+
+        // var parameters = new HashMap<String, String>();
+        // parameters.put("databaseName", "hana-db");
 
         var labels = new HashMap<String, List<String>>();
         labels.put(LABEL_TENANT_ID_NAME, List.of(tenantId));
 
-        return new CreateInstanceByPlanIdRequestDto(SCHEMA_NAME_TEMPLATE.formatted(schemaName), SCHEMA_SERVICE_PLAN_ID, null, labels);
+        return new CreateInstanceByPlanIdRequestDto(SCHEMA_NAME_TEMPLATE.formatted(schemaName), schemaServicePlanId, null, labels);
     }
 
     private CreateBindingRequestDto buildCreateBindingRequest(InstanceResponseDto instance, String tenantId) {
@@ -92,5 +104,14 @@ public class CloudSubscriptionService implements SubscriptionService {
     private BindingResponseDto createBinding(InstanceResponseDto instanceResponse, String tenantId) {
         var createBindingRequest = buildCreateBindingRequest(instanceResponse, tenantId);
         return serviceManager.createBinding(createBindingRequest);
+    }
+
+    private String getSchemaServicePlanId() {
+        return serviceManager.getSchemaServicePlanId();
+    }
+
+    private String buildTenantSpecificUrl(String tenantSubdomain) {
+        String approuterUri = applicationUri.replace(applicationName, APPROUTER_NAME);
+        return "%s://%s-%s".formatted(HTTPS_PROTOCOL, tenantSubdomain, approuterUri);
     }
 }

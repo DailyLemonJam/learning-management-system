@@ -4,6 +4,7 @@ import com.leverx.learningmanagementsystem.core.security.role.Role;
 import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
 import com.sap.cloud.security.xsuaa.token.TokenAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +25,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @Profile("cloud")
@@ -69,6 +72,11 @@ public class CloudSecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+        log.info("Credentials: {}", SecurityContextHolder.getContext().getAuthentication().getCredentials());
+        log.info("Authorities: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        log.info("Principle: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        log.info("Details: {}", SecurityContextHolder.getContext().getAuthentication().getDetails());
+
         return http
                 .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)

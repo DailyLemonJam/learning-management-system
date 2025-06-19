@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LocalSubscriptionService implements SubscriptionService {
 
-    private static final String TENANT_SPECIFIC_URL_TEMPLATE = "https://%s-dev-approuter.cfapps.us10-001.hana.ondemand.com";
+    private static final String LOCAL_TEST_TENANT_SPECIFIC_URL_TEMPLATE = "https://%s-dev-approuter.cfapps.us10-001.hana.ondemand.com";
 
     private final LocalDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
     private final LiquibaseSchemaMigrationService schemaMigrationService;
@@ -25,7 +25,6 @@ public class LocalSubscriptionService implements SubscriptionService {
 
     @Override
     public String subscribe(SubscribeRequestDto request) {
-        // TODO: use this method only in Local env (or change with something else)
         var tenantId = createValidSQLTenantId(request.subscribedTenantId());
 
         try {
@@ -38,7 +37,7 @@ public class LocalSubscriptionService implements SubscriptionService {
             throw e;
         }
 
-        return TENANT_SPECIFIC_URL_TEMPLATE.formatted(request.subscribedSubdomain());
+        return LOCAL_TEST_TENANT_SPECIFIC_URL_TEMPLATE.formatted(request.subscribedSubdomain());
     }
 
     @Override

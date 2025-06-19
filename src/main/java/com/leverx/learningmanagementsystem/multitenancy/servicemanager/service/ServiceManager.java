@@ -24,4 +24,6 @@ public interface ServiceManager {
     BindingsResponseDto getAllBindings();
 
     void deleteBinding(String tenantId);
+
+    String getSchemaServicePlanId();
 }

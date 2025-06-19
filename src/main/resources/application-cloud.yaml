@@ -37,3 +37,7 @@ service-manager:
   clientId: ${vcap.services.lms-service-manager.credentials.clientid}
   clientSecret: ${vcap.services.lms-service-manager.credentials.clientsecret}
   xsAppName: ${vcap.services.lms-service-manager.credentials.xsappname}
+
+application-variables:
+  applicationUri: ${vcap.application.application_uris[0]}
+  applicationName: ${vcap.application.application_name}
