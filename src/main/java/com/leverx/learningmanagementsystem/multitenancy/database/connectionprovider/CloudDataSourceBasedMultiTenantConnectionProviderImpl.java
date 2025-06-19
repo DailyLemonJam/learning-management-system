@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider;
 
-import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
+import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.binding.BindingResponseDto;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("cloud")
 @RequiredArgsConstructor
 public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String> {
+
+    private static final Integer DATASOURCE_MAX_POOLSIZE = 10;
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
     private final DataSource defaultDataSource;
@@ -46,7 +48,7 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         dataSource.setDriverClassName(driver);
-        dataSource.setMaximumPoolSize(10);
+        dataSource.setMaximumPoolSize(DATASOURCE_MAX_POOLSIZE);
 
         dataSources.put(tenantId, dataSource);
     }

@@ -32,8 +32,8 @@ xsuaa-service:
   clientSecret: ${vcap.services.lms-xsuaa.credentials.clientsecret}
 
 service-manager:
-  url: ${vcap.services.lms-service-manager.credentials.url}
-  smUrl: ${vcap.services.lms-service-manager.credentials.sm_url}
+  authUrl: ${vcap.services.lms-service-manager.credentials.url}
+  serviceManagerUrl: ${vcap.services.lms-service-manager.credentials.sm_url}
   clientId: ${vcap.services.lms-service-manager.credentials.clientid}
   clientSecret: ${vcap.services.lms-service-manager.credentials.clientsecret}
   xsAppName: ${vcap.services.lms-service-manager.credentials.xsappname}

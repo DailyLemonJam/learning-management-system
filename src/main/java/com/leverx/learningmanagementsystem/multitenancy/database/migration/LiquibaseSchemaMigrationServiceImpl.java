@@ -7,6 +7,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
+import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -16,14 +17,16 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class LiquibaseSchemaMigrationServiceImpl implements LiquibaseSchemaMigrationService {
 
+    private static final String CHANGE_LOG_PATH = "/db/db.changelog-master.yaml";
+
     private final AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String> connectionProvider;
 
     @Override
     public void applyLiquibaseChangelog(String tenantId) {
-        try (var connection = connectionProvider.getConnection(tenantId)) {
-            String changelogPath = "/db/db.changelog-master.yaml";
+        try {
+            var connection = connectionProvider.getConnection(tenantId);
 
-            var liquibase = new Liquibase(changelogPath, new ClassLoaderResourceAccessor(),
+            var liquibase = new Liquibase(CHANGE_LOG_PATH, new ClassLoaderResourceAccessor(),
                     new JdbcConnection(connection));
             liquibase.update("");
 

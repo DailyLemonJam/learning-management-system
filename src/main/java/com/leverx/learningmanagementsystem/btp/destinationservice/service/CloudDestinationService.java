@@ -32,6 +32,9 @@ public class CloudDestinationService implements DestinationService {
     }
 
     private DestinationResponseDto tryToGet(String name) {
+        // TODO: if tenant exists in Context -> get Destination token from Subscriber Xsuaa
+        // If no Destination found -> get Destination token from Provider Xsuaa
+        // URL for getting Destinations keeps the same
         try {
             var destinationUri = createDestinationUri(name);
             var headers = createHeaders();

@@ -3,13 +3,6 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/api/v1/application-info",
-      "target": "/api/v1/application-info",
-      "destination": "lms-api",
-      "authenticationType": "xsuaa",
-      "csrfProtection": false
-    },
-    {
       "source": "^(.*)$",
       "target": "$1",
       "destination": "lms-api",

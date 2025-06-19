@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.core.security.config;
 
 import com.leverx.learningmanagementsystem.core.security.role.Role;
-import com.leverx.learningmanagementsystem.multitenancy.tenant.filter.LocalTenantFilter;
+import com.leverx.learningmanagementsystem.multitenancy.tenant.filter.LocalRequestContextFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class LocalSecurityConfiguration {
 
-    private final LocalTenantFilter localTenantFilter;
+    private final LocalRequestContextFilter localTenantFilter;
 
     @Value("${security.configuration.default-user.username}")
     private String defaultUserUsername;

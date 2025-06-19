@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.tenantresolver;
 
-import com.leverx.learningmanagementsystem.multitenancy.tenant.context.TenantContext;
+import com.leverx.learningmanagementsystem.multitenancy.tenant.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
@@ -11,9 +11,9 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
 
     @Override
     public String resolveCurrentTenantIdentifier() {
-        log.info("Returning current tenant (resolver): %s".formatted(TenantContext.getTenantId()));
+        log.info("Returning current tenant (resolver): {}", RequestContext.getTenantId());
 
-        return TenantContext.getTenantId() == null ? "public" : TenantContext.getTenantId();
+        return RequestContext.getTenantId() == null ? "public" : RequestContext.getTenantId();
     }
 
     @Override
