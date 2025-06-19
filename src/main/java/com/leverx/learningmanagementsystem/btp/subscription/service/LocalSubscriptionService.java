@@ -25,6 +25,7 @@ public class LocalSubscriptionService implements SubscriptionService {
 
     @Override
     public String subscribe(SubscribeRequestDto request) {
+        // TODO: use this method only in Local env (or change with something else)
         var tenantId = createValidSQLTenantId(request.subscribedTenantId());
 
         try {

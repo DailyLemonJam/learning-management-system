@@ -37,7 +37,7 @@ public class CloudTenantFilter extends OncePerRequestFilter {
             var decodedJWT = JWT.decode(token);
             log.info("Decoded jwt: %s".formatted(decodedJWT.getPayload()));
 
-            String zid = decodedJWT.getClaim("zid").asString().replace("-","_");
+            String zid = decodedJWT.getClaim("zid").asString();
             log.info("zid: %s".formatted(zid));
 
             var extAttr = decodedJWT.getClaim("ext_attr").asMap();

@@ -10,6 +10,6 @@ public record InstancesResponseDto(
 
         @JsonProperty("num_items") Integer numItems,
 
-        @JsonProperty("items") List<InstanceResponseDto> instances
+        @JsonProperty("items") List<InstanceResponseDto> items
 ) {
 }

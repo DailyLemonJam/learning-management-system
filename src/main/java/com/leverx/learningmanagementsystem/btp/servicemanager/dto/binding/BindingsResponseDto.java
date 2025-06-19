@@ -10,6 +10,6 @@ public record BindingsResponseDto(
 
         @JsonProperty("num_items") Integer numItems,
 
-        @JsonProperty("items") List<BindingResponseDto> instances
+        @JsonProperty("items") List<BindingResponseDto> items
 ) {
 }

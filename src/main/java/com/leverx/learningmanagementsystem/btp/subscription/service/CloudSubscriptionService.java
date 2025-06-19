@@ -32,11 +32,12 @@ public class CloudSubscriptionService implements SubscriptionService {
 
     @Override
     public String subscribe(SubscribeRequestDto request) {
-        var tenantId = createValidSQLTenantId(request.subscribedTenantId());
+        log.info("Subscribe request: %s".formatted(request.toString()));
 
-        log.info("Created validSQLTenantId: %s".formatted(tenantId));
+        var tenantId = request.subscribedTenantId();
+        var subdomain = request.subscribedSubdomain();
 
-        var createInstanceRequest = buildCreateInstanceByPlanIdRequestDto(tenantId);
+        var createInstanceRequest = buildCreateInstanceByPlanIdRequestDto(tenantId, subdomain);
         var instanceResponse = serviceManager.createInstance(createInstanceRequest);
         log.info("--- Created Instance ---");
         log.info("Instance ID: %s".formatted(instanceResponse.id()));
@@ -63,7 +64,9 @@ public class CloudSubscriptionService implements SubscriptionService {
 
     @Override
     public UnsubscribeResponseDto unsubscribe(UnsubscribeRequestDto request) {
-        var tenantId = createValidSQLTenantId(request.subscribedTenantId());
+        log.info("Unsubscribe request: %s".formatted(request.toString()));
+
+        var tenantId = request.subscribedTenantId();
 
         serviceManager.deleteBinding(tenantId);
         log.info("--- Deleted Binding ---");
@@ -77,14 +80,14 @@ public class CloudSubscriptionService implements SubscriptionService {
         return new UnsubscribeResponseDto("Tenant successfully unsubscribed");
     }
 
-    private CreateInstanceByPlanIdRequestDto buildCreateInstanceByPlanIdRequestDto(String tenantId) {
+    private CreateInstanceByPlanIdRequestDto buildCreateInstanceByPlanIdRequestDto(String tenantId, String schemaName) {
         var parameters = new HashMap<String, String>();
         parameters.put("databaseName", "hana-db");
 
         var labels = new HashMap<String, List<String>>();
         labels.put("tenantId", List.of(tenantId));
 
-        return new CreateInstanceByPlanIdRequestDto("schema_%s".formatted(tenantId), SCHEMA_SERVICE_PLAN_ID, parameters, labels);
+        return new CreateInstanceByPlanIdRequestDto("schema_%s".formatted(schemaName), SCHEMA_SERVICE_PLAN_ID, parameters, labels);
     }
 
     private CreateBindingRequestDto buildCreateBindingRequest(InstanceResponseDto instance, String tenantId) {

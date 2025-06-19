@@ -123,7 +123,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(INSTANCES_ENDPOINT_VERSION, INSTANCES_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .queryParam("labelQuery", "tenantId eq '%s'".formatted(tenantId))
+                    .queryParam("labelQuery", "tenantId+eq+'%s'".formatted(tenantId))
                     .toUriString();
             var headers = buildHeaders();
 
@@ -135,7 +135,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .retrieve()
                     .body(InstancesResponseDto.class);
 
-            return instances.instances().getFirst();
+            return instances.items().getFirst();
 
         } catch (Unauthorized ex) {
             refreshAccessToken();
@@ -214,7 +214,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .fromUriString(serviceManagerProperties.getSmUrl())
                     .pathSegment(BINDINGS_ENDPOINT_VERSION, BINDINGS_ENDPOINT_NAME)
                     .queryParam("async", false)
-                    .queryParam("labelQuery", "tenantId eq '%s'".formatted(tenantId))
+                    .queryParam("labelQuery", "tenantId+eq+'%s'".formatted(tenantId))
                     .toUriString();
             var headers = buildHeaders();
 
@@ -226,7 +226,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .retrieve()
                     .body(BindingsResponseDto.class);
 
-            return bindings.instances().getFirst();
+            return bindings.items().getFirst();
 
         } catch (Unauthorized ex) {
             refreshAccessToken();
