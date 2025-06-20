@@ -61,6 +61,11 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     public void destroy() throws Exception {
+        var openDataSources = dataSources.values();
+
+        openDataSources.forEach(datasource ->
+                ((HikariDataSource) datasource).close());
+
         dataSources.clear();
     }
 }
