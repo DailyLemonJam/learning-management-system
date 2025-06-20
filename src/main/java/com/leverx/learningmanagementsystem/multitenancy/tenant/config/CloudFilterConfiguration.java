@@ -10,14 +10,12 @@ import org.springframework.context.annotation.Profile;
 @Profile("cloud")
 public class CloudFilterConfiguration {
 
-    // TODO: mb then separate filter for actuator here as well?
-
     @Bean
-    public FilterRegistrationBean<CloudRequestContextFilter> cloudRequestContextFilter() {
+    public FilterRegistrationBean<CloudRequestContextFilter> filterCloudRequestContextFilter() {
         var filter = new FilterRegistrationBean<CloudRequestContextFilter>();
         filter.setFilter(new CloudRequestContextFilter());
-        filter.addUrlPatterns("/**");
-        filter.setOrder(2);
+        filter.addUrlPatterns("/*");
+        filter.setOrder(3);
         return filter;
     }
 }
