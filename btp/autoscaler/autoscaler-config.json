@@ -1,0 +1,18 @@
+{
+  "instance_min_count": 1,
+  "instance_max_count": 2,
+  "scaling_rules": [
+    {
+      "metric_type": "cpuutil",
+      "threshold": 80,
+      "operator": ">=",
+      "adjustment": "+1"
+    },
+    {
+      "metric_type": "cpuutil",
+      "threshold": 20,
+      "operator": "<",
+      "adjustment": "-1"
+    }
+  ]
+}
