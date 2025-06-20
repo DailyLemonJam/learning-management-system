@@ -20,12 +20,15 @@ destination-service:
   xsappname: ${vcap.services.lms-destination-service.credentials.xsappname}
 
 user-service-mail:
-  user: ${vcap.services.lms-user-provided-service.credentials.user}
-  password: ${vcap.services.lms-user-provided-service.credentials.password}
-  from: ${vcap.services.lms-user-provided-service.credentials.from}
-  host: ${vcap.services.lms-user-provided-service.credentials.host}
-  port: ${vcap.services.lms-user-provided-service.credentials.port}
-  protocol: ${vcap.services.lms-user-provided-service.credentials.protocol}
+  user: ${vcap.services.lms-user-provided-service.credentials.smtp.user}
+  password: ${vcap.services.lms-user-provided-service.credentials.smtp.password}
+  from: ${vcap.services.lms-user-provided-service.credentials.smtp.from}
+  host: ${vcap.services.lms-user-provided-service.credentials.smtp.host}
+  port: ${vcap.services.lms-user-provided-service.credentials.smtp.port}
+  protocol: ${vcap.services.lms-user-provided-service.credentials.smtp.protocol}
+
+user-approuter-settings:
+  approuterName: ${vcap.services.lms-user-provided-service.credentials.approuter.approuterName}
 
 xsuaa-service:
   tokenUrl: ${vcap.services.lms-xsuaa.credentials.url}

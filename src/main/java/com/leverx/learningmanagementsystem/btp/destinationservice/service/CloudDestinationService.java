@@ -29,10 +29,10 @@ public class CloudDestinationService implements DestinationService {
     private final DestinationServiceProperties destinationServiceProperties;
     private final DestinationServiceAccessTokenProvider destinationServiceAccessTokenProvider;
 
-    @Value("${vcap.application.organization_name}")
+    @Value("${application-variables.subdomain}")
     private String subdomain;
 
-    @Value("${vcap.services.lms-destination-service.credentials.xsappname}")
+    @Value("${destination-service.xsappname}")
     private String xsAppName;
 
     @Override
