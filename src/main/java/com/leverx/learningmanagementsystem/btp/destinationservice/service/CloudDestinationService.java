@@ -32,10 +32,18 @@ public class CloudDestinationService implements DestinationService {
     @Value("${vcap.application.organization_name}")
     private String subdomain;
 
+    @Value("${vcap.services.lms-destination-service.credentials.xsappname}")
+    private String xsAppName;
+
     @Override
     @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public DestinationResponseDto getByName(String name) {
         return tryToGet(name);
+    }
+
+    @Override
+    public String getXsAppName() {
+        return xsAppName;
     }
 
     private DestinationResponseDto tryToGet(String name) {

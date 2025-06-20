@@ -17,6 +17,7 @@ destination-service:
   uri: ${vcap.services.lms-destination-service.credentials.uri}
   client_id: ${vcap.services.lms-destination-service.credentials.client_id}
   client_secret: ${vcap.services.lms-destination-service.credentials.client_secret}
+  xsappname: ${vcap.services.lms-destination-service.credentials.xsappname}
 
 user-service-mail:
   user: ${vcap.services.lms-user-provided-service.credentials.user}

@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.controller;
 
+import com.leverx.learningmanagementsystem.btp.destinationservice.service.DestinationService;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeRequestDto;
@@ -27,6 +28,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
+    private final DestinationService destinationService;
 
     @PutMapping("/tenants/{tenantId}")
     @ResponseStatus(OK)
@@ -46,8 +48,7 @@ public class SubscriptionController {
     @GetMapping(value = "/tenants/dependencies")
     @ResponseStatus(OK)
     public List<DependenciesResponseDto> getDependencies() {
-        // TODO: get dynamically from reusable service
-        var xsAppName = "clone50fd372f8bc740a480ca9fd1d26d449b!b466853|destination-xsappname!b62";
+        String xsAppName = destinationService.getXsAppName();
 
         log.info("Returning xsAppName: {}", xsAppName);
 
