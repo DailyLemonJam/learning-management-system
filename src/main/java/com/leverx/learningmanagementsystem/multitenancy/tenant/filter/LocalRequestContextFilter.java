@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import static java.util.Objects.isNull;
+
 @Slf4j
 @Profile("local")
 @Component
@@ -22,7 +24,7 @@ public class LocalRequestContextFilter extends OncePerRequestFilter {
             throws ServletException, java.io.IOException {
 
         String tenantId = request.getHeader("X-Tenant-ID");
-        if (tenantId == null) {
+        if (isNull(tenantId)) {
             throw new RuntimeException("X-Tenant-ID is null");
         }
 

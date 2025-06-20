@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
 
+import static java.util.Objects.isNull;
+
 @Slf4j
 @Component
 public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver<String> {
@@ -13,7 +15,7 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
     public String resolveCurrentTenantIdentifier() {
         log.info("Returning current tenant (resolver): {}", RequestContext.getTenantId());
 
-        return RequestContext.getTenantId() == null ? "public" : RequestContext.getTenantId();
+        return isNull(RequestContext.getTenantId()) ? "public" : RequestContext.getTenantId();
     }
 
     @Override

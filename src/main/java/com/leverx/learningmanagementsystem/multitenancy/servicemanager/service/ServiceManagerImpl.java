@@ -131,9 +131,9 @@ public class ServiceManagerImpl implements ServiceManager {
                     .queryParam("async", false)
                     .toUriString();
 
-            log.info("Create Instance uri: %s".formatted(uri));
+            log.info("Create Instance uri: {}", uri);
             var headers = buildHeaders();
-            log.info("Headers: %s".formatted(headers.asSingleValueMap().toString()));
+            log.info("Headers: {}", headers.asSingleValueMap());
 
             return restClient.post()
                     .uri(uri)
