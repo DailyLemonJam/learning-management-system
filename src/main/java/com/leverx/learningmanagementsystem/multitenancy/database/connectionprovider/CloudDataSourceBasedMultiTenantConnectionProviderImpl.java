@@ -40,10 +40,10 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     public void createTenantDataSource(BindingResponseDto binding, String tenantId) {
         var credentials = binding.credentials();
-        var url = credentials.get("url");
-        var username = credentials.get("user");
-        var password = credentials.get("password");
-        var driver = credentials.get("driver");
+        var url = credentials.url();
+        var username = credentials.user();
+        var password = credentials.password();
+        var driver = credentials.driver();
 
         var dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(url);

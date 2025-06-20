@@ -11,7 +11,7 @@ public record BindingResponseDto(
 
         @JsonProperty("service_instance_id") String serviceInstanceId,
 
-        @JsonProperty("credentials") Map<String, String> credentials,
+        @JsonProperty("credentials") BindingCredentials credentials,
 
         @JsonProperty("name") String name,
 
