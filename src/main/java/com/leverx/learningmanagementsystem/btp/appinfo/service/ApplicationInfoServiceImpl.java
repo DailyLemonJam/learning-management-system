@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.appinfo.service;
 
-import com.leverx.learningmanagementsystem.btp.appinfo.config.XsuaaProperties;
+import com.leverx.learningmanagementsystem.btp.xsuaa.model.XsuaaProperties;
 import com.leverx.learningmanagementsystem.btp.appinfo.dto.ApplicationInfoResponseDto;
 import com.leverx.learningmanagementsystem.btp.appinfo.dto.XsuaaCredentialsResponseDto;
 import lombok.RequiredArgsConstructor;

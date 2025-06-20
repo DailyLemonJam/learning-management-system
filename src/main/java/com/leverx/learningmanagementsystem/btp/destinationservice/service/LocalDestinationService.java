@@ -12,4 +12,9 @@ public class LocalDestinationService implements DestinationService {
     public DestinationResponseDto getByName(String name) {
         return null;
     }
+
+    @Override
+    public String getXsAppName() {
+        return "localTestXsAppname";
+    }
 }

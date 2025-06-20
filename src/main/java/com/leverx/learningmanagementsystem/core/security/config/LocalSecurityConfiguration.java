@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.core.security.config;
 
 import com.leverx.learningmanagementsystem.core.security.role.Role;
+import com.leverx.learningmanagementsystem.multitenancy.tenant.filter.LocalRequestContextFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +19,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 @Profile("local")
+@RequiredArgsConstructor
 public class LocalSecurityConfiguration {
+
+    private final LocalRequestContextFilter localTenantFilter;
 
     @Value("${security.configuration.default-user.username}")
     private String defaultUserUsername;
@@ -71,6 +77,7 @@ public class LocalSecurityConfiguration {
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().authenticated())
                 .httpBasic(withDefaults())
+                .addFilterAfter(localTenantFilter, BasicAuthenticationFilter.class)
                 .build();
     }
 

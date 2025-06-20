@@ -5,4 +5,6 @@ import com.leverx.learningmanagementsystem.btp.destinationservice.dto.Destinatio
 public interface DestinationService {
 
     DestinationResponseDto getByName(String name);
+
+    String getXsAppName();
 }
