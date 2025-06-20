@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static java.util.Objects.nonNull;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -75,10 +76,14 @@ public class CloudSecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
-        log.info("Credentials: {}", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-        log.info("Authorities: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        log.info("Principle: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        log.info("Details: {}", SecurityContextHolder.getContext().getAuthentication().getDetails());
+        if (nonNull(SecurityContextHolder.getContext()) && nonNull(SecurityContextHolder.getContext().getAuthentication())) {
+            log.info("Credentials: {}", SecurityContextHolder.getContext().getAuthentication().getCredentials());
+            log.info("Authorities: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+            log.info("Principle: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            log.info("Details: {}", SecurityContextHolder.getContext().getAuthentication().getDetails());
+        } else {
+            log.info("Authentication in SecurityContextHolder is null");
+        }
 
         return http
                 .securityMatcher("/**")
@@ -86,7 +91,7 @@ public class CloudSecurityConfiguration {
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/v1/application-info").hasRole(Role.ADMIN.getValue());
+                    auth.requestMatchers("/api/v1/application-info").hasAuthority(Role.ADMIN.getValue());
                     auth.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(oauth2 ->

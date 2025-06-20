@@ -45,6 +45,11 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         var password = credentials.password();
         var driver = credentials.driver();
 
+        log.info("url: {}", url);
+        log.info("username: {}", username);
+        log.info("password: {}", password);
+        log.info("driver: {}", driver);
+
         var dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(url);
         dataSource.setUsername(username);
@@ -61,6 +66,8 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     public void destroy() throws Exception {
+        log.info("Destroying DataSources");
+
         var openDataSources = dataSources.values();
 
         openDataSources.forEach(datasource ->

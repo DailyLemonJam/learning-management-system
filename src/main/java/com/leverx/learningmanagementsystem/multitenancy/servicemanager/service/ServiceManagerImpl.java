@@ -104,7 +104,7 @@ public class ServiceManagerImpl implements ServiceManager {
 
         var headers = buildHeaders();
 
-        var plansResponse = restClient.post()
+        var plansResponse = restClient.get()
                 .uri(uri)
                 .headers(h -> h.addAll(headers))
                 .retrieve()
