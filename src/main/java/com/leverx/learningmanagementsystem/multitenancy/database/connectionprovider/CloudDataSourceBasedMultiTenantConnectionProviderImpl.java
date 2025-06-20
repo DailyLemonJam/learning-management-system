@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @Profile("cloud")
 @RequiredArgsConstructor
-public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String> {
+public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String>
+    implements DisposableBean {
 
     private static final Integer DATASOURCE_MAX_POOLSIZE = 10;
 
@@ -55,5 +57,10 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     public void deleteTenantDataSource(String tenantId) {
         dataSources.remove(tenantId);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        dataSources.clear();
     }
 }
