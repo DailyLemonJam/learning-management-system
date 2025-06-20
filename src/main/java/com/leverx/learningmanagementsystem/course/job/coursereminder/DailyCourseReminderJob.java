@@ -1,9 +1,9 @@
 package com.leverx.learningmanagementsystem.course.job.coursereminder;
 
+import com.leverx.learningmanagementsystem.course.job.coursereminder.service.AsyncCourseReminderSender;
 import com.leverx.learningmanagementsystem.course.job.coursereminder.service.LocalizedCourseReminderContentGenerator;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.email.service.EmailService;
 import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
 import com.leverx.learningmanagementsystem.email.smtpprovider.service.SmtpServerCredentialsProvider;
 import com.leverx.learningmanagementsystem.student.model.Student;
@@ -26,8 +26,8 @@ public class DailyCourseReminderJob {
 
     private final CourseRepository courseRepository;
     private final SmtpServerCredentialsProvider smtpServerCredentialsProvider;
-    private final EmailService emailService;
     private final LocalizedCourseReminderContentGenerator localizedCourseReminderContentGenerator;
+    private final AsyncCourseReminderSender asyncCourseReminderSender;
 
     @Scheduled(cron = "0 0 20 * * ?")
     public void sendTomorrowCoursesReminder() {
@@ -52,18 +52,7 @@ public class DailyCourseReminderJob {
         var subject = generateSubject(studentLocale, course.getTitle());
         var body = generateBody(studentLocale, student.getFirstName(), course.getTitle());
 
-        tryToSendEmail(email, subject, body, smtpServerProperties);
-    }
-
-    private void tryToSendEmail(String email, String subject, String body, SmtpServerProperties smtpServerProperties) {
-        try {
-            emailService.send(email, subject, body, smtpServerProperties);
-            log.info("Sending email to {}", email);
-            log.info("Subject: {}", subject);
-            log.info("Body: {}", body);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        asyncCourseReminderSender.trySendCourseReminderAsync(email, subject, body, smtpServerProperties);
     }
 
     private String generateSubject(Locale locale, String courseTitle) {
