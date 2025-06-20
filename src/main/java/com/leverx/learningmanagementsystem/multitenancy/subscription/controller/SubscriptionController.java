@@ -49,7 +49,7 @@ public class SubscriptionController {
         // TODO: get dynamically from reusable service
         var xsAppName = "clone50fd372f8bc740a480ca9fd1d26d449b!b466853|destination-xsappname!b62";
 
-        log.info("Returning xsAppName: %s".formatted(xsAppName));
+        log.info("Returning xsAppName: {}", xsAppName);
 
         var response = new DependenciesResponseDto(xsAppName);
 

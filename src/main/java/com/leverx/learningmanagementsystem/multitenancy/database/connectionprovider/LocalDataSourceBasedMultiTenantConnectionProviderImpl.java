@@ -30,7 +30,7 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     protected DataSource selectDataSource(String currentTenantId) {
-        log.info("SelectDataSource returned %s".formatted(currentTenantId));
+        log.info("SelectDataSource returned {}", currentTenantId);
 
         return dataSources.get(currentTenantId);
     }

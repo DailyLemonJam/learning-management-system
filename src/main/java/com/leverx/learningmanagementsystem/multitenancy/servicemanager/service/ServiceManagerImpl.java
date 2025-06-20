@@ -159,7 +159,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .toUriString();
             var headers = buildHeaders();
 
-            log.info("tryGetInstance: Uri with labelQuery: %s".formatted(uri));
+            log.info("tryGetInstance: Uri with labelQuery: {}", uri);
 
             var instances = restClient.get()
                     .uri(uri)
@@ -248,7 +248,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .toUriString();
             var headers = buildHeaders();
 
-            log.info("tryGetBinding: Uri with labelQuery: %s".formatted(uri));
+            log.info("tryGetBinding: Uri with labelQuery: {}", uri);
 
             var bindings = restClient.get()
                     .uri(uri)

@@ -22,24 +22,14 @@ public class CloudTenantDataSourceInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("Running Liquibase migrator on all schemas");
-
         var schemaBindings = serviceManager.getAllBindings();
-
-        log.info("SchemaBindings: %s".formatted(schemaBindings.toString()));
 
         for (var binding : schemaBindings.items()) {
             var tenantId = binding.labels().get("tenantId").getFirst();
 
-            log.info("SchemaBinding: connected tenantId: %s".formatted(tenantId));
-
             connectionProvider.createTenantDataSource(binding, tenantId);
 
-            log.info("Created DataSource for schema with tenantId: %s".formatted(tenantId));
-
             schemaMigrationService.applyLiquibaseChangelog(tenantId);
-
-            log.info("Applied migration for schema with tenantId: %s".formatted(tenantId));
         }
     }
 }
