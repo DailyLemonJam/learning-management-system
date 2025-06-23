@@ -56,7 +56,7 @@ security:
 5. Go back to application and compile it:
 ```
 cd ../../..
-mvn clean pacakge
+mvn clean package
 ```
 6. Run compiled application (use local profile):
 ```
