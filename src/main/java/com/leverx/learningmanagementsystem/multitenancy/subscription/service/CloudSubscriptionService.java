@@ -31,6 +31,9 @@ public class CloudSubscriptionService implements SubscriptionService {
     @Value("${application-variables.applicationName}")
     private String applicationName;
 
+    @Value("${application-variables.providerSubdomain}")
+    private String providerSubdomain;
+
     @Value("${user-approuter-settings.approuterName}")
     private String approuterName;
 
@@ -47,6 +50,9 @@ public class CloudSubscriptionService implements SubscriptionService {
     public String subscribe(SubscribeRequestDto request) {
         var tenantId = request.subscribedTenantId();
         var subdomain = request.subscribedSubdomain();
+
+        log.info("Subscribe TenantId: {}", tenantId);
+        log.info("Subscribe subdomain: {}", subdomain);
 
         var instanceResponse = createInstance(tenantId, subdomain);
 
@@ -107,6 +113,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
     private String buildTenantSpecificUrl(String tenantSubdomain) {
         String approuterUri = applicationUri.replace(applicationName, approuterName);
-        return "%s://%s-%s".formatted(HTTPS_PROTOCOL, tenantSubdomain, approuterUri);
+        String tenantSpecificUri = approuterUri.replace(providerSubdomain, tenantSubdomain);
+        return "%s://%s".formatted(HTTPS_PROTOCOL, tenantSpecificUri);
     }
 }

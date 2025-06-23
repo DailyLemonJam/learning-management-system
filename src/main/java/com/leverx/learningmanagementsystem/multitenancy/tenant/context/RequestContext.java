@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class RequestContext {
 
-    private static final ThreadLocal<Map<String, String>> CONTEXT = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String, String>> CONTEXT = ThreadLocal.withInitial(HashMap::new);
 
     public static final String TENANT_ID = "tenantId";
     public static final String SUBDOMAIN = "subdomain";

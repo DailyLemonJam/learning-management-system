@@ -8,14 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Slf4j
 @Profile("cloud")
-@Component
 public class CloudRequestContextFilter extends OncePerRequestFilter {
 
     @Override
@@ -23,11 +21,6 @@ public class CloudRequestContextFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-
-        if (request.getRequestURI().startsWith("/actuator")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         log.info("Getting zid and subdomain from jwt");
 

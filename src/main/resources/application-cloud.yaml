@@ -46,3 +46,4 @@ application-variables:
   applicationUri: ${vcap.application.application_uris[0]}
   applicationName: ${vcap.application.application_name}
   subdomain: ${vcap.application.organization_name}
+  providerSubdomain: ${vcap.application.organization_name}
