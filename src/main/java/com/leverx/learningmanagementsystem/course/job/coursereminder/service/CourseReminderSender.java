@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import static com.leverx.learningmanagementsystem.core.async.config.AsyncConfiguration.ASYNC_EMAIL_SENDER_EXECUTOR;
 
 @Slf4j
-@Service
+@Component
 @Profile("cloud")
 @RequiredArgsConstructor
 public class CourseReminderSender {
@@ -20,14 +20,10 @@ public class CourseReminderSender {
 
     @Async(ASYNC_EMAIL_SENDER_EXECUTOR)
     public void sendAsync(String email, String subject, String body, SmtpServerProperties smtpServerProperties) {
-        trySendAsync(email, subject, body, smtpServerProperties);
-    }
-
-    private void trySendAsync(String email, String subject, String body, SmtpServerProperties smtpServerProperties) {
         try {
+            log.info("Sending email to {}\nSubject: {}\nBody: {}",
+                    email, subject, body);
             emailService.send(email, subject, body, smtpServerProperties);
-            log.info("Sending email to {}\nSubject: {}\nBody: {}\nCurrent notifier thread: {}",
-                    email, subject, body, Thread.currentThread());
         } catch (Exception e) {
             log.error(e.getMessage());
         }
