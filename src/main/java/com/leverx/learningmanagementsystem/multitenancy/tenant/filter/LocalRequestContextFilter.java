@@ -30,7 +30,7 @@ public class LocalRequestContextFilter extends OncePerRequestFilter {
 
         tenantId = tenantId.replace("-", "_");
 
-        log.info("TenantContext TenantId: %s".formatted(tenantId));
+        log.info("TenantContext TenantId: {}", tenantId);
 
         RequestContext.setTenant(tenantId, "optional-subdomain-here");
 

@@ -28,16 +28,15 @@ public class CloudRequestContextFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             var decodedJWT = JWT.decode(token);
-            log.info("Decoded jwt: {}", decodedJWT.getPayload());
 
             String zid = decodedJWT.getClaim("zid").asString();
-            log.info("zid: {}", zid);
 
             var extAttr = decodedJWT.getClaim("ext_attr").asMap();
-            log.info("ext_attr: {}", extAttr);
 
             String subdomain = (String) extAttr.get("zdn");
-            log.info("subdomain: {}", subdomain);
+
+            log.info("Decoded jwt: {}\nzid: {}\next_attr: {}\nsubdomain: {}",
+                    decodedJWT.getPayload(), zid, extAttr, subdomain);
 
             RequestContext.setTenant(zid, subdomain);
         }

@@ -131,9 +131,8 @@ public class ServiceManagerImpl implements ServiceManager {
                     .queryParam("async", false)
                     .toUriString();
 
-            log.info("Create Instance uri: {}", uri);
             var headers = buildHeaders();
-            log.info("Headers: {}", headers.asSingleValueMap());
+            log.info("Create Instance uri: {}\nHeaders: {}", uri, headers.asSingleValueMap());
 
             return restClient.post()
                     .uri(uri)
@@ -142,8 +141,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     .retrieve()
                     .body(InstanceResponseDto.class);
         } catch (Unauthorized ex) {
-            log.info("Unauthorized when creating Instance");
-            log.info(ex.getMessage());
+            log.info("Unauthorized when creating Instance\n{}", ex.getMessage());
             refreshAccessToken();
             throw ex;
         }

@@ -76,14 +76,12 @@ public class CloudSecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
-        if (nonNull(SecurityContextHolder.getContext()) && nonNull(SecurityContextHolder.getContext().getAuthentication())) {
-            log.info("Credentials: {}", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-            log.info("Authorities: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-            log.info("Principle: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-            log.info("Details: {}", SecurityContextHolder.getContext().getAuthentication().getDetails());
-        } else {
-            log.info("Authentication in SecurityContextHolder is null");
-        }
+        log.info("Credentials: {}\nAuthorities: {}\nPrinciple: {}\nDetails: {}",
+                SecurityContextHolder.getContext().getAuthentication().getCredentials(),
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities(),
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+                SecurityContextHolder.getContext().getAuthentication().getDetails()
+                );
 
         return http
                 .securityMatcher("/**")
