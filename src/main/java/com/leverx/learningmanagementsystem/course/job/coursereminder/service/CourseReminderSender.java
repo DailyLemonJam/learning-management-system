@@ -14,18 +14,20 @@ import static com.leverx.learningmanagementsystem.core.async.config.AsyncConfigu
 @Service
 @Profile("cloud")
 @RequiredArgsConstructor
-public class AsyncCourseReminderSender {
+public class CourseReminderSender {
 
     private final EmailService emailService;
 
     @Async(ASYNC_EMAIL_SENDER_EXECUTOR)
-    public void trySendCourseReminderAsync(String email, String subject, String body, SmtpServerProperties smtpServerProperties) {
+    public void sendAsync(String email, String subject, String body, SmtpServerProperties smtpServerProperties) {
+        trySendAsync(email, subject, body, smtpServerProperties);
+    }
+
+    private void trySendAsync(String email, String subject, String body, SmtpServerProperties smtpServerProperties) {
         try {
             emailService.send(email, subject, body, smtpServerProperties);
-            log.info("Sending email to {}", email);
-            log.info("Subject: {}", subject);
-            log.info("Body: {}", body);
-            log.info("Current notifier thread: {}", Thread.currentThread());
+            log.info("Sending email to {}\nSubject: {}\nBody: {}\nCurrent notifier thread: {}",
+                    email, subject, body, Thread.currentThread());
         } catch (Exception e) {
             log.error(e.getMessage());
         }

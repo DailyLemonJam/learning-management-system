@@ -25,9 +25,7 @@ public class EmailServiceImpl implements EmailService {
         helper.setText(text, true);
         sender.send(mimeMessage);
 
-        log.info("Sending email to {}", to);
-        log.info("Subject: {}", subject);
-        log.info("Text: {}", text);
+        log.info("Sending email to {}\nSubject: {}\nText: {}", to, subject, text);
     }
 
     private JavaMailSender getSender(SmtpServerProperties smtpServerProperties) {

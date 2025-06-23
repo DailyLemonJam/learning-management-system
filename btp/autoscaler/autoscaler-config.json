@@ -4,14 +4,16 @@
   "scaling_rules": [
     {
       "metric_type": "cpuutil",
-      "threshold": 80,
       "operator": ">=",
+      "threshold": 85,
+      "breach_duration_secs": 60,
       "adjustment": "+1"
     },
     {
       "metric_type": "cpuutil",
-      "threshold": 20,
       "operator": "<",
+      "threshold": 85,
+      "breach_duration_secs": 60,
       "adjustment": "-1"
     }
   ]

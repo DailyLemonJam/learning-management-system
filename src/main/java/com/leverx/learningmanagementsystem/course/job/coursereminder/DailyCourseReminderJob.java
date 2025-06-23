@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.course.job.coursereminder;
 
-import com.leverx.learningmanagementsystem.course.job.coursereminder.service.AsyncCourseReminderSender;
+import com.leverx.learningmanagementsystem.course.job.coursereminder.service.CourseReminderSender;
 import com.leverx.learningmanagementsystem.course.job.coursereminder.service.LocalizedCourseReminderContentGenerator;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
@@ -27,7 +27,7 @@ public class DailyCourseReminderJob {
     private final CourseRepository courseRepository;
     private final SmtpServerCredentialsProvider smtpServerCredentialsProvider;
     private final LocalizedCourseReminderContentGenerator localizedCourseReminderContentGenerator;
-    private final AsyncCourseReminderSender asyncCourseReminderSender;
+    private final CourseReminderSender courseReminderSender;
 
     @Scheduled(cron = "0 0 20 * * ?")
     public void sendTomorrowCoursesReminder() {
@@ -52,7 +52,7 @@ public class DailyCourseReminderJob {
         var subject = generateSubject(studentLocale, course.getTitle());
         var body = generateBody(studentLocale, student.getFirstName(), course.getTitle());
 
-        asyncCourseReminderSender.trySendCourseReminderAsync(email, subject, body, smtpServerProperties);
+        courseReminderSender.sendAsync(email, subject, body, smtpServerProperties);
     }
 
     private String generateSubject(Locale locale, String courseTitle) {
