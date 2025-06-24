@@ -1,9 +1,9 @@
 target/
-!.mvn/wrapper/maven-wrapper.jar
+!learning-management-system/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/main/resources/application-secrets.yaml
-/btp/approuter/node_modules/
+learning-management-system/src/main/resources/application-secrets.yaml
+/learning-management-system/btp/approuter/node_modules/
 
 ### IntelliJ IDEA ###
 .idea
