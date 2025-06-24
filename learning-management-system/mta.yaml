@@ -29,7 +29,7 @@ modules:
       JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000']"
     requires:
       - name: lms-destination-service
-      - name: lms-feature-flag-service
+      - name: lms-feature-flags-service
       - name: lms-logging-service
       - name: lms-hana-schema
       - name: lms-xsuaa
@@ -65,7 +65,7 @@ resources:
       service: destination
       service-plan: lite
 
-  - name: lms-feature-flag-service
+  - name: lms-feature-flags-service
     type: org.cloudfoundry.managed-service
     parameters:
       service: feature-flags

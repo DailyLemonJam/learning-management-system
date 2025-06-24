@@ -7,7 +7,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.HANADialect
 
-feature-flag-service:
+feature-flags-service:
   uri: ${vcap.services.lms-feature-flag.credentials.uri}
   username: ${vcap.services.lms-feature-flag.credentials.username}
   password: ${vcap.services.lms-feature-flag.credentials.password}

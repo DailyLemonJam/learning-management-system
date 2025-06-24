@@ -14,7 +14,7 @@ applications:
 
 services:
   - lms-destination-service
-  - lms-feature-flag-service
+  - lms-feature-flags-service
   - lms-logging-service
   - lms-hana-schema
   - lms-user-provided-service

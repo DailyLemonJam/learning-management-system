@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.btp.featureflagservice.dto;
+package com.leverx.starterfeatureflags.dto;
 
-public record FeatureFlagResponseDto(
+public record FeatureFlagsResponseDto(
 
         Integer httpStatus,
 

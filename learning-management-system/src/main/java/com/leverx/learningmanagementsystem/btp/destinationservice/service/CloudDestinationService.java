@@ -52,7 +52,7 @@ public class CloudDestinationService implements DestinationService {
             var headers = createHeaders();
             return restClient.get()
                     .uri(destinationUri)
-                    .headers(headers::addAll)
+                    .headers(h -> h.addAll(headers))
                     .retrieve()
                     .body(DestinationResponseDto.class);
         } catch (Unauthorized e) {
