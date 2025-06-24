@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    url: ${vcap.services.lms-hana-schema.credentials.url}
+    username: ${vcap.services.lms-hana-schema.credentials.user}
+    password: ${vcap.services.lms-hana-schema.credentials.password}
+    driver-class-name: ${vcap.services.lms-hana-schema.credentials.driver}
+  jpa:
+    database-platform: org.hibernate.dialect.HANADialect
+
+feature-flags-service:
+  uri: ${vcap.services.lms-feature-flag.credentials.uri}
+  username: ${vcap.services.lms-feature-flag.credentials.username}
+  password: ${vcap.services.lms-feature-flag.credentials.password}
+
+destination-service:
+  url: ${vcap.services.lms-destination-service.credentials.url}
+  uri: ${vcap.services.lms-destination-service.credentials.uri}
+  client_id: ${vcap.services.lms-destination-service.credentials.client_id}
+  client_secret: ${vcap.services.lms-destination-service.credentials.client_secret}
+  xsappname: ${vcap.services.lms-destination-service.credentials.xsappname}
+
+user-service-mail:
+  user: ${vcap.services.lms-user-provided-service.credentials.smtp.user}
+  password: ${vcap.services.lms-user-provided-service.credentials.smtp.password}
+  from: ${vcap.services.lms-user-provided-service.credentials.smtp.from}
+  host: ${vcap.services.lms-user-provided-service.credentials.smtp.host}
+  port: ${vcap.services.lms-user-provided-service.credentials.smtp.port}
+  protocol: ${vcap.services.lms-user-provided-service.credentials.smtp.protocol}
+
+user-approuter-settings:
+  approuterName: ${vcap.services.lms-user-provided-service.credentials.approuter.approuterName}
+
+xsuaa-service:
+  tokenUrl: ${vcap.services.lms-xsuaa.credentials.url}
+  clientId: ${vcap.services.lms-xsuaa.credentials.clientid}
+  clientSecret: ${vcap.services.lms-xsuaa.credentials.clientsecret}
+
+service-manager:
+  authUrl: ${vcap.services.lms-service-manager.credentials.url}
+  serviceManagerUrl: ${vcap.services.lms-service-manager.credentials.sm_url}
+  clientId: ${vcap.services.lms-service-manager.credentials.clientid}
+  clientSecret: ${vcap.services.lms-service-manager.credentials.clientsecret}
+  xsAppName: ${vcap.services.lms-service-manager.credentials.xsappname}
+
+application-variables:
+  applicationUri: ${vcap.application.application_uris[0]}
+  applicationName: ${vcap.application.application_name}
+  subdomain: ${vcap.application.organization_name}
+  providerSubdomain: ${vcap.application.organization_name}
