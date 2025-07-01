@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.application.controller;
 
-import com.leverx.learningmanagementsystem.btp.appinfo.dto.ApplicationInfoResponseDto;
-import com.leverx.learningmanagementsystem.btp.appinfo.service.ApplicationInfoService;
+import com.leverx.learningmanagementsystem.application.dto.ApplicationInfoResponseDto;
+import com.leverx.learningmanagementsystem.application.service.ApplicationInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
