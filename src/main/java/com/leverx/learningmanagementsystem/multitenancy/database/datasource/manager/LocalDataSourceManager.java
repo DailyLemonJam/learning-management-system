@@ -28,7 +28,7 @@ public class LocalDataSourceManager implements DisposableBean {
         return dataSources.get(tenantId);
     }
 
-    public DataSource createTenantDataSource(String tenantId) {
+    public void createTenantDataSource(String tenantId) {
         var dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(databaseProperties.getUrl() + "?currentSchema=" + tenantId);
         dataSource.setUsername(databaseProperties.getUsername());
@@ -36,8 +36,6 @@ public class LocalDataSourceManager implements DisposableBean {
         dataSource.setMaximumPoolSize(10);
 
         dataSources.put(tenantId, dataSource);
-
-        return dataSource;
     }
 
     public void deleteTenantDataSource(String tenantId) {

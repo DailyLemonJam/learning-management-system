@@ -17,6 +17,10 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     private final LocalDataSourceManager localDataSourceManager;
 
+    public DataSource getDefaultDataSource() {
+        return localDataSourceManager.getDefaultDataSource();
+    }
+
     @Override
     protected DataSource selectAnyDataSource() {
         return localDataSourceManager.getDefaultDataSource();
