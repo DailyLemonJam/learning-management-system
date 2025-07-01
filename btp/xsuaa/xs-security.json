@@ -3,7 +3,7 @@
   "tenant-mode": "shared",
   "scopes": [
     {
-      "name": "$XSAPPNAME.Admin",
+      "name": "$XSAPPNAME.Administrate",
       "description": "Admin access to application info"
     },
     {
@@ -18,7 +18,7 @@
     {
       "name": "Admin",
       "description": "Administrator role",
-      "scope-references": ["$XSAPPNAME.Admin"]
+      "scope-references": ["$XSAPPNAME.Administrate"]
     }
   ],
   "role-collections": [
