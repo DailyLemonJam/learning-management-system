@@ -98,7 +98,7 @@ resources:
     parameters:
       service: saas-registry
       service-plan: application
-      path: btp/saas-provisioning/xs-saas-provisioning.json
+      path: btp/saas-provisioning/saas-provisioning.json
 
   - name: lms-service-manager
     type: org.cloudfoundry.managed-service
