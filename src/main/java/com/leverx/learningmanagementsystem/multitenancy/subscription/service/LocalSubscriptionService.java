@@ -1,11 +1,11 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 
+import com.leverx.learningmanagementsystem.multitenancy.database.connection.manager.LocalDataSourceManager;
+import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeResponseDto;
-import com.leverx.learningmanagementsystem.multitenancy.database.connection.provider.LocalDataSourceBasedMultiTenantConnectionProviderImpl;
-import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -22,7 +22,7 @@ public class LocalSubscriptionService implements SubscriptionService {
 
     private static final String LOCAL_TEST_TENANT_SPECIFIC_URL_TEMPLATE = "https://%s-dev-approuter.cfapps.us10-001.hana.ondemand.com";
 
-    private final LocalDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
+    private final LocalDataSourceManager localDataSourceManager;
     private final LiquibaseSchemaMigrationService schemaMigrationService;
     private final JdbcTemplate jdbcTemplate;
 
@@ -74,11 +74,11 @@ public class LocalSubscriptionService implements SubscriptionService {
     }
 
     private void createTenantDataSource(String tenantId) {
-        connectionProvider.createTenantDataSource(tenantId);
+        localDataSourceManager.createTenantDataSource(tenantId);
     }
 
     private void deleteTenantDataSource(String tenantId) {
-        connectionProvider.deleteTenantDataSource(tenantId);
+        localDataSourceManager.deleteTenantDataSource(tenantId);
     }
 
     private void applyLiquibaseChangelog(String tenantId) {

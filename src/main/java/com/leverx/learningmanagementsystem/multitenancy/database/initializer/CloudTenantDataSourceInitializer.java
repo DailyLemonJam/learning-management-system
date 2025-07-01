@@ -1,6 +1,7 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.initializer;
 
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
+import com.leverx.learningmanagementsystem.multitenancy.database.connection.manager.CloudDataSourceManager;
 import com.leverx.learningmanagementsystem.multitenancy.database.connection.provider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class CloudTenantDataSourceInitializer implements ApplicationRunner {
 
     private final CloudDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
+    private final CloudDataSourceManager cloudDataSourceManager;
     private final LiquibaseSchemaMigrationService schemaMigrationService;
     private final ServiceManager serviceManager;
 
@@ -31,7 +33,7 @@ public class CloudTenantDataSourceInitializer implements ApplicationRunner {
         for (var binding : schemaBindings.items()) {
             var tenantId = binding.labels().get("tenantId").getFirst();
 
-            connectionProvider.createTenantDataSource(binding, tenantId);
+            cloudDataSourceManager.createTenantDataSource(binding, tenantId);
 
             schemaMigrationService.applyChangelog(tenantId);
         }

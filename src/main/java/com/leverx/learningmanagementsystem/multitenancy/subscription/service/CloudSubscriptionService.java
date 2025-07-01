@@ -3,6 +3,7 @@ package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
 import com.leverx.learningmanagementsystem.btp.approuter.model.ApprouterProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationServiceProperties;
+import com.leverx.learningmanagementsystem.multitenancy.database.connection.manager.CloudDataSourceManager;
 import com.leverx.learningmanagementsystem.multitenancy.database.connection.provider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
@@ -33,7 +34,7 @@ public class CloudSubscriptionService implements SubscriptionService {
     private static final String BINDING_NAME_TEMPLATE = "binding_%s";
     private static final String HTTPS_PROTOCOL = "https";
 
-    private final CloudDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
+    private final CloudDataSourceManager cloudDataSourceManager;
     private final LiquibaseSchemaMigrationService liquibaseSchemaMigrationService;
     private final ServiceManager serviceManager;
     private final ApplicationProperties applicationProperties;
@@ -49,7 +50,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         var bindingResponse = createBinding(instanceResponse, tenantId);
 
-        connectionProvider.createTenantDataSource(bindingResponse, tenantId);
+        cloudDataSourceManager.createTenantDataSource(bindingResponse, tenantId);
 
         liquibaseSchemaMigrationService.applyChangelog(tenantId);
 
@@ -64,7 +65,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         serviceManager.deleteInstance(tenantId);
 
-        connectionProvider.deleteTenantDataSource(tenantId);
+        cloudDataSourceManager.deleteTenantDataSource(tenantId);
 
         return new UnsubscribeResponseDto("Tenant successfully unsubscribed");
     }
