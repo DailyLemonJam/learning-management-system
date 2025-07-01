@@ -29,7 +29,7 @@ public class CloudSmtpServerCredentialsProvider implements SmtpServerCredentials
 
     @Override
     public SmtpServerProperties getSmtpServerProperties() {
-        var featureFlagResponseDto = featureFlagService.getFeatureFlag(DESTINATION_SERVICE_ENABLED);
+        var featureFlagResponseDto = featureFlagService.getByName(DESTINATION_SERVICE_ENABLED);
         boolean isEnabled = convertToBooleanResponse(featureFlagResponseDto);
         if (!isEnabled) {
             return userProvidedService.getSmtpServerProperties();

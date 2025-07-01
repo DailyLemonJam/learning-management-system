@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.featureflagservice.service;
 
-import com.leverx.learningmanagementsystem.btp.featureflagservice.config.FeatureFlagProperties;
+import com.leverx.learningmanagementsystem.btp.featureflagservice.model.FeatureFlagProperties;
 import com.leverx.learningmanagementsystem.btp.featureflagservice.dto.FeatureFlagResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -23,7 +23,7 @@ public class CloudFeatureFlagService implements FeatureFlagService {
     private final FeatureFlagProperties featureFlagProperties;
 
     @Override
-    public FeatureFlagResponseDto getFeatureFlag(String name) {
+    public FeatureFlagResponseDto getByName(String name) {
         var uri = createFeatureFlagUri(name);
         var authHeader = createAuthHeader(featureFlagProperties);
         return restClient.get()

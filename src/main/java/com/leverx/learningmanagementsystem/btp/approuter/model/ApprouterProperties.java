@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.featureflagservice.config;
+package com.leverx.learningmanagementsystem.btp.approuter.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,17 +7,13 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@ConfigurationProperties(prefix = "feature-flag-service")
+@ConfigurationProperties(prefix = "user-approuter-settings")
 @Component
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeatureFlagProperties {
+public class ApprouterProperties {
 
-    private String uri;
-
-    private String username;
-
-    private String password;
+    private String approuterName;
 }

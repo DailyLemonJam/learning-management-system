@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 
 import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
-import com.leverx.learningmanagementsystem.btp.approuter.config.ApprouterProperties;
+import com.leverx.learningmanagementsystem.btp.approuter.model.ApprouterProperties;
 import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.binding.BindingResponseDto;
