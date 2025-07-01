@@ -10,8 +10,8 @@
     }
   ],
   "appUrls": {
-    "onSubscription": "https://dd045185trial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/tenants/{tenantId}",
-    "getDependencies": "https://dd045185trial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/tenants/dependencies"
+    "onSubscription": "https://dd045185trial-learning-management-system-dev.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/tenants/{tenantId}",
+    "getDependencies": "https://dd045185trial-learning-management-system-dev.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/dependencies"
   },
   "onSubscriptionAsync": false
 }

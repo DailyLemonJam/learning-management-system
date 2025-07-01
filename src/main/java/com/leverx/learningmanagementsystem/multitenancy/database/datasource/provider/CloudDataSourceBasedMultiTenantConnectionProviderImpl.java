@@ -21,6 +21,10 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         return cloudDataSourceManager.getDefaultDataSource();
     }
 
+    public DataSource getDataSourceByTenantId(String tenantId) {
+        return selectDataSource(tenantId);
+    }
+
     @Override
     protected DataSource selectAnyDataSource() {
         return cloudDataSourceManager.getDefaultDataSource();

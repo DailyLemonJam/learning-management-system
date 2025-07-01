@@ -32,6 +32,7 @@ public class CloudSubscriptionService implements SubscriptionService {
     private static final String SCHEMA_NAME_TEMPLATE = "schema_%s";
     private static final String BINDING_NAME_TEMPLATE = "binding_%s";
     private static final String HTTPS_PROTOCOL = "https";
+    private static final String HTTPS_PROTOCOL_WITH_SLASHES = "https://";
 
     private final CloudDataSourceManager cloudDataSourceManager;
     private final LiquibaseSchemaMigrationService liquibaseSchemaMigrationService;
@@ -117,7 +118,10 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         String tenantSpecificUri = approuterUri.replace(
                 applicationProperties.getProviderSubdomain(), tenantSubdomain);
+//        int length = HTTPS_PROTOCOL_WITH_SLASHES.length();
+//        String tenantSpecificUri = approuterUri.substring(0, length) +
+//                tenantSubdomain + approuterUri.substring(length);
 
-        return "%s://%s".formatted(HTTPS_PROTOCOL, tenantSpecificUri);
+        return "%s%s".formatted(HTTPS_PROTOCOL_WITH_SLASHES, tenantSpecificUri);
     }
 }

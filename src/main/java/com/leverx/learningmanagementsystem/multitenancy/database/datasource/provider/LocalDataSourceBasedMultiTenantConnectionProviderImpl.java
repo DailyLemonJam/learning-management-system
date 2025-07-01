@@ -21,6 +21,10 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         return localDataSourceManager.getDefaultDataSource();
     }
 
+    public DataSource getDataSourceByTenantId(String tenantId) {
+        return selectDataSource(tenantId);
+    }
+
     @Override
     protected DataSource selectAnyDataSource() {
         return localDataSourceManager.getDefaultDataSource();

@@ -13,14 +13,14 @@ modules:
       memory: 1024M
       buildpack: sap_java_buildpack_jakarta
       routes:
-        - route: ${default-url}
+        - route: ${protocol}://${org}-${app-name}-${space}.${domain}
       health-check-type: http
       health-check-http-endpoint: /actuator/health
       health-check-timeout: 30
     provides:
       - name: lms-api
         properties:
-          url: ${default-url}
+          url: ${protocol}://${org}-${app-name}-${space}.${domain}
     properties:
       SPRING_PROFILES_ACTIVE: cloud
       TARGET_RUNTIME: tomcat
@@ -46,7 +46,7 @@ modules:
       memory: 512MB
       disk-quota: 512MB
       routes:
-        - route: ${org}-${space}-${app-name}.${domain}
+        - route: ${protocol}://${org}-${app-name}-${space}.${domain}
     requires:
       - name: lms-xsuaa
       - name: lms-api
@@ -56,7 +56,7 @@ modules:
           url: ~{url}
           forwardAuthToken: true
     properties:
-      TENANT_HOST_PATTERN: "^(.*)-${space}-${app-name}.${domain}"
+      TENANT_HOST_PATTERN: "^(.*)-${app-name}-${space}.${domain}"
 
 resources:
   - name: lms-destination-service

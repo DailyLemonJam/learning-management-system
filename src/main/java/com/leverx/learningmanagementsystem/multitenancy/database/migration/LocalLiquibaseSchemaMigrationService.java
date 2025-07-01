@@ -21,7 +21,7 @@ public class LocalLiquibaseSchemaMigrationService implements LiquibaseSchemaMigr
     @Override
     public void applyChangelog(String tenantId) {
         try {
-            var dataSource = connectionProvider.getDefaultDataSource();
+            var dataSource = connectionProvider.getDataSourceByTenantId(tenantId);
 
             var liquibase = new SpringLiquibase();
             liquibase.setDataSource(dataSource);

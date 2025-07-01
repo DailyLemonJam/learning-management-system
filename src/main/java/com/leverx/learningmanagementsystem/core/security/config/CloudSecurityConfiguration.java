@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,6 +30,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @Profile("cloud")
 @RequiredArgsConstructor
 public class CloudSecurityConfiguration {

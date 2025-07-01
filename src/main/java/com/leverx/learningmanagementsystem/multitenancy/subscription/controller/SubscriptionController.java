@@ -43,7 +43,7 @@ public class SubscriptionController {
     /**
      * @see <a href="https://help.sap.com/docs/btp/sap-business-technology-platform/develop-multitenant-application">getDependencies Response Structure</a>
      * */
-    @GetMapping(value = "/tenants/dependencies")
+    @GetMapping(value = "/dependencies")
     @ResponseStatus(OK)
     public List<DependenciesResponseDto> getDependencies() {
         return subscriptionService.getDependencies();
