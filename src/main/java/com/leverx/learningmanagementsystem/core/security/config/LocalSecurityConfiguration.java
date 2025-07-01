@@ -3,7 +3,6 @@ package com.leverx.learningmanagementsystem.core.security.config;
 import com.leverx.learningmanagementsystem.core.security.role.Role;
 import com.leverx.learningmanagementsystem.multitenancy.tenant.filter.LocalRequestContextFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -30,18 +29,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class LocalSecurityConfiguration {
 
     private final LocalRequestContextFilter localTenantFilter;
-
-    @Value("${security.configuration.default-user.username}")
-    private String defaultUserUsername;
-
-    @Value("${security.configuration.default-user.password}")
-    private String defaultUserPassword;
-
-    @Value("${security.configuration.manager-user.username}")
-    private String managerUserUsername;
-
-    @Value("${security.configuration.manager-user.password}")
-    private String managerUserPassword;
+    private final PredefinedUsersProperties predefinedUsersProperties;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -88,16 +76,16 @@ public class LocalSecurityConfiguration {
 
     private UserDetails createDefaultUser() {
         return User.builder()
-                .username(defaultUserUsername)
-                .password(passwordEncoder().encode(defaultUserPassword))
+                .username(predefinedUsersProperties.getDefaultUser().username())
+                .password(passwordEncoder().encode(predefinedUsersProperties.getDefaultUser().password()))
                 .roles(Role.USER.getValue())
                 .build();
     }
 
     private UserDetails createManagerUser() {
         return User.builder()
-                .username(managerUserUsername)
-                .password(passwordEncoder().encode(managerUserPassword))
+                .username(predefinedUsersProperties.getManager().username())
+                .password(passwordEncoder().encode(predefinedUsersProperties.getManager().password()))
                 .roles(Role.MANAGER.getValue())
                 .build();
     }

@@ -22,4 +22,6 @@ public class DestinationServiceProperties {
     private String clientId;
 
     private String clientSecret;
+
+    private String xsAppName;
 }

@@ -1,14 +1,14 @@
 package com.leverx.learningmanagementsystem.btp.destinationservice.service;
 
+import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.dto.DestinationResponseDto;
 import com.leverx.learningmanagementsystem.btp.destinationservice.service.auth.DestinationServiceAccessTokenProvider;
 import com.leverx.learningmanagementsystem.multitenancy.tenant.context.RequestContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpHeaders;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException.Unauthorized;
@@ -28,22 +28,12 @@ public class CloudDestinationService implements DestinationService {
     private final RestClient restClient;
     private final DestinationServiceProperties destinationServiceProperties;
     private final DestinationServiceAccessTokenProvider destinationServiceAccessTokenProvider;
-
-    @Value("${application-variables.subdomain}")
-    private String subdomain;
-
-    @Value("${destination-service.xsappname}")
-    private String xsAppName;
+    private final ApplicationProperties applicationProperties;
 
     @Override
     @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public DestinationResponseDto getByName(String name) {
         return tryToGet(name);
-    }
-
-    @Override
-    public String getXsAppName() {
-        return xsAppName;
     }
 
     private DestinationResponseDto tryToGet(String name) {
@@ -104,6 +94,6 @@ public class CloudDestinationService implements DestinationService {
 
     private String createSubscriberXsuaaUrl() {
         var commonUrl = destinationServiceProperties.getUrl();
-        return commonUrl.replace(subdomain, RequestContext.getTenantSubdomain());
+        return commonUrl.replace(applicationProperties.getProviderSubdomain(), RequestContext.getTenantSubdomain());
     }
 }

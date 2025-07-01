@@ -1,5 +1,9 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 
+import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
+import com.leverx.learningmanagementsystem.btp.approuter.config.ApprouterProperties;
+import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
+import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.binding.BindingResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.binding.CreateBindingRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.instances.CreateInstanceByPlanIdRequestDto;
@@ -8,11 +12,8 @@ import com.leverx.learningmanagementsystem.multitenancy.servicemanager.service.S
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeResponseDto;
-import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
-import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -25,18 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CloudSubscriptionService implements SubscriptionService {
 
-    @Value("${application-variables.applicationUri}")
-    private String applicationUri;
-
-    @Value("${application-variables.applicationName}")
-    private String applicationName;
-
-    @Value("${application-variables.providerSubdomain}")
-    private String providerSubdomain;
-
-    @Value("${user-approuter-settings.approuterName}")
-    private String approuterName;
-
     private static final String LABEL_TENANT_ID_NAME = "tenantId";
     private static final String SCHEMA_NAME_TEMPLATE = "schema_%s";
     private static final String BINDING_NAME_TEMPLATE = "binding_%s";
@@ -45,6 +34,8 @@ public class CloudSubscriptionService implements SubscriptionService {
     private final CloudDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
     private final LiquibaseSchemaMigrationService schemaMigrationService;
     private final ServiceManager serviceManager;
+    private final ApplicationProperties applicationProperties;
+    private final ApprouterProperties approuterProperties;
 
     @Override
     public String subscribe(SubscribeRequestDto request) {
@@ -112,8 +103,12 @@ public class CloudSubscriptionService implements SubscriptionService {
     }
 
     private String buildTenantSpecificUrl(String tenantSubdomain) {
-        String approuterUri = applicationUri.replace(applicationName, approuterName);
-        String tenantSpecificUri = approuterUri.replace(providerSubdomain, tenantSubdomain);
+        String approuterUri = applicationProperties.getApplicationUri().replace(
+                applicationProperties.getApplicationName(), approuterProperties.getApprouterName());
+
+        String tenantSpecificUri = approuterUri.replace(
+                applicationProperties.getProviderSubdomain(), tenantSubdomain);
+
         return "%s://%s".formatted(HTTPS_PROTOCOL, tenantSpecificUri);
     }
 }

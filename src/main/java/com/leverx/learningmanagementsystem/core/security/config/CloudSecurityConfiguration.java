@@ -5,7 +5,6 @@ import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
 import com.sap.cloud.security.xsuaa.token.TokenAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +14,6 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +23,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static java.util.Objects.nonNull;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -37,18 +34,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class CloudSecurityConfiguration {
 
     private final XsuaaServiceConfiguration xsuaaServiceConfiguration;
-
-    @Value("${security.configuration.default-user.username}")
-    private String defaultUserUsername;
-
-    @Value("${security.configuration.default-user.password}")
-    private String defaultUserPassword;
-
-    @Value("${security.configuration.manager-user.username}")
-    private String managerUserUsername;
-
-    @Value("${security.configuration.manager-user.password}")
-    private String managerUserPassword;
+    private final PredefinedUsersProperties predefinedUsersProperties;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -76,17 +62,6 @@ public class CloudSecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
-        if (nonNull(SecurityContextHolder.getContext().getAuthentication())) {
-            log.info("Credentials: {}\nAuthorities: {}\nPrinciple: {}\nDetails: {}",
-                    SecurityContextHolder.getContext().getAuthentication().getCredentials(),
-                    SecurityContextHolder.getContext().getAuthentication().getAuthorities(),
-                    SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
-                    SecurityContextHolder.getContext().getAuthentication().getDetails()
-            );
-        } else {
-            log.info("Authentication in SecurityContextHolder is null");
-        }
-
         return http
                 .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)
@@ -115,16 +90,16 @@ public class CloudSecurityConfiguration {
 
     private UserDetails createDefaultUser() {
         return User.builder()
-                .username(defaultUserUsername)
-                .password(passwordEncoder().encode(defaultUserPassword))
+                .username(predefinedUsersProperties.getDefaultUser().username())
+                .password(passwordEncoder().encode(predefinedUsersProperties.getDefaultUser().password()))
                 .roles(Role.USER.getValue())
                 .build();
     }
 
     private UserDetails createManagerUser() {
         return User.builder()
-                .username(managerUserUsername)
-                .password(passwordEncoder().encode(managerUserPassword))
+                .username(predefinedUsersProperties.getManager().username())
+                .password(passwordEncoder().encode(predefinedUsersProperties.getManager().password()))
                 .roles(Role.MANAGER.getValue())
                 .build();
     }

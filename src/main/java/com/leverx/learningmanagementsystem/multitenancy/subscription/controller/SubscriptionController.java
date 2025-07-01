@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.controller;
 
+import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.service.DestinationService;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
@@ -29,6 +30,7 @@ public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
     private final DestinationService destinationService;
+    private final DestinationServiceProperties destinationServiceProperties;
 
     @PutMapping("/tenants/{tenantId}")
     @ResponseStatus(OK)
@@ -48,7 +50,7 @@ public class SubscriptionController {
     @GetMapping(value = "/tenants/dependencies")
     @ResponseStatus(OK)
     public List<DependenciesResponseDto> getDependencies() {
-        String xsAppName = destinationService.getXsAppName();
+        String xsAppName = destinationServiceProperties.getXsAppName();
 
         log.info("Returning xsAppName: {}", xsAppName);
 
