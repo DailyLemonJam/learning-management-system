@@ -4,7 +4,7 @@ import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.Depende
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeResponseDto;
-import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.LocalDataSourceBasedMultiTenantConnectionProviderImpl;
+import com.leverx.learningmanagementsystem.multitenancy.database.connection.provider.LocalDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +82,7 @@ public class LocalSubscriptionService implements SubscriptionService {
     }
 
     private void applyLiquibaseChangelog(String tenantId) {
-        schemaMigrationService.applyLiquibaseChangelog(tenantId);
+        schemaMigrationService.applyChangelog(tenantId);
     }
 
     private String createValidSQLTenantId(String tenantId) {

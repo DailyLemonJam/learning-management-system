@@ -22,7 +22,7 @@ public class LiquibaseSchemaMigrationServiceImpl implements LiquibaseSchemaMigra
     private final AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String> connectionProvider;
 
     @Override
-    public void applyLiquibaseChangelog(String tenantId) {
+    public void applyChangelog(String tenantId) {
         try {
             var connection = connectionProvider.getConnection(tenantId);
 

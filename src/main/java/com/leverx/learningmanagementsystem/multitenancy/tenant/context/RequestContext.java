@@ -9,22 +9,30 @@ public class RequestContext {
 
     public static final String TENANT_ID = "tenantId";
     public static final String SUBDOMAIN = "subdomain";
+    public static final String USERNAME = "username";
 
-    public static void setTenant(String tenantId, String subdomain) {
-        var map = new HashMap<String, String>();
+    public static void setTenantId(String tenantId) {
+        CONTEXT.get().put(TENANT_ID, tenantId);
+    }
 
-        map.put(TENANT_ID, tenantId);
-        map.put(SUBDOMAIN, subdomain);
+    public static void setSubdomain(String subdomain) {
+        CONTEXT.get().put(SUBDOMAIN, subdomain);
+    }
 
-        CONTEXT.set(map);
+    public static void setUsername(String username) {
+        CONTEXT.get().put(USERNAME, username);
     }
 
     public static String getTenantId() {
         return CONTEXT.get().get(TENANT_ID);
     }
 
-    public static String getTenantSubdomain() {
+    public static String getSubdomain() {
         return CONTEXT.get().get(SUBDOMAIN);
+    }
+
+    public static String getUsername() {
+        return CONTEXT.get().get(USERNAME);
     }
 
     public static void clear() {

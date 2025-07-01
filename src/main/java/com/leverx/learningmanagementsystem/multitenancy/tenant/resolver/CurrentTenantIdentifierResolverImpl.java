@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.multitenancy.database.tenantresolver;
+package com.leverx.learningmanagementsystem.multitenancy.tenant.resolver;
 
 import com.leverx.learningmanagementsystem.multitenancy.tenant.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;

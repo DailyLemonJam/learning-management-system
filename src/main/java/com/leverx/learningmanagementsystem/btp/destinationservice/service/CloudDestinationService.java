@@ -70,6 +70,6 @@ public class CloudDestinationService implements DestinationService {
 
     private String createSubscriberXsuaaUrl() {
         var commonUrl = destinationServiceProperties.getUrl();
-        return commonUrl.replace(applicationProperties.getProviderSubdomain(), RequestContext.getTenantSubdomain());
+        return commonUrl.replace(applicationProperties.getProviderSubdomain(), RequestContext.getSubdomain());
     }
 }

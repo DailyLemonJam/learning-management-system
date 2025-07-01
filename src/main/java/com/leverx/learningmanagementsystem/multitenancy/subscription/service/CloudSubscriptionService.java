@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
 import com.leverx.learningmanagementsystem.btp.approuter.model.ApprouterProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationServiceProperties;
-import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
+import com.leverx.learningmanagementsystem.multitenancy.database.connection.provider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.CreateBindingRequestDto;
@@ -34,7 +34,7 @@ public class CloudSubscriptionService implements SubscriptionService {
     private static final String HTTPS_PROTOCOL = "https";
 
     private final CloudDataSourceBasedMultiTenantConnectionProviderImpl connectionProvider;
-    private final LiquibaseSchemaMigrationService schemaMigrationService;
+    private final LiquibaseSchemaMigrationService liquibaseSchemaMigrationService;
     private final ServiceManager serviceManager;
     private final ApplicationProperties applicationProperties;
     private final ApprouterProperties approuterProperties;
@@ -51,7 +51,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         connectionProvider.createTenantDataSource(bindingResponse, tenantId);
 
-        schemaMigrationService.applyLiquibaseChangelog(tenantId);
+        liquibaseSchemaMigrationService.applyChangelog(tenantId);
 
         return buildTenantSpecificUrl(subdomain);
     }

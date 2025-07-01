@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider;
+package com.leverx.learningmanagementsystem.multitenancy.database.connection.provider;
 
-import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
+import com.leverx.learningmanagementsystem.multitenancy.database.config.DatabaseProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-@Profile("cloud")
+@Profile("local")
 @RequiredArgsConstructor
-public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String>
-    implements DisposableBean {
-
-    private static final Integer DATASOURCE_MAX_POOLSIZE = 10;
+public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl<String>
+        implements DisposableBean {
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
+    private final DatabaseProperties databaseProperties;
     private final DataSource defaultDataSource;
 
     @Override
@@ -37,21 +36,16 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         return dataSources.get(currentTenantId);
     }
 
-    public void createTenantDataSource(BindingResponseDto binding, String tenantId) {
-        var credentials = binding.credentials();
-        var url = credentials.url();
-        var username = credentials.user();
-        var password = credentials.password();
-        var driver = credentials.driver();
-
+    public DataSource createTenantDataSource(String tenantId) {
         var dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        dataSource.setDriverClassName(driver);
-        dataSource.setMaximumPoolSize(DATASOURCE_MAX_POOLSIZE);
+        dataSource.setJdbcUrl(databaseProperties.getUrl() + "?currentSchema=" + tenantId);
+        dataSource.setUsername(databaseProperties.getUsername());
+        dataSource.setPassword(databaseProperties.getPassword());
+        dataSource.setMaximumPoolSize(10);
 
         dataSources.put(tenantId, dataSource);
+
+        return dataSource;
     }
 
     public void deleteTenantDataSource(String tenantId) {
@@ -60,8 +54,6 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     public void destroy() throws Exception {
-        log.info("Destroying DataSources ({})", dataSources.size());
-
         var openDataSources = dataSources.values();
 
         openDataSources.forEach(datasource ->

@@ -32,7 +32,9 @@ public class LocalRequestContextFilter extends OncePerRequestFilter {
 
         log.info("TenantContext TenantId: {}", tenantId);
 
-        RequestContext.setTenant(tenantId, "optional-subdomain-here");
+        RequestContext.setTenantId(tenantId);
+        RequestContext.setSubdomain("current-domain-example");
+        RequestContext.setUsername("current-user-example");
 
         try {
             filterChain.doFilter(request, response);

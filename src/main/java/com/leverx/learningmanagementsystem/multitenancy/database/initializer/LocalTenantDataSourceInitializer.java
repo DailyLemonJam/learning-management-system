@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.initializer;
 
-import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.LocalDataSourceBasedMultiTenantConnectionProviderImpl;
+import com.leverx.learningmanagementsystem.multitenancy.database.connection.provider.LocalDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +48,6 @@ public class LocalTenantDataSourceInitializer implements ApplicationRunner {
     }
 
     private void applyLiquibaseForTenant(String schema) throws Exception {
-        schemaMigrationService.applyLiquibaseChangelog(schema);
+        schemaMigrationService.applyChangelog(schema);
     }
 }
