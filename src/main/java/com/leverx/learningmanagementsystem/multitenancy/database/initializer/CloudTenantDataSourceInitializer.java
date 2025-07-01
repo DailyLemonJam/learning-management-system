@@ -22,6 +22,10 @@ public class CloudTenantDataSourceInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        initializeSchemas();
+    }
+
+    private void initializeSchemas() {
         var schemaBindings = serviceManager.getAllBindings();
 
         for (var binding : schemaBindings.items()) {

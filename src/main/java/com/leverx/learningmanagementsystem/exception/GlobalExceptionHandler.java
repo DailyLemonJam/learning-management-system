@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.exception;
 
+import com.leverx.learningmanagementsystem.btp.destinationservice.exception.DestinationNotFoundException;
 import com.leverx.learningmanagementsystem.lesson.exception.LessonRequestValidationException;
 import com.leverx.learningmanagementsystem.web.oauth2.exception.OAuth2TokenClientBadResponseException;
 import com.leverx.learningmanagementsystem.course.exception.EntityValidationException;
@@ -77,6 +78,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(LessonRequestValidationException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponseDto handleLessonRequestValidationException(LessonRequestValidationException ex){
+        return new ErrorResponseDto(ex.getMessage());
+    }
+
+    @ExceptionHandler(DestinationNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public ErrorResponseDto handleDestinationNotFoundException(DestinationNotFoundException ex){
         return new ErrorResponseDto(ex.getMessage());
     }
 }

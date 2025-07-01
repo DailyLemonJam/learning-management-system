@@ -77,15 +77,15 @@ public class CloudSecurityConfiguration {
                 .build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     private Converter<Jwt, AbstractAuthenticationToken> getJwtAuthoritiesConverter() {
         var converter = new TokenAuthenticationConverter(xsuaaServiceConfiguration);
         converter.setLocalScopeAsAuthorities(true);
         return converter;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     private UserDetails createDefaultUser() {
