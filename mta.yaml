@@ -41,7 +41,7 @@ modules:
           path: btp/autoscaler/autoscaler-config.json
   - name: approuter
     type: nodejs
-    path: btp/approuter
+    path: approuter
     parameters:
       memory: 512MB
       disk-quota: 512MB
