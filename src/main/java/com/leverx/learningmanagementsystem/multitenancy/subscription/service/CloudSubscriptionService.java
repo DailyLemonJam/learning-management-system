@@ -2,13 +2,15 @@ package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 
 import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
 import com.leverx.learningmanagementsystem.btp.approuter.model.ApprouterProperties;
+import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationServiceProperties;
 import com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
-import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.binding.BindingResponseDto;
-import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.binding.CreateBindingRequestDto;
-import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.instances.CreateInstanceByPlanIdRequestDto;
-import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.instances.InstanceResponseDto;
-import com.leverx.learningmanagementsystem.multitenancy.servicemanager.service.ServiceManager;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.CreateBindingRequestDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.CreateInstanceByPlanIdRequestDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.instances.InstanceResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
+import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeResponseDto;
@@ -36,14 +38,12 @@ public class CloudSubscriptionService implements SubscriptionService {
     private final ServiceManager serviceManager;
     private final ApplicationProperties applicationProperties;
     private final ApprouterProperties approuterProperties;
+    private final DestinationServiceProperties destinationServiceProperties;
 
     @Override
     public String subscribe(SubscribeRequestDto request) {
         var tenantId = request.subscribedTenantId();
         var subdomain = request.subscribedSubdomain();
-
-        log.info("Subscribe TenantId: {}", tenantId);
-        log.info("Subscribe subdomain: {}", subdomain);
 
         var instanceResponse = createInstance(tenantId, subdomain);
 
@@ -67,6 +67,15 @@ public class CloudSubscriptionService implements SubscriptionService {
         connectionProvider.deleteTenantDataSource(tenantId);
 
         return new UnsubscribeResponseDto("Tenant successfully unsubscribed");
+    }
+
+    @Override
+    public List<DependenciesResponseDto> getDependencies() {
+        String xsAppName = destinationServiceProperties.getXsAppName();
+
+        var response = new DependenciesResponseDto(xsAppName);
+
+        return List.of(response);
     }
 
     private CreateInstanceByPlanIdRequestDto buildCreateInstanceByPlanIdRequestDto(String tenantId, String schemaName) {

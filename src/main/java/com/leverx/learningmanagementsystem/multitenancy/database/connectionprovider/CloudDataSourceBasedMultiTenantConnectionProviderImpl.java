@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.connectionprovider;
 
-import com.leverx.learningmanagementsystem.multitenancy.servicemanager.dto.binding.BindingResponseDto;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,6 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     protected DataSource selectAnyDataSource() {
-        log.info("SelectAnyDataSource was called");
         return defaultDataSource;
     }
 
@@ -45,11 +44,6 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
         var password = credentials.password();
         var driver = credentials.driver();
 
-        log.info("url: {}", url);
-        log.info("username: {}", username);
-        log.info("password: {}", password);
-        log.info("driver: {}", driver);
-
         var dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(url);
         dataSource.setUsername(username);
@@ -66,7 +60,7 @@ public class CloudDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     public void destroy() throws Exception {
-        log.info("Destroying DataSources");
+        log.info("Destroying DataSources ({})", dataSources.size());
 
         var openDataSources = dataSources.values();
 

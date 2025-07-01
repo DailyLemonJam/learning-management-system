@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 
+import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeRequestDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.UnsubscribeResponseDto;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -53,6 +56,11 @@ public class LocalSubscriptionService implements SubscriptionService {
         }
 
         return new UnsubscribeResponseDto("Tenant successfully unsubscribed");
+    }
+
+    @Override
+    public List<DependenciesResponseDto> getDependencies() {
+        return List.of();
     }
 
     private void createSchema(String name) {

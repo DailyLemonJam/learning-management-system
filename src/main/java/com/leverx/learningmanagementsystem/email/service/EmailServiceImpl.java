@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.email.service;
 
-import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
+import com.leverx.learningmanagementsystem.email.model.SmtpServerProperties;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +24,6 @@ public class EmailServiceImpl implements EmailService {
         helper.setSubject(subject);
         helper.setText(text, true);
         sender.send(mimeMessage);
-
-        log.info("Sending email to {}\nSubject: {}\nText: {}", to, subject, text);
     }
 
     private JavaMailSender getSender(SmtpServerProperties smtpServerProperties) {

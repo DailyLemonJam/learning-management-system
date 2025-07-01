@@ -24,9 +24,11 @@ public class LocalTenantDataSourceInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        var schemas = getAllSchemas();
+        initializeSchemas();
+    }
 
-        log.info(schemas.toString());
+    private void initializeSchemas() throws Exception {
+        var schemas = getAllSchemas();
 
         for (var schema : schemas) {
             createDataSourceForTenant(schema);

@@ -26,7 +26,6 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     protected DataSource selectAnyDataSource() {
-        log.info("SelectAnyDataSource was called");
         return defaultDataSource;
     }
 
@@ -55,8 +54,6 @@ public class LocalDataSourceBasedMultiTenantConnectionProviderImpl extends Abstr
 
     @Override
     public void destroy() throws Exception {
-        log.info("Destroying DataSources");
-
         var openDataSources = dataSources.values();
 
         openDataSources.forEach(datasource ->

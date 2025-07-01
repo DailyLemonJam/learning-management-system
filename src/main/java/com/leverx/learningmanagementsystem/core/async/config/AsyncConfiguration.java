@@ -11,10 +11,10 @@ import java.util.concurrent.Executor;
 @Configuration
 public class AsyncConfiguration {
 
-    public static final String ASYNC_EMAIL_SENDER_EXECUTOR = "asyncEmailSenderExecutor";
+    public static final String EMAIL_SENDER_EXECUTOR = "emailSenderExecutor";
 
-    @Bean(name = ASYNC_EMAIL_SENDER_EXECUTOR)
-    public Executor asyncEmailSenderThreadPoolExecutor() {
+    @Bean(name = EMAIL_SENDER_EXECUTOR)
+    public Executor emailSenderThreadPoolExecutor() {
         var executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);
         executor.setQueueCapacity(5);

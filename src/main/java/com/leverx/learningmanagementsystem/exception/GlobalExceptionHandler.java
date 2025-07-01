@@ -4,7 +4,7 @@ import com.leverx.learningmanagementsystem.btp.destinationservice.exception.Dest
 import com.leverx.learningmanagementsystem.lesson.exception.LessonRequestValidationException;
 import com.leverx.learningmanagementsystem.web.oauth2.exception.OAuth2TokenClientBadResponseException;
 import com.leverx.learningmanagementsystem.course.exception.EntityValidationException;
-import com.leverx.learningmanagementsystem.email.smtpprovider.exception.FeatureFlagServiceBadResponseException;
+import com.leverx.learningmanagementsystem.btp.featureflagservice.exception.FeatureFlagServiceBadResponseException;
 import com.leverx.learningmanagementsystem.exception.dto.ErrorResponseDto;
 import com.leverx.learningmanagementsystem.payments.exception.NotEnoughCoinsException;
 import com.leverx.learningmanagementsystem.payments.exception.StudentAlreadyEnrolledException;
