@@ -16,8 +16,6 @@ import java.util.Base64;
 public class CloudFeatureFlagService implements FeatureFlagService {
 
     private static final String EVALUATE_ENDPOINT = "/api/v2/evaluate/";
-    private static final String AUTHORIZATION = "AUTHORIZATION";
-    private static final String BASIC = "Basic ";
 
     private final RestClient restClient;
     private final FeatureFlagProperties featureFlagProperties;
@@ -25,10 +23,13 @@ public class CloudFeatureFlagService implements FeatureFlagService {
     @Override
     public FeatureFlagResponseDto getByName(String name) {
         var uri = createFeatureFlagUri(name);
-        var authHeader = createAuthHeader(featureFlagProperties);
+
+        String username = featureFlagProperties.getUsername();
+        String password = featureFlagProperties.getPassword();
+
         return restClient.get()
                 .uri(uri)
-                .header(AUTHORIZATION, authHeader)
+                .headers(headers -> headers.setBasicAuth(username, password))
                 .retrieve()
                 .body(FeatureFlagResponseDto.class);
     }
@@ -38,17 +39,5 @@ public class CloudFeatureFlagService implements FeatureFlagService {
                 .fromUriString(featureFlagProperties.getUri())
                 .pathSegment(EVALUATE_ENDPOINT, name)
                 .toUriString();
-    }
-
-    private String createAuthHeader(FeatureFlagProperties featureFlagProperties) {
-        var encoder = Base64.getEncoder();
-        var username = featureFlagProperties.getUsername();
-        var password = featureFlagProperties.getPassword();
-        var stringToEncode = username + ":" + password;
-
-        var builder = new StringBuilder();
-        builder.append(BASIC);
-        builder.append(encoder.encodeToString(stringToEncode.getBytes()));
-        return builder.toString();
     }
 }
