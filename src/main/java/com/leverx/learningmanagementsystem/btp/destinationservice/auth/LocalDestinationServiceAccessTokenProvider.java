@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.destinationservice.service.auth;
+package com.leverx.learningmanagementsystem.btp.destinationservice.auth;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

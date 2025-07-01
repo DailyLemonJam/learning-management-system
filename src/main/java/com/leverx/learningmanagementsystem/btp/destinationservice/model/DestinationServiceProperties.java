@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.destinationservice.config;
+package com.leverx.learningmanagementsystem.btp.destinationservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

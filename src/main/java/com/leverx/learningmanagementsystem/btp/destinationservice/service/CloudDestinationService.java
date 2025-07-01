@@ -2,7 +2,7 @@ package com.leverx.learningmanagementsystem.btp.destinationservice.service;
 
 import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.client.DestinationServiceClient;
-import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceProperties;
+import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationServiceProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.dto.DestinationResponseDto;
 import com.leverx.learningmanagementsystem.web.oauth2.dto.OAuth2ClientCredentials;
 import com.leverx.learningmanagementsystem.btp.destinationservice.exception.DestinationNotFoundException;

@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.controller;
 
-import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceProperties;
+import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationServiceProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.service.DestinationService;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;
