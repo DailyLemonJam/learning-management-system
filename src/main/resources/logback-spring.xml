@@ -1,0 +1,26 @@
+<configuration>
+
+    <springProperty name="applicationName" source="spring.application.name"/>
+    <springProperty name="applicationVersion" source="info.app.version"/>
+
+    <springProfile name="local,test">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%date %blue(%-5level) --- [${applicationName}:${applicationVersion}] - %magenta([%thread]) - %cyan(%logger) : %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="${LOG_ROOT_LEVEL:-INFO}">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="cloud">
+        <appender name="STDOUT-JSON" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="com.sap.hcp.cf.logback.encoder.JsonEncoder"/>
+        </appender>
+        <root level="${LOG_ROOT_LEVEL:-INFO}">
+            <appender-ref ref="STDOUT-JSON"/>
+        </root>
+    </springProfile>
+
+</configuration>

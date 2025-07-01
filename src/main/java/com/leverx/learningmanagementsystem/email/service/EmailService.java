@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.email.service;
 
-import com.leverx.learningmanagementsystem.email.smtpprovider.config.SmtpServerProperties;
+import com.leverx.learningmanagementsystem.email.model.SmtpServerProperties;
 import jakarta.mail.MessagingException;
 
 public interface EmailService {

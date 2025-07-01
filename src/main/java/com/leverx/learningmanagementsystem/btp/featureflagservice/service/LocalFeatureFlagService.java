@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class LocalFeatureFlagService implements FeatureFlagService {
 
     @Override
-    public FeatureFlagResponseDto getFeatureFlag(String name) {
+    public FeatureFlagResponseDto getByName(String name) {
         return null;
     }
 }

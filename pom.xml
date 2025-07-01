@@ -25,10 +25,12 @@
         <com.sap.cloud.db.jdbc.version>2.24.7</com.sap.cloud.db.jdbc.version>
         <com.sap.cloud.security.xsuaa.version>3.6.0</com.sap.cloud.security.xsuaa.version>
         <sap.hana-liquibase.version>4.31.1</sap.hana-liquibase.version>
+        <cf-java-logging-support-logback.version>3.8.5</cf-java-logging-support-logback.version>
 
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
+        <java-jwt.version>4.5.0</java-jwt.version>
     </properties>
 
     <dependencies>
@@ -68,6 +70,13 @@
             <groupId>com.sap.cloud.security.xsuaa</groupId>
             <artifactId>xsuaa-spring-boot-starter</artifactId>
             <version>${com.sap.cloud.security.xsuaa.version}</version>
+        </dependency>
+
+        <!-- JWT -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
 
         <!-- DB -->
@@ -118,6 +127,13 @@
             <groupId>com.github.spullara.mustache.java</groupId>
             <artifactId>compiler</artifactId>
             <version>${com.github.spullara.mustache.java.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>com.sap.hcp.cf.logging</groupId>
+            <artifactId>cf-java-logging-support-logback</artifactId>
+            <version>${cf-java-logging-support-logback.version}</version>
         </dependency>
 
         <!-- Tests -->

@@ -4,5 +4,5 @@ import com.leverx.learningmanagementsystem.btp.featureflagservice.dto.FeatureFla
 
 public interface FeatureFlagService {
 
-    FeatureFlagResponseDto getFeatureFlag(String name);
+    FeatureFlagResponseDto getByName(String name);
 }

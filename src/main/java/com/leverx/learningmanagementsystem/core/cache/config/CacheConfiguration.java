@@ -22,7 +22,7 @@ public class CacheConfiguration {
 
     @Bean
     public CacheManager cacheManager(Caffeine<Object, Object> caffeine) {
-        var cacheManager = new CaffeineCacheManager("destinationServiceAccessToken");
+        var cacheManager = new CaffeineCacheManager();
         cacheManager.setCaffeine(caffeine);
         return cacheManager;
     }

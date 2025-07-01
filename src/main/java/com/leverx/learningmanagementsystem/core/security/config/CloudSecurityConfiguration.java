@@ -4,11 +4,14 @@ import com.leverx.learningmanagementsystem.core.security.role.Role;
 import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
 import com.sap.cloud.security.xsuaa.token.TokenAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,31 +20,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @Profile("cloud")
 @RequiredArgsConstructor
 public class CloudSecurityConfiguration {
 
     private final XsuaaServiceConfiguration xsuaaServiceConfiguration;
-
-    @Value("${security.configuration.default-user.username}")
-    private String defaultUserUsername;
-
-    @Value("${security.configuration.default-user.password}")
-    private String defaultUserPassword;
-
-    @Value("${security.configuration.manager-user.username}")
-    private String managerUserUsername;
-
-    @Value("${security.configuration.manager-user.password}")
-    private String managerUserPassword;
+    private final PredefinedUsersProperties predefinedUsersProperties;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -75,10 +70,11 @@ public class CloudSecurityConfiguration {
                 .sessionManagement(configurer ->
                         configurer.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.anyRequest().authenticated())
+                    auth.anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt ->
-                                jwt.jwtAuthenticationConverter(new TokenAuthenticationConverter(xsuaaServiceConfiguration))))
+                                jwt.jwtAuthenticationConverter(getJwtAuthoritiesConverter())))
                 .build();
     }
 
@@ -87,18 +83,24 @@ public class CloudSecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    private Converter<Jwt, AbstractAuthenticationToken> getJwtAuthoritiesConverter() {
+        var converter = new TokenAuthenticationConverter(xsuaaServiceConfiguration);
+        converter.setLocalScopeAsAuthorities(true);
+        return converter;
+    }
+
     private UserDetails createDefaultUser() {
         return User.builder()
-                .username(defaultUserUsername)
-                .password(passwordEncoder().encode(defaultUserPassword))
+                .username(predefinedUsersProperties.getDefaultUser().username())
+                .password(passwordEncoder().encode(predefinedUsersProperties.getDefaultUser().password()))
                 .roles(Role.USER.getValue())
                 .build();
     }
 
     private UserDetails createManagerUser() {
         return User.builder()
-                .username(managerUserUsername)
-                .password(passwordEncoder().encode(managerUserPassword))
+                .username(predefinedUsersProperties.getManager().username())
+                .password(passwordEncoder().encode(predefinedUsersProperties.getManager().password()))
                 .roles(Role.MANAGER.getValue())
                 .build();
     }

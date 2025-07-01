@@ -1,0 +1,17 @@
+{
+  "xsappname": "lms",
+  "displayName": "Learning Management System",
+  "description": "Learning Management System application for managing Courses, Lessons and Students",
+  "category": "Management Systems",
+  "appPlans": [
+    {
+      "name": "Default",
+      "description": "Default plan description"
+    }
+  ],
+  "appUrls": {
+    "onSubscription": "https://dd045185trial-learning-management-system-dev.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/tenants/{tenantId}",
+    "getDependencies": "https://dd045185trial-learning-management-system-dev.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/dependencies"
+  },
+  "onSubscriptionAsync": false
+}

@@ -1,17 +1,19 @@
 package com.leverx.learningmanagementsystem.btp.destinationservice.service;
 
-import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceProperties;
+import com.leverx.learningmanagementsystem.application.config.ApplicationProperties;
+import com.leverx.learningmanagementsystem.btp.destinationservice.client.DestinationServiceClient;
+import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationServiceProperties;
 import com.leverx.learningmanagementsystem.btp.destinationservice.dto.DestinationResponseDto;
-import com.leverx.learningmanagementsystem.btp.destinationservice.service.auth.DestinationServiceAccessTokenProvider;
+import com.leverx.learningmanagementsystem.web.oauth2.dto.OAuth2ClientCredentials;
+import com.leverx.learningmanagementsystem.btp.destinationservice.exception.DestinationNotFoundException;
+import com.leverx.learningmanagementsystem.multitenancy.tenant.context.RequestContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.context.annotation.Profile;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException.Unauthorized;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Slf4j
 @Service
@@ -19,57 +21,55 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class CloudDestinationService implements DestinationService {
 
-    private static final String DESTINATION_ENDPOINT = "/destination-destinationConfiguration/v1/destinations/";
-
-    private final RestClient restClient;
+    private final DestinationServiceClient destinationServiceClient;
     private final DestinationServiceProperties destinationServiceProperties;
-    private final DestinationServiceAccessTokenProvider destinationServiceAccessTokenProvider;
+    private final ApplicationProperties applicationProperties;
 
     @Override
-    @Retryable(retryFor = Unauthorized.class, maxAttempts = 2)
     public DestinationResponseDto getByName(String name) {
-        return tryToGet(name);
+        return findDestinationOnSubscriberLevel(name)
+                .or(() -> findDestinationOnProviderLevel(name))
+                .orElseThrow(() -> new DestinationNotFoundException("Destination is not found [name = %s].".formatted(name)));
     }
 
-    private DestinationResponseDto tryToGet(String name) {
+    private Optional<DestinationResponseDto> findDestinationOnSubscriberLevel(String name) {
+        Supplier<OAuth2ClientCredentials> clientCredentialsSupplier = this::buildClientCredentialsForSubscriber;
+        return tryToGetDestination(name, clientCredentialsSupplier);
+    }
+
+    private Optional<DestinationResponseDto> findDestinationOnProviderLevel(String name) {
+        Supplier<OAuth2ClientCredentials> clientCredentialsSupplier = this::buildClientCredentialsForProvider;
+        return tryToGetDestination(name, clientCredentialsSupplier);
+    }
+
+    private Optional<DestinationResponseDto> tryToGetDestination(String name, Supplier<OAuth2ClientCredentials> clientCredentialsSupplier) {
         try {
-            var destinationUri = createDestinationUri(name);
-            var headers = createHeaders();
-            return restClient.get()
-                    .uri(destinationUri)
-                    .headers(headers::addAll)
-                    .retrieve()
-                    .body(DestinationResponseDto.class);
-        } catch (Unauthorized e) {
-            refreshAccessToken();
-            throw e;
+            var clientCredentials = clientCredentialsSupplier.get();
+            return Optional.ofNullable(destinationServiceClient.getByName(name, clientCredentials));
+        } catch (Exception e) {
+            log.error("Failed to get destination [name = %s].".formatted(name), e);
+            return Optional.empty();
         }
     }
 
-    private String createDestinationUri(String name) {
-        var uriComponents = UriComponentsBuilder.newInstance()
-                .host(destinationServiceProperties.getUri())
-                .pathSegment(DESTINATION_ENDPOINT, name)
-                .build();
-        return uriComponents.toUriString();
+    private OAuth2ClientCredentials buildClientCredentialsForSubscriber() {
+        var subscriberXsuaaUrl = createSubscriberXsuaaUrl();
+
+        return new OAuth2ClientCredentials(
+                destinationServiceProperties.getClientId(),
+                destinationServiceProperties.getClientSecret(),
+                subscriberXsuaaUrl);
     }
 
-    private HttpHeaders createHeaders() {
-        var accessToken = getAccessToken();
-        var headers = new HttpHeaders();
-        headers.setBearerAuth(accessToken);
-        return headers;
-    }
-
-    private String getAccessToken() {
-        return destinationServiceAccessTokenProvider.getAccessToken(
+    private OAuth2ClientCredentials buildClientCredentialsForProvider() {
+        return new OAuth2ClientCredentials(
                 destinationServiceProperties.getClientId(),
                 destinationServiceProperties.getClientSecret(),
                 destinationServiceProperties.getUrl());
     }
 
-    private void refreshAccessToken() {
-        destinationServiceAccessTokenProvider.refreshAccessToken(destinationServiceProperties.getClientId(),
-                destinationServiceProperties.getClientSecret(), destinationServiceProperties.getUrl());
+    private String createSubscriberXsuaaUrl() {
+        var commonUrl = destinationServiceProperties.getUrl();
+        return commonUrl.replace(applicationProperties.getProviderSubdomain(), RequestContext.getSubdomain());
     }
 }

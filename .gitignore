@@ -3,10 +3,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 src/main/resources/application-secrets.yaml
+/approuter/node_modules/
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-
