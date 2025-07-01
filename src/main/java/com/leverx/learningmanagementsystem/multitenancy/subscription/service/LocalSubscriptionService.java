@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.subscription.service;
 
-import com.leverx.learningmanagementsystem.multitenancy.database.connection.manager.LocalDataSourceManager;
+import com.leverx.learningmanagementsystem.multitenancy.database.datasource.manager.LocalDataSourceManager;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.multitenancy.subscription.dto.SubscribeRequestDto;

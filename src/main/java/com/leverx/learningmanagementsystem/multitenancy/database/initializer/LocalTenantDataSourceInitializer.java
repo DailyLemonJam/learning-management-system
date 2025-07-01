@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.initializer;
 
-import com.leverx.learningmanagementsystem.multitenancy.database.connection.manager.LocalDataSourceManager;
+import com.leverx.learningmanagementsystem.multitenancy.database.datasource.manager.LocalDataSourceManager;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

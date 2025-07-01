@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.multitenancy.database.connection.provider;
+package com.leverx.learningmanagementsystem.multitenancy.database.datasource.provider;
 
-import com.leverx.learningmanagementsystem.multitenancy.database.connection.manager.CloudDataSourceManager;
+import com.leverx.learningmanagementsystem.multitenancy.database.datasource.manager.CloudDataSourceManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;

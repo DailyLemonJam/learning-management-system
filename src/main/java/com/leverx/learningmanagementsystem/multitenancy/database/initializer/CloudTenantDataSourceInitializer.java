@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.multitenancy.database.initializer;
 
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
-import com.leverx.learningmanagementsystem.multitenancy.database.connection.manager.CloudDataSourceManager;
-import com.leverx.learningmanagementsystem.multitenancy.database.connection.provider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
+import com.leverx.learningmanagementsystem.multitenancy.database.datasource.manager.CloudDataSourceManager;
+import com.leverx.learningmanagementsystem.multitenancy.database.datasource.provider.CloudDataSourceBasedMultiTenantConnectionProviderImpl;
 import com.leverx.learningmanagementsystem.multitenancy.database.migration.LiquibaseSchemaMigrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

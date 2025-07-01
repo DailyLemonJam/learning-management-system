@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.multitenancy.database.connection.manager;
+package com.leverx.learningmanagementsystem.multitenancy.database.datasource.manager;
 
-import com.leverx.learningmanagementsystem.multitenancy.database.config.DatabaseProperties;
+import com.leverx.learningmanagementsystem.btp.servicemanager.dto.binding.BindingResponseDto;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-@Profile("local")
+@Profile("cloud")
 @RequiredArgsConstructor
-public class LocalDataSourceManager implements DisposableBean {
+public class CloudDataSourceManager implements DisposableBean {
+
+    private static final Integer DATASOURCE_MAX_POOLSIZE = 10;
 
     private final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
-    private final DatabaseProperties databaseProperties;
     @Getter
     private final DataSource defaultDataSource;
 
@@ -28,16 +29,21 @@ public class LocalDataSourceManager implements DisposableBean {
         return dataSources.get(tenantId);
     }
 
-    public DataSource createTenantDataSource(String tenantId) {
+    public void createTenantDataSource(BindingResponseDto binding, String tenantId) {
+        var credentials = binding.credentials();
+        var url = credentials.url();
+        var username = credentials.user();
+        var password = credentials.password();
+        var driver = credentials.driver();
+
         var dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(databaseProperties.getUrl() + "?currentSchema=" + tenantId);
-        dataSource.setUsername(databaseProperties.getUsername());
-        dataSource.setPassword(databaseProperties.getPassword());
-        dataSource.setMaximumPoolSize(10);
+        dataSource.setJdbcUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setDriverClassName(driver);
+        dataSource.setMaximumPoolSize(DATASOURCE_MAX_POOLSIZE);
 
         dataSources.put(tenantId, dataSource);
-
-        return dataSource;
     }
 
     public void deleteTenantDataSource(String tenantId) {
@@ -46,6 +52,8 @@ public class LocalDataSourceManager implements DisposableBean {
 
     @Override
     public void destroy() {
+        log.info("Destroying DataSources ({})", dataSources.size());
+
         var openDataSources = dataSources.values();
 
         openDataSources.forEach(datasource ->
